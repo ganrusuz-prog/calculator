@@ -92,6 +92,7 @@
     font-size: 16px;
     transition: border-color 0.3s;
     background: white;
+    font-family: inherit;
   }
   .form-input:focus, .form-select:focus {
     outline: none;
@@ -106,6 +107,7 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     transition: all 0.3s;
     animation: slideIn 0.3s ease;
+    cursor: pointer;
   }
   .trip-card:active { transform: scale(0.98); }
   
@@ -241,9 +243,7 @@
     text-align: center;
   }
   
-  .passenger-list {
-    margin-top: 15px;
-  }
+  .passenger-list { margin-top: 15px; }
   .passenger-item {
     display: flex;
     justify-content: space-between;
@@ -298,6 +298,7 @@
     z-index: 200;
     animation: slideUp 0.3s ease;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    text-align: center;
   }
   .toast.hidden { display: none; }
   .toast.success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
@@ -323,7 +324,7 @@
   
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchTab('trips')"> Найти поездку</div>
-    <div class="nav-tab" onclick="switchTab('add')"> Добавить</div>
+    <div class="nav-tab" onclick="switchTab('add')">➕ Добавить</div>
   </div>
   
   <div class="content" id="tripsContent">
@@ -435,7 +436,7 @@
 <!-- Модальное окно бронирования -->
 <div class="modal hidden" id="bookingModal">
   <div class="modal-content">
-    <div class="modal-title"> Бронирование места</div>
+    <div class="modal-title">🎫 Бронирование места</div>
     <div id="bookingInfo" style="margin-bottom: 20px; color: #666; text-align: center;"></div>
     
     <div class="form-group">
@@ -472,7 +473,7 @@
 <!-- Модальное окно подтверждения удаления -->
 <div class="modal hidden" id="deleteModal">
   <div class="modal-content">
-    <div class="modal-title">️ Удалить поездку?</div>
+    <div class="modal-title">⚠️ Удалить поездку?</div>
     <div style="text-align: center; color: #666; margin-bottom: 20px;">
       Это действие нельзя отменить.
     </div>
@@ -507,64 +508,85 @@ const ROUTES = {
   'from-metevtamak': { from: 'Метевтамак', to: 'Карамалы-Губеево', distance: '20 км' }
 };
 
-let trips = JSON.parse(localStorage.getItem('trips') || '[]');
+let trips = [];
 let tripToDelete = null;
 let tripToBook = null;
 
-if (trips.length === 0) {
-  const today = new Date().toISOString().split('T')[0];
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-  
-  trips = [
-    {
-      id: 1,
-      route: 'to-ufa',
-      date: today,
-      time: '08:00',
-      totalSeats: 3,
-      price: 500,
-      driverName: 'Ахмет',
-      driverPhone: '+7 (917) 123-45-67',
-      comment: 'Еду утром, заберу по пути',
-      passengers: [],
-      createdAt: Date.now()
-    },
-    {
-      id: 2,
-      route: 'from-ufa',
-      date: today,
-      time: '18:00',
-      totalSeats: 2,
-      price: 500,
-      driverName: 'Рамиль',
-      driverPhone: '+7 (927) 234-56-78',
-      comment: 'Возвращаюсь вечером',
-      passengers: [],
-      createdAt: Date.now() - 1000
-    },
-    {
-      id: 3,
-      route: 'to-kazan',
-      date: tomorrow,
-      time: '07:00',
-      totalSeats: 4,
-      price: 800,
-      driverName: 'Ильдар',
-      driverPhone: '+7 (906) 345-67-89',
-      comment: 'Еду в Казань, есть места',
-      passengers: [],
-      createdAt: Date.now() - 2000
+// Загрузка поездок из localStorage
+function loadTrips() {
+  try {
+    const saved = localStorage.getItem('trips');
+    if (saved) {
+      trips = JSON.parse(saved);
+    } else {
+      trips = [];
     }
-  ];
-  saveTrips();
+  } catch (e) {
+    trips = [];
+  }
+  
+  // Если пусто, добавляем демо-данные
+  if (trips.length === 0) {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    
+    trips = [
+      {
+        id: 1,
+        route: 'to-ufa',
+        date: today,
+        time: '08:00',
+        totalSeats: 3,
+        price: 500,
+        driverName: 'Ахмет',
+        driverPhone: '+7 (917) 123-45-67',
+        comment: 'Еду утром, заберу по пути',
+        passengers: [],
+        createdAt: Date.now()
+      },
+      {
+        id: 2,
+        route: 'from-ufa',
+        date: today,
+        time: '18:00',
+        totalSeats: 2,
+        price: 500,
+        driverName: 'Рамиль',
+        driverPhone: '+7 (927) 234-56-78',
+        comment: 'Возвращаюсь вечером',
+        passengers: [],
+        createdAt: Date.now() - 1000
+      },
+      {
+        id: 3,
+        route: 'to-kazan',
+        date: tomorrow,
+        time: '07:00',
+        totalSeats: 4,
+        price: 800,
+        driverName: 'Ильдар',
+        driverPhone: '+7 (906) 345-67-89',
+        comment: 'Еду в Казань, есть места',
+        passengers: [],
+        createdAt: Date.now() - 2000
+      }
+    ];
+    saveTrips();
+  }
 }
 
 function saveTrips() {
-  localStorage.setItem('trips', JSON.stringify(trips));
+  try {
+    localStorage.setItem('trips', JSON.stringify(trips));
+    console.log('Поездки сохранены:', trips.length);
+  } catch (e) {
+    console.error('Ошибка сохранения:', e);
+  }
 }
 
 function getAvailableSeats(trip) {
-  const booked = trip.passengers.reduce((sum, p) => sum + p.seats, 0);
+  if (!trip.passengers) trip.passengers = [];
+  const booked = trip.passengers.reduce((sum, p) => sum + (p.seats || 1), 0);
   return trip.totalSeats - booked;
 }
 
@@ -592,12 +614,13 @@ function switchTab(tab) {
 }
 
 function renderTrips() {
+  console.log('Рендеринг поездок, всего:', trips.length);
   const filter = document.getElementById('filterRoute').value;
   const container = document.getElementById('tripsList');
   
-  let filteredTrips = trips;
+  let filteredTrips = [...trips];
   if (filter !== 'all') {
-    filteredTrips = trips.filter(t => t.route === filter);
+    filteredTrips = filteredTrips.filter(t => t.route === filter);
   }
   
   filteredTrips.sort((a, b) => {
@@ -609,7 +632,7 @@ function renderTrips() {
   if (filteredTrips.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">🚗</div>
+        <div class="empty-icon"></div>
         <div class="empty-text">Нет доступных поездок</div>
         <div style="color: #999; font-size: 14px;">Попробуйте изменить фильтр или добавьте свою поездку</div>
       </div>
@@ -619,6 +642,8 @@ function renderTrips() {
   
   container.innerHTML = filteredTrips.map(trip => {
     const route = ROUTES[trip.route];
+    if (!route) return '';
+    
     const tripDate = new Date(trip.date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -640,7 +665,7 @@ function renderTrips() {
     ).join('');
     
     return `
-      <div class="trip-card">
+      <div class="trip-card" onclick="showTripDetails(${trip.id})">
         <div class="trip-header">
           <div class="trip-route">${route.from} → ${route.to}</div>
           <div class="trip-price">${trip.price} ₽</div>
@@ -672,11 +697,11 @@ function renderTrips() {
         </div>
         
         <div class="trip-actions">
-          <button class="trip-btn call" onclick="callDriver('${trip.driverPhone}')">📞 Позвонить</button>
-          <button class="trip-btn booking" onclick="openBooking(${trip.id})" ${isFull ? 'disabled' : ''}>
+          <button class="trip-btn call" onclick="event.stopPropagation(); callDriver('${trip.driverPhone}')">📞 Позвонить</button>
+          <button class="trip-btn booking" onclick="event.stopPropagation(); openBooking(${trip.id})" ${isFull ? 'disabled' : ''}>
             ${isFull ? 'Мест нет' : '🎫 Забронировать'}
           </button>
-          <button class="trip-btn delete" onclick="requestDelete(${trip.id})">🗑️</button>
+          <button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(${trip.id})">🗑️</button>
         </div>
       </div>
     `;
@@ -699,7 +724,10 @@ function callDriver(phone) {
 
 function openBooking(id) {
   tripToBook = trips.find(t => t.id === id);
-  if (!tripToBook) return;
+  if (!tripToBook) {
+    showToast('❌ Поездка не найдена', 'error');
+    return;
+  }
   
   const availableSeats = getAvailableSeats(tripToBook);
   if (availableSeats === 0) {
@@ -732,6 +760,7 @@ function openBooking(id) {
 }
 
 function updateTotalPrice() {
+  if (!tripToBook) return;
   const seats = parseInt(document.getElementById('bookingSeats').value) || 1;
   const total = seats * tripToBook.price;
   document.getElementById('totalPrice').textContent = `${total} ₽`;
@@ -754,10 +783,19 @@ function confirmBooking() {
     return;
   }
   
+  if (!tripToBook) {
+    showToast('❌ Поездка не найдена', 'error');
+    return;
+  }
+  
   const availableSeats = getAvailableSeats(tripToBook);
   if (seats > availableSeats) {
     showToast('❌ Недостаточно мест', 'error');
     return;
+  }
+  
+  if (!tripToBook.passengers) {
+    tripToBook.passengers = [];
   }
   
   tripToBook.passengers.push({
@@ -804,13 +842,39 @@ function addTrip() {
   const driverPhone = document.getElementById('driverPhone').value.trim();
   const comment = document.getElementById('tripComment').value.trim();
   
-  if (!date || !time || !driverName || !driverPhone) {
-    showToast('❌ Заполните все обязательные поля', 'error');
+  // Валидация
+  if (!route) {
+    showToast('❌ Выберите направление', 'error');
+    return;
+  }
+  
+  if (!date) {
+    showToast('❌ Выберите дату', 'error');
+    return;
+  }
+  
+  if (!time) {
+    showToast('❌ Укажите время', 'error');
+    return;
+  }
+  
+  if (!seats || seats < 1 || seats > 8) {
+    showToast('❌ Укажите количество мест (1-8)', 'error');
     return;
   }
   
   if (!price || price < 0) {
     showToast('❌ Укажите цену за поездку', 'error');
+    return;
+  }
+  
+  if (!driverName) {
+    showToast('❌ Введите ваше имя', 'error');
+    return;
+  }
+  
+  if (!driverPhone) {
+    showToast('❌ Введите номер телефона', 'error');
     return;
   }
   
@@ -831,6 +895,10 @@ function addTrip() {
   trips.push(newTrip);
   saveTrips();
   
+  console.log('Добавлена поездка:', newTrip);
+  console.log('Всего поездок:', trips.length);
+  
+  // Очистка формы
   document.getElementById('tripDate').value = '';
   document.getElementById('tripTime').value = '';
   document.getElementById('tripSeats').value = '3';
@@ -840,19 +908,26 @@ function addTrip() {
   document.getElementById('tripComment').value = '';
   
   showToast('✓ Поездка успешно размещена!', 'success');
+  
+  // Переключаемся на список и обновляем
   switchTab('trips');
 }
 
 function showTripDetails(id) {
   const trip = trips.find(t => t.id === id);
-  if (!trip) return;
+  if (!trip) {
+    showToast('❌ Поездка не найдена', 'error');
+    return;
+  }
   
   const route = ROUTES[trip.route];
+  if (!route) return;
+  
   const availableSeats = getAvailableSeats(trip);
   const modal = document.getElementById('tripModal');
   const content = document.getElementById('modalContent');
   
-  const passengersHtml = trip.passengers.length > 0 ? `
+  const passengersHtml = trip.passengers && trip.passengers.length > 0 ? `
     <div style="margin-top: 20px;">
       <div style="font-weight: bold; color: #333; margin-bottom: 10px;">Забронировали (${trip.passengers.length}):</div>
       <div class="passenger-list">
@@ -898,11 +973,11 @@ function showTripDetails(id) {
     ${passengersHtml}
     
     <a href="tel:${trip.driverPhone}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">
-      📞 Позвонить водителю
+       Позвонить водителю
     </a>
     ${availableSeats > 0 ? `
       <button class="btn booking" onclick="closeModal(); openBooking(${trip.id})">
-         Забронировать место
+        🎫 Забронировать место
       </button>
     ` : ''}
     <button class="btn danger" onclick="closeModal(); requestDelete(${trip.id})">
@@ -921,6 +996,7 @@ function cancelBooking(tripId, passengerId) {
   const trip = trips.find(t => t.id === tripId);
   if (!trip) return;
   
+  if (!trip.passengers) trip.passengers = [];
   trip.passengers = trip.passengers.filter(p => p.id !== passengerId);
   saveTrips();
   showTripDetails(tripId);
@@ -928,10 +1004,33 @@ function cancelBooking(tripId, passengerId) {
   showToast('✓ Бронирование отменено', 'success');
 }
 
-const today = new Date().toISOString().split('T')[0];
-document.getElementById('tripDate').min = today;
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+  loadTrips();
+  
+  // Установка минимальной даты
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('tripDate');
+  if (dateInput) {
+    dateInput.min = today;
+  }
+  
+  // Первичный рендеринг
+  renderTrips();
+  
+  console.log('Приложение загружено, поездок:', trips.length);
+});
 
-renderTrips();
+// Закрытие модалок по клику на фон
+document.getElementById('tripModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeBookingModal();
+});
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteModal();
+});
 </script>
 
 </body>
