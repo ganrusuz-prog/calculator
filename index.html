@@ -3,410 +3,610 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Супер Строительный Калькулятор</title>
+<title>Сафия Тетрис</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
   body {
     min-height: 100vh;
-    background: #121212;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     color: #ffffff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-  }
-  .app-container {
-    width: 100%;
-    max-width: 450px;
-    background: #1E1E1E;
-    border-radius: 20px;
+    align-items: center;
+    padding: 10px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   }
-  
-  .tabs {
-    display: flex;
-    background: #2C2C2E;
-  }
-  .tab {
-    flex: 1;
-    padding: 16px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    color: #8E8E93;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
-  }
-  .tab.active {
-    color: #FF9F0A;
-    border-bottom-color: #FF9F0A;
-    background: #1E1E1E;
-  }
-
-  .display {
-    padding: 24px;
-    text-align: right;
-    min-height: 120px;
+  .game-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-  }
-  .expression {
-    color: #8E8E93;
-    font-size: 22px;
-    min-height: 28px;
-    word-break: break-all;
-  }
-  .result {
-    color: #FFFFFF;
-    font-size: 48px;
-    font-weight: 300;
-    word-break: break-all;
-    margin-top: 8px;
-  }
-  .result.small { font-size: 36px; }
-
-  .keypad {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    padding: 12px 16px 24px;
-  }
-  .btn {
-    height: 64px;
-    border: none;
-    border-radius: 16px;
-    font-size: 24px;
-    font-weight: 500;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.1s, filter 0.1s;
-    background: #333333;
-  }
-  .btn:active { transform: scale(0.94); filter: brightness(1.2); }
-  .btn.func { background: #A5A5A5; color: #000; }
-  .btn.op { background: #FF9F0A; color: #fff; font-size: 28px; }
-  .btn.eng { background: #2C2C2E; color: #FF9F0A; font-size: 20px; }
-  .btn.zero { grid-column: span 2; text-align: left; padding-left: 24px; }
-  .btn.equals { grid-column: span 3; }
-
-  .construction-mode {
-    display: none;
-    padding: 20px;
-  }
-  .construction-mode.active { display: block; }
-  
-  .calc-selector {
+    align-items: center;
+    gap: 15px;
+    max-width: 500px;
     width: 100%;
-    padding: 14px;
-    background: #2C2C2E;
-    border: 1px solid #3A3A3C;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    margin-bottom: 20px;
-    outline: none;
   }
   
-  .input-group {
-    margin-bottom: 16px;
-  }
-  .input-group label {
-    display: block;
-    color: #8E8E93;
-    font-size: 14px;
-    margin-bottom: 6px;
-  }
-  .input-group input {
-    width: 100%;
-    padding: 14px;
-    background: #2C2C2E;
-    border: 1px solid #3A3A3C;
-    border-radius: 12px;
-    color: white;
-    font-size: 18px;
-    outline: none;
-  }
-  .input-group input:focus { border-color: #FF9F0A; }
-  
-  .calc-btn {
-    width: 100%;
-    padding: 16px;
-    background: #FF9F0A;
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  .calc-btn:active { transform: scale(0.98); filter: brightness(1.1); }
-  
-  .result-box {
-    margin-top: 24px;
-    padding: 20px;
-    background: #2C2C2E;
-    border-radius: 14px;
+  /* Заголовок */
+  .header {
     text-align: center;
-    display: none;
+    width: 100%;
   }
-  .result-box.show { display: block; }
-  .result-box .value { font-size: 32px; font-weight: bold; color: #FF9F0A; }
-  .result-box .desc { color: #8E8E93; font-size: 14px; margin-top: 4px; }
+  .title {
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    color: #8e8e93;
+    font-size: 14px;
+  }
 
-  .hidden { display: none; }
+  /* Игровое поле и панель */
+  .game-area {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .board-container {
+    position: relative;
+    background: #1a1a2e;
+    border: 3px solid #16213e;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  #game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(20, 30px);
+    gap: 1px;
+    background: #0f0f1e;
+  }
+  
+  .cell {
+    width: 30px;
+    height: 30px;
+    background: #1a1a2e;
+    border-radius: 2px;
+  }
+  .cell.filled {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Цвета фигур */
+  .cell.I { background: #00f0f0; }
+  .cell.O { background: #f0f000; }
+  .cell.T { background: #a000f0; }
+  .cell.S { background: #00f000; }
+  .cell.Z { background: #f00000; }
+  .cell.J { background: #0000f0; }
+  .cell.L { background: #f0a000; }
+
+  /* Боковая панель */
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 100px;
+  }
+  
+  .info-box {
+    background: #1a1a2e;
+    border: 2px solid #16213e;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .info-label {
+    color: #8e8e93;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  .info-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #feca57;
+  }
+  
+  #next-piece {
+    display: grid;
+    grid-template-columns: repeat(4, 20px);
+    grid-template-rows: repeat(4, 20px);
+    gap: 1px;
+    margin: 0 auto;
+    background: #0f0f1e;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .next-cell {
+    width: 20px;
+    height: 20px;
+    background: #1a1a2e;
+    border-radius: 2px;
+  }
+  .next-cell.filled {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* Кнопки управления */
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 350px;
+  }
+  .ctrl-btn {
+    height: 60px;
+    border: none;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s;
+    background: #16213e;
+    border: 2px solid #0f3460;
+  }
+  .ctrl-btn:active { transform: scale(0.95); background: #0f3460; }
+  .ctrl-btn.rotate { background: #e94560; border-color: #c23651; }
+  .ctrl-btn.drop { background: #533483; border-color: #3d2660; }
+
+  /* Оверлеи */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 10;
+  }
+  .overlay.hidden { display: none; }
+  .overlay h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #feca57;
+  }
+  .overlay p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #8e8e93;
+  }
+  .overlay button {
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: #e94560;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .overlay button:active { transform: scale(0.95); }
+
+  @media (max-width: 480px) {
+    #game-board {
+      grid-template-columns: repeat(10, 25px);
+      grid-template-rows: repeat(20, 25px);
+    }
+    .cell { width: 25px; height: 25px; }
+    .title { font-size: 24px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="app-container">
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('standard')">🧮 Инженерный</div>
-    <div class="tab" onclick="switchTab('construction')">️ Строительный</div>
+<div class="game-container">
+  <div class="header">
+    <div class="title">🎮 Сафия Тетрис</div>
+    <div class="subtitle">Классическая игра</div>
   </div>
 
-  <div id="standard-mode">
-    <div class="display">
-      <div class="expression" id="expression">&nbsp;</div>
-      <div class="result" id="result">0</div>
+  <div class="game-area">
+    <div class="board-container">
+      <div id="game-board"></div>
+      <div class="overlay hidden" id="start-overlay">
+        <h2>Сафия Тетрис</h2>
+        <p>Нажмите чтобы начать</p>
+        <button onclick="startGame()">Играть</button>
+      </div>
+      <div class="overlay hidden" id="gameover-overlay">
+        <h2>Игра окончена</h2>
+        <p>Счёт: <span id="final-score">0</span></p>
+        <button onclick="restartGame()">Заново</button>
+      </div>
+      <div class="overlay hidden" id="pause-overlay">
+        <h2>Пауза</h2>
+        <p>Игра приостановлена</p>
+        <button onclick="togglePause()">Продолжить</button>
+      </div>
     </div>
-    <div class="keypad">
-      <button class="btn func" onclick="clearAll()">AC</button>
-      <button class="btn eng" onclick="append('(')">(</button>
-      <button class="btn eng" onclick="append(')')">)</button>
-      <button class="btn op" onclick="appendOp('÷')">÷</button>
 
-      <button class="btn eng" onclick="appendFunc('√')">√</button>
-      <button class="btn num" onclick="append('7')">7</button>
-      <button class="btn num" onclick="append('8')">8</button>
-      <button class="btn num" onclick="append('9')">9</button>
-
-      <button class="btn eng" onclick="appendFunc('x²')">x²</button>
-      <button class="btn num" onclick="append('4')">4</button>
-      <button class="btn num" onclick="append('5')">5</button>
-      <button class="btn op" onclick="appendOp('×')">×</button>
-
-      <button class="btn eng" onclick="append('π')">π</button>
-      <button class="btn num" onclick="append('1')">1</button>
-      <button class="btn num" onclick="append('2')">2</button>
-      <button class="btn op" onclick="appendOp('−')">−</button>
-
-      <button class="btn func" onclick="backspace()">⌫</button>
-      <button class="btn num" onclick="append('3')">3</button>
-      <button class="btn num" onclick="append('0')">0</button>
-      <button class="btn op" onclick="appendOp('+')">+</button>
-
-      <button class="btn num" onclick="append('.')">.</button>
-      <button class="btn op equals" onclick="calculate()">=</button>
+    <div class="side-panel">
+      <div class="info-box">
+        <div class="info-label">Счёт</div>
+        <div class="info-value" id="score">0</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Линии</div>
+        <div class="info-value" id="lines">0</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Уровень</div>
+        <div class="info-value" id="level">1</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Следующая</div>
+        <div id="next-piece"></div>
+      </div>
     </div>
   </div>
 
-  <div id="construction-mode" class="construction-mode">
-    <select class="calc-selector" id="calcType" onchange="updateInputs()">
-      <option value="area">📐 Площадь (м²)</option>
-      <option value="volume">📦 Объем (м³)</option>
-      <option value="blocks">🧱 Кладка (блоки/кирпич)</option>
-    </select>
-
-    <div id="inputs-area" class="input-section">
-      <div class="input-group">
-        <label>Длина (м)</label>
-        <input type="number" id="area-l" step="0.01" placeholder="Например: 5.5">
-      </div>
-      <div class="input-group">
-        <label>Ширина (м)</label>
-        <input type="number" id="area-w" step="0.01" placeholder="Например: 3.2">
-      </div>
-    </div>
-
-    <div id="inputs-volume" class="input-section hidden">
-      <div class="input-group">
-        <label>Длина (м)</label>
-        <input type="number" id="vol-l" step="0.01" placeholder="Например: 5.5">
-      </div>
-      <div class="input-group">
-        <label>Ширина (м)</label>
-        <input type="number" id="vol-w" step="0.01" placeholder="Например: 3.2">
-      </div>
-      <div class="input-group">
-        <label>Высота / Глубина (м)</label>
-        <input type="number" id="vol-h" step="0.01" placeholder="Например: 0.2">
-      </div>
-    </div>
-
-    <div id="inputs-blocks" class="input-section hidden">
-      <div class="input-group">
-        <label>Длина стены (м)</label>
-        <input type="number" id="block-l" step="0.01" placeholder="Например: 6.0">
-      </div>
-      <div class="input-group">
-        <label>Высота стены (м)</label>
-        <input type="number" id="block-h" step="0.01" placeholder="Например: 2.8">
-      </div>
-      <div class="input-group">
-        <label>Длина блока/кирпича (м)</label>
-        <input type="number" id="b-l" step="0.01" value="0.4" placeholder="Например: 0.4">
-      </div>
-      <div class="input-group">
-        <label>Высота блока/кирпича (м)</label>
-        <input type="number" id="b-h" step="0.01" value="0.2" placeholder="Например: 0.2">
-      </div>
-      <div style="color: #8E8E93; font-size: 12px; margin-top: -10px; margin-bottom: 10px;">
-        * Включен автоматический запас 5% на бой и подрезку
-      </div>
-    </div>
-
-    <button class="calc-btn" onclick="calculateConstruction()">Рассчитать</button>
-
-    <div class="result-box" id="const-result">
-      <div class="value" id="const-val">0</div>
-      <div class="desc" id="const-desc">Результат</div>
-    </div>
+  <div class="controls">
+    <button class="ctrl-btn" onclick="moveLeft()">←</button>
+    <button class="ctrl-btn rotate" onclick="rotatePiece()">↻</button>
+    <button class="ctrl-btn" onclick="moveRight()">→</button>
+    <button class="ctrl-btn" onclick="moveDown()">↓</button>
+    <button class="ctrl-btn drop" onclick="hardDrop()">⤓</button>
+    <button class="ctrl-btn" onclick="togglePause()">⏸</button>
   </div>
 </div>
 
 <script>
-  function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    if (tab === 'standard') {
-      document.querySelectorAll('.tab')[0].classList.add('active');
-      document.getElementById('standard-mode').style.display = 'block';
-      document.getElementById('construction-mode').classList.remove('active');
-    } else {
-      document.querySelectorAll('.tab')[1].classList.add('active');
-      document.getElementById('standard-mode').style.display = 'none';
-      document.getElementById('construction-mode').classList.add('active');
-    }
-  }
+  const COLS = 10;
+  const ROWS = 20;
+  const board = [];
+  let currentPiece = null;
+  let nextPieceType = null;
+  let score = 0;
+  let lines = 0;
+  let level = 1;
+  let gameInterval = null;
+  let isPlaying = false;
+  let isPaused = false;
 
-  let current = '0';
-  const exprEl = document.getElementById('expression');
-  const resEl = document.getElementById('result');
+  // Фигуры Тетриса
+  const PIECES = {
+    I: { shape: [[1,1,1,1]], color: 'I' },
+    O: { shape: [[1,1],[1,1]], color: 'O' },
+    T: { shape: [[0,1,0],[1,1,1]], color: 'T' },
+    S: { shape: [[0,1,1],[1,1,0]], color: 'S' },
+    Z: { shape: [[1,1,0],[0,1,1]], color: 'Z' },
+    J: { shape: [[1,0,0],[1,1,1]], color: 'J' },
+    L: { shape: [[0,0,1],[1,1,1]], color: 'L' }
+  };
 
-  function append(val) {
-    if (current === '0' || current === 'Ошибка') current = '';
-    current += val;
-    updateDisplay();
-  }
+  const PIECE_NAMES = ['I', 'O', 'T', 'S', 'Z', 'J', 'L'];
 
-  function appendOp(op) {
-    if (current === 'Ошибка') current = '0';
-    const lastChar = current.slice(-1);
-    if (['+', '−', '×', '÷'].includes(lastChar)) {
-      current = current.slice(0, -1) + op;
-    } else {
-      current += op;
-    }
-    updateDisplay();
-  }
-
-  function appendFunc(func) {
-    if (current === '0' || current === 'Ошибка') current = '';
-    if (func === '√') current += '√(';
-    else if (func === 'x²') current += '^2';
-    updateDisplay();
-  }
-
-  function clearAll() {
-    current = '0';
-    exprEl.innerHTML = '&nbsp;';
-    updateDisplay();
-  }
-
-  function backspace() {
-    if (current === 'Ошибка') { clearAll(); return; }
-    current = current.slice(0, -1);
-    if (current === '') current = '0';
-    updateDisplay();
-  }
-
-  function updateDisplay() {
-    resEl.textContent = current;
-    resEl.classList.remove('small');
-    if (current.length > 10) resEl.classList.add('small');
-  }
-
-  function calculate() {
-    try {
-      let expr = current
-        .replace(/×/g, '*')
-        .replace(/÷/g, '/')
-        .replace(/−/g, '-')
-        .replace(/π/g, 'Math.PI')
-        .replace(/√\(/g, 'Math.sqrt(')
-        .replace(/\^2/g, '**2');
-      
-      let result = Function('"use strict"; return (' + expr + ')')();
-      
-      if (!isFinite(result) || isNaN(result)) {
-        current = 'Ошибка';
-      } else {
-        exprEl.textContent = current + ' =';
-        current = parseFloat(result.toPrecision(10)).toString();
+  // Инициализация доски
+  function initBoard() {
+    const boardEl = document.getElementById('game-board');
+    boardEl.innerHTML = '';
+    for (let r = 0; r < ROWS; r++) {
+      board[r] = [];
+      for (let c = 0; c < COLS; c++) {
+        board[r][c] = 0;
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.id = `cell-${r}-${c}`;
+        boardEl.appendChild(cell);
       }
-    } catch (e) {
-      current = 'Ошибка';
     }
-    updateDisplay();
   }
 
-  function updateInputs() {
-    const type = document.getElementById('calcType').value;
-    document.querySelectorAll('.input-section').forEach(el => el.classList.add('hidden'));
-    document.getElementById('inputs-' + type).classList.remove('hidden');
-    document.getElementById('const-result').classList.remove('show');
-  }
-
-  function calculateConstruction() {
-    const type = document.getElementById('calcType').value;
-    let result = 0;
-    let desc = '';
-
-    try {
-      if (type === 'area') {
-        const l = parseFloat(document.getElementById('area-l').value) || 0;
-        const w = parseFloat(document.getElementById('area-w').value) || 0;
-        result = l * w;
-        desc = `Площадь: ${l} м × ${w} м`;
-        document.getElementById('const-val').textContent = result.toFixed(2) + ' м²';
-      } 
-      else if (type === 'volume') {
-        const l = parseFloat(document.getElementById('vol-l').value) || 0;
-        const w = parseFloat(document.getElementById('vol-w').value) || 0;
-        const h = parseFloat(document.getElementById('vol-h').value) || 0;
-        result = l * w * h;
-        desc = `Объем: ${l} м × ${w} м × ${h} м`;
-        document.getElementById('const-val').textContent = result.toFixed(3) + ' м³';
-      } 
-      else if (type === 'blocks') {
-        const wl = parseFloat(document.getElementById('block-l').value) || 0;
-        const wh = parseFloat(document.getElementById('block-h').value) || 0;
-        const bl = parseFloat(document.getElementById('b-l').value) || 0.4;
-        const bh = parseFloat(document.getElementById('b-h').value) || 0.2;
-        
-        if (bl === 0 || bh === 0) throw new Error("Размер блока не может быть 0");
-        
-        const wallArea = wl * wh;
-        const blockArea = bl * bh;
-        const exactCount = wallArea / blockArea;
-        result = Math.ceil(exactCount * 1.05);
-        
-        desc = `Стена: ${wl}×${wh}м. Блок: ${bl}×${bh}м. (включая 5% запаса)`;
-        document.getElementById('const-val').textContent = result + ' шт.';
+  // Инициализация следующей фигуры
+  function initNextPiece() {
+    const nextEl = document.getElementById('next-piece');
+    nextEl.innerHTML = '';
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 4; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'next-cell';
+        cell.id = `next-${r}-${c}`;
+        nextEl.appendChild(cell);
       }
-
-      document.getElementById('const-desc').textContent = desc;
-      document.getElementById('const-result').classList.add('show');
-    } catch (e) {
-      document.getElementById('const-val').textContent = 'Ошибка';
-      document.getElementById('const-desc').textContent = 'Проверьте введенные данные';
-      document.getElementById('const-result').classList.add('show');
     }
   }
+
+  // Случайная фигура
+  function randomPiece() {
+    const name = PIECE_NAMES[Math.floor(Math.random() * PIECE_NAMES.length)];
+    return {
+      type: name,
+      shape: PIECES[name].shape.map(row => [...row]),
+      color: PIECES[name].color,
+      row: 0,
+      col: Math.floor((COLS - PIECES[name].shape[0].length) / 2)
+    };
+  }
+
+  // Отрисовка доски
+  function drawBoard() {
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const cell = document.getElementById(`cell-${r}-${c}`);
+        cell.className = 'cell';
+        if (board[r][c]) {
+          cell.classList.add('filled', board[r][c]);
+        }
+      }
+    }
+  }
+
+  // Отрисовка текущей фигуры
+  function drawPiece() {
+    if (!currentPiece) return;
+    const shape = currentPiece.shape;
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[r].length; c++) {
+        if (shape[r][c]) {
+          const cell = document.getElementById(`cell-${currentPiece.row + r}-${currentPiece.col + c}`);
+          if (cell) {
+            cell.classList.add('filled', currentPiece.color);
+          }
+        }
+      }
+    }
+  }
+
+  // Отрисовка следующей фигуры
+  function drawNextPiece() {
+    const nextEl = document.getElementById('next-piece');
+    const cells = nextEl.querySelectorAll('.next-cell');
+    cells.forEach(cell => {
+      cell.className = 'next-cell';
+    });
+
+    if (!nextPieceType) return;
+    const piece = PIECES[nextPieceType];
+    const shape = piece.shape;
+    const offsetR = Math.floor((4 - shape.length) / 2);
+    const offsetC = Math.floor((4 - shape[0].length) / 2);
+
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[r].length; c++) {
+        if (shape[r][c]) {
+          const cell = document.getElementById(`next-${r + offsetR}-${c + offsetC}`);
+          if (cell) {
+            cell.classList.add('filled', piece.color);
+          }
+        }
+      }
+    }
+  }
+
+  // Проверка столкновений
+  function isValidMove(piece, newRow, newCol, newShape) {
+    const shape = newShape || piece.shape;
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[r].length; c++) {
+        if (shape[r][c]) {
+          const newR = newRow + r;
+          const newC = newCol + c;
+          if (newR < 0 || newR >= ROWS || newC < 0 || newC >= COLS) return false;
+          if (board[newR][newC]) return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // Закрепление фигуры
+  function lockPiece() {
+    const shape = currentPiece.shape;
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[r].length; c++) {
+        if (shape[r][c]) {
+          const boardR = currentPiece.row + r;
+          const boardC = currentPiece.col + c;
+          if (boardR < 0) {
+            gameOver();
+            return;
+          }
+          board[boardR][boardC] = currentPiece.color;
+        }
+      }
+    }
+    clearLines();
+    spawnPiece();
+  }
+
+  // Очистка линий
+  function clearLines() {
+    let linesCleared = 0;
+    for (let r = ROWS - 1; r >= 0; r--) {
+      if (board[r].every(cell => cell !== 0)) {
+        board.splice(r, 1);
+        board.unshift(new Array(COLS).fill(0));
+        linesCleared++;
+        r++;
+      }
+    }
+    if (linesCleared > 0) {
+      lines += linesCleared;
+      score += linesCleared * 100 * level;
+      level = Math.floor(lines / 10) + 1;
+      updateScore();
+      drawBoard();
+      changeSpeed();
+    }
+  }
+
+  // Обновление счёта
+  function updateScore() {
+    document.getElementById('score').textContent = score;
+    document.getElementById('lines').textContent = lines;
+    document.getElementById('level').textContent = level;
+  }
+
+  // Спавн новой фигуры
+  function spawnPiece() {
+    currentPiece = {
+      type: nextPieceType || PIECE_NAMES[Math.floor(Math.random() * PIECE_NAMES.length)],
+      shape: [],
+      color: '',
+      row: 0,
+      col: 0
+    };
+    
+    const pieceData = PIECES[currentPiece.type];
+    currentPiece.shape = pieceData.shape.map(row => [...row]);
+    currentPiece.color = pieceData.color;
+    currentPiece.col = Math.floor((COLS - pieceData.shape[0].length) / 2);
+
+    nextPieceType = PIECE_NAMES[Math.floor(Math.random() * PIECE_NAMES.length)];
+    drawNextPiece();
+
+    if (!isValidMove(currentPiece, currentPiece.row, currentPiece.col)) {
+      gameOver();
+    }
+  }
+
+  // Движение вниз
+  function moveDown() {
+    if (!isPlaying || isPaused) return;
+    if (isValidMove(currentPiece, currentPiece.row + 1, currentPiece.col)) {
+      currentPiece.row++;
+      drawBoard();
+      drawPiece();
+    } else {
+      lockPiece();
+    }
+  }
+
+  // Движение влево
+  function moveLeft() {
+    if (!isPlaying || isPaused) return;
+    if (isValidMove(currentPiece, currentPiece.row, currentPiece.col - 1)) {
+      currentPiece.col--;
+      drawBoard();
+      drawPiece();
+    }
+  }
+
+  // Движение вправо
+  function moveRight() {
+    if (!isPlaying || isPaused) return;
+    if (isValidMove(currentPiece, currentPiece.row, currentPiece.col + 1)) {
+      currentPiece.col++;
+      drawBoard();
+      drawPiece();
+    }
+  }
+
+  // Вращение
+  function rotatePiece() {
+    if (!isPlaying || isPaused) return;
+    const shape = currentPiece.shape;
+    const rows = shape.length;
+    const cols = shape[0].length;
+    const newShape = [];
+    
+    for (let c = 0; c < cols; c++) {
+      newShape[c] = [];
+      for (let r = rows - 1; r >= 0; r--) {
+        newShape[c].push(shape[r][c]);
+      }
+    }
+
+    if (isValidMove(currentPiece, currentPiece.row, currentPiece.col, newShape)) {
+      currentPiece.shape = newShape;
+      drawBoard();
+      drawPiece();
+    }
+  }
+
+  // Мгновенное падение
+  function hardDrop() {
+    if (!isPlaying || isPaused) return;
+    while (isValidMove(currentPiece, currentPiece.row + 1, currentPiece.col)) {
+      currentPiece.row++;
+      score += 2;
+    }
+    updateScore();
+    lockPiece();
+  }
+
+  // Пауза
+  function togglePause() {
+    if (!isPlaying) return;
+    isPaused = !isPaused;
+    document.getElementById('pause-overlay').classList.toggle('hidden', !isPaused);
+    if (isPaused) {
+      clearInterval(gameInterval);
+    } else {
+      gameInterval = setInterval(moveDown, Math.max(100, 1000 - (level - 1) * 100));
+    }
+  }
+
+  // Изменение скорости
+  function changeSpeed() {
+    if (gameInterval) {
+      clearInterval(gameInterval);
+      gameInterval = setInterval(moveDown, Math.max(100, 1000 - (level - 1) * 100));
+    }
+  }
+
+  // Конец игры
+  function gameOver() {
+    isPlaying = false;
+    clearInterval(gameInterval);
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('gameover-overlay').classList.remove('hidden');
+  }
+
+  // Начало игры
+  function startGame() {
+    document.getElementById('start-overlay').classList.add('hidden');
+    initBoard();
+    initNextPiece();
+    score = 0;
+    lines = 0;
+    level = 1;
+    updateScore();
+    nextPieceType = PIECE_NAMES[Math.floor(Math.random() * PIECE_NAMES.length)];
+    spawnPiece();
+    isPlaying = true;
+    isPaused = false;
+    gameInterval = setInterval(moveDown, 1000);
+  }
+
+  // Рестарт
+  function restartGame() {
+    document.getElementById('gameover-overlay').classList.add('hidden');
+    startGame();
+  }
+
+  // Управление с клавиатуры
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') moveLeft();
+    else if (e.key === 'ArrowRight') moveRight();
+    else if (e.key === 'ArrowDown') moveDown();
+    else if (e.key === 'ArrowUp') rotatePiece();
+    else if (e.key === ' ') hardDrop();
+    else if (e.key === 'p' || e.key === 'P') togglePause();
+  });
+
+  // Инициализация
+  initBoard();
+  initNextPiece();
+  document.getElementById('start-overlay').classList.remove('hidden');
 </script>
+
 </body>
 </html>
