@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#667eea">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <title>Карамалы-Губеево Попутки</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -30,12 +27,11 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 .btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
 .btn.approve { background: linear-gradient(135deg, #21a038, #1a7a2e); }
 .btn.reject { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .form-group { margin-bottom: 15px; }
 .form-label { display: block; color: #666; font-size: 14px; margin-bottom: 6px; font-weight: 600; }
-.form-input, .form-select, textarea.form-input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; background: white; font-family: inherit; user-select: text; -webkit-user-select: text; }
-.form-input:focus, .form-select:focus, textarea.form-input:focus { outline: none; border-color: #667eea; }
-.trip-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); transition: all 0.3s; animation: slideIn 0.3s ease; cursor: pointer; }
+.form-input, .form-select, textarea.form-input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; background: white; font-family: inherit; user-select: text; -webkit-user-select: text; }
+.form-input:focus, .form-select:focus { outline: none; border-color: #667eea; }
+.trip-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); cursor: pointer; }
 .trip-card:active { transform: scale(0.98); }
 .trip-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .trip-route { font-size: 18px; font-weight: bold; color: #333; }
@@ -47,16 +43,14 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 .driver-avatar { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold; }
 .driver-info { flex: 1; }
 .driver-name { font-weight: bold; color: #333; font-size: 16px; }
-.driver-phone { color: #667eea; font-size: 14px; margin-top: 2px; }
 .trip-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-.trip-btn { flex: 1; min-width: 80px; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+.trip-btn { flex: 1; min-width: 80px; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; }
 .trip-btn.call { background: #4facfe; color: white; }
 .trip-btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
 .trip-btn.delete { background: #ff416c; color: white; }
 .trip-btn.edit { background: #feca57; color: #333; }
 .trip-btn.cancel { background: #f093fb; color: white; }
 .trip-btn:active { transform: scale(0.95); }
-.trip-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .seats-indicator { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; background: #f0f8ff; border-radius: 8px; }
 .seats-indicator.full { background: #fff0f0; }
 .seats-dots { display: flex; gap: 4px; }
@@ -72,30 +66,20 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 .status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin: 5px 0; }
 .status-active { background: #43e97b; color: #333; }
 .status-pending { background: #ffc107; color: #333; }
-.status-expired { background: #ff416c; color: white; }
 .request-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 4px solid #ffc107; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.request-card.approved { border-left-color: #43e97b; }
 .request-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .request-name { font-weight: bold; color: #333; font-size: 16px; }
 .request-phone { color: #667eea; font-size: 14px; }
 .request-actions { display: flex; gap: 8px; margin-top: 10px; }
 .request-actions .btn { flex: 1; padding: 10px; font-size: 13px; margin-bottom: 0; }
-.passenger-list { margin-top: 15px; }
-.passenger-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9ff; border-radius: 10px; margin-bottom: 8px; }
-.passenger-info { flex: 1; }
-.passenger-name { font-weight: bold; color: #333; font-size: 14px; }
-.passenger-phone { color: #667eea; font-size: 12px; margin-top: 2px; }
 .empty-state { text-align: center; padding: 60px 20px; color: #999; }
 .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
 .empty-text { font-size: 18px; margin-bottom: 10px; }
 .badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 5px; }
 .badge.today { background: #4facfe; color: white; }
 .badge.tomorrow { background: #f093fb; color: white; }
-.badge.full { background: #ff416c; color: white; }
 .badge.paid { background: #21a038; color: white; }
-.badge.driver { background: #4facfe; color: white; }
-.badge.passenger { background: #f093fb; color: white; }
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 15px 25px; border-radius: 10px; font-size: 14px; font-weight: bold; z-index: 200; animation: slideUp 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; max-width: 90%; }
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 15px 25px; border-radius: 10px; font-size: 14px; font-weight: bold; z-index: 200; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; max-width: 90%; }
 .toast.hidden { display: none; }
 .toast.success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
 .toast.error { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
@@ -129,14 +113,12 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 .code-display { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 12px; text-align: center; margin: 15px 0; }
 .code-number { font-size: 48px; font-weight: bold; letter-spacing: 8px; margin: 10px 0; font-family: 'Courier New', monospace; }
 .code-input { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
-.code-input input { width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #e0e0e0; border-radius: 10px; user-select: text; -webkit-user-select: text; }
+.code-input input { width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #e0e0e0; border-radius: 10px; user-select: text; }
 .code-input input:focus { outline: none; border-color: #667eea; }
 .waiting-screen { text-align: center; padding: 40px 20px; }
 .waiting-icon { font-size: 80px; margin-bottom: 20px; }
 .waiting-text { font-size: 18px; color: #666; margin-bottom: 10px; }
 .waiting-subtext { font-size: 14px; color: #999; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 </style>
 </head>
 <body>
@@ -194,15 +176,15 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
       </div>
       <div class="form-group">
         <label class="form-label">Имя водителя</label>
-        <input type="text" class="form-input" id="driverName" placeholder="Например: Иван" maxlength="50">
+        <input type="text" class="form-input" id="driverName" placeholder="Например: Иван">
       </div>
       <div class="form-group">
         <label class="form-label">Номер телефона водителя</label>
-        <input type="tel" class="form-input phone-input" id="driverPhone" placeholder="+7 (___) ___-__-__" maxlength="18">
+        <input type="tel" class="form-input phone-input" id="driverPhone" placeholder="+7 (___) ___-__-__">
       </div>
       <div class="form-group">
         <label class="form-label">Комментарий (необязательно)</label>
-        <textarea class="form-input" id="tripComment" rows="3" placeholder="Дополнительная информация" maxlength="200"></textarea>
+        <textarea class="form-input" id="tripComment" rows="3" placeholder="Дополнительная информация"></textarea>
       </div>
       <button class="btn success" id="addTripBtn" onclick="handleAddTrip()">✓ Разместить поездку</button>
       <button class="btn secondary hidden" id="cancelEditBtn" onclick="cancelEdit()">Отменить редактирование</button>
@@ -230,11 +212,11 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
     <div style="color: #666; text-align: center; margin-bottom: 20px; font-size: 14px;">Введите ваш номер телефона для входа</div>
     <div class="form-group">
       <label class="form-label">Ваше имя</label>
-      <input type="text" class="form-input" id="loginName" placeholder="Как к вам обращаться" maxlength="50">
+      <input type="text" class="form-input" id="loginName" placeholder="Как к вам обращаться">
     </div>
     <div class="form-group">
       <label class="form-label">Номер телефона</label>
-      <input type="tel" class="form-input phone-input" id="loginPhone" placeholder="+7 (___) ___-__-__" maxlength="18">
+      <input type="tel" class="form-input phone-input" id="loginPhone" placeholder="+7 (___) ___-__-__">
     </div>
     <button class="btn success" onclick="doLogin()">Войти</button>
     <button class="btn secondary" onclick="closeLoginModal()">Отмена</button>
@@ -243,21 +225,21 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 
 <div class="modal hidden" id="codeModal">
   <div class="modal-content">
-    <div class="modal-title"> Код авторизации</div>
+    <div class="modal-title">🔐 Код авторизации</div>
     <div style="text-align: center; color: #666; margin-bottom: 15px; font-size: 14px;">
       На номер <strong id="codePhone"></strong> отправлен код подтверждения
     </div>
     <div class="code-display">
       <div style="font-size: 12px; opacity: 0.9;">Ваш код:</div>
       <div class="code-number" id="generatedCode">----</div>
-      <div style="font-size: 11px; opacity: 0.8;">📱 В тестовом режиме код показан выше. В рабочей версии он придёт по SMS.</div>
+      <div style="font-size: 11px; opacity: 0.8;"> В тестовом режиме код показан выше</div>
     </div>
     <div style="text-align: center; color: #666; font-size: 13px; margin: 10px 0;">Введите код для подтверждения:</div>
     <div class="code-input">
-      <input type="tel" maxlength="1" inputmode="numeric" id="code1" oninput="moveToNext(this, 'code2')" onkeydown="handleCodeKey(event, this, null, 'code2')">
-      <input type="tel" maxlength="1" inputmode="numeric" id="code2" oninput="moveToNext(this, 'code3')" onkeydown="handleCodeKey(event, this, 'code1', 'code3')">
-      <input type="tel" maxlength="1" inputmode="numeric" id="code3" oninput="moveToNext(this, 'code4')" onkeydown="handleCodeKey(event, this, 'code2', 'code4')">
-      <input type="tel" maxlength="1" inputmode="numeric" id="code4" oninput="verifyCode()" onkeydown="handleCodeKey(event, this, 'code3', null)">
+      <input type="tel" maxlength="1" inputmode="numeric" id="code1" oninput="moveToNext(this, 'code2')">
+      <input type="tel" maxlength="1" inputmode="numeric" id="code2" oninput="moveToNext(this, 'code3')">
+      <input type="tel" maxlength="1" inputmode="numeric" id="code3" oninput="moveToNext(this, 'code4')">
+      <input type="tel" maxlength="1" inputmode="numeric" id="code4" oninput="verifyCode()">
     </div>
     <div style="text-align: center; margin: 10px 0;">
       <button class="btn" style="background: #25D366; padding: 10px; font-size: 14px;" onclick="sendCodeWhatsApp()">📱 Отправить код через WhatsApp</button>
@@ -292,11 +274,11 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
     <div id="bookingInfo" style="margin-bottom: 20px; color: #666; text-align: center;"></div>
     <div class="form-group">
       <label class="form-label">Ваше имя</label>
-      <input type="text" class="form-input" id="passengerName" placeholder="Введите ваше имя" maxlength="50">
+      <input type="text" class="form-input" id="passengerName" placeholder="Введите ваше имя">
     </div>
     <div class="form-group">
       <label class="form-label">Номер телефона</label>
-      <input type="tel" class="form-input phone-input" id="passengerPhone" placeholder="+7 (___) ___-__-__" maxlength="18">
+      <input type="tel" class="form-input phone-input" id="passengerPhone" placeholder="+7 (___) ___-__-__">
     </div>
     <div class="form-group">
       <label class="form-label">Количество мест</label>
@@ -323,7 +305,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
     <div style="text-align: center; color: #666; margin-bottom: 20px;">Это действие нельзя отменить.</div>
     <div style="display: flex; gap: 10px;">
       <button class="btn secondary" onclick="closeDeleteModal()" style="flex: 1;">Отмена</button>
-      <button class="btn danger" onclick="confirmDelete()" style="flex: 1;">️ Удалить</button>
+      <button class="btn danger" onclick="confirmDelete()" style="flex: 1;">🗑️ Удалить</button>
     </div>
   </div>
 </div>
@@ -338,7 +320,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 
 <div class="modal hidden" id="usersModal">
   <div class="modal-content">
-    <div class="modal-title">👥 Все участники</div>
+    <div class="modal-title"> Все участники</div>
     <div id="usersList"></div>
     <button class="btn secondary" onclick="closeUsersModal()" style="margin-top: 15px;">Закрыть</button>
   </div>
@@ -347,7 +329,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 <div class="toast hidden" id="toast"></div>
 
 <script>
-// ===== КОНСТАНТЫ =====
 const ROUTES = {
   'to-tuimazy': { from: 'Карамалы-Губеево', to: 'Туймазы', distance: '45 км' },
   'from-tuimazy': { from: 'Туймазы', to: 'Карамалы-Губеево', distance: '45 км' },
@@ -372,10 +353,7 @@ const ROUTES = {
 };
 
 const ADMIN_PHONE = '+79656499498';
-const APP_VERSION = '2.1';
-const CODE_LIFETIME_MS = 10 * 60 * 1000; // 10 минут
 
-// ===== СОСТОЯНИЕ =====
 let trips = [];
 let users = [];
 let currentUser = null;
@@ -384,17 +362,10 @@ let tripToBook = null;
 let editingTripId = null;
 let pendingCode = null;
 let pendingUser = null;
-let toastTimer = null;
 
-// ===== УТИЛИТЫ =====
 function esc(s) {
   if (s == null) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function formatPhone(value) {
@@ -404,8 +375,7 @@ function formatPhone(value) {
   if (digits.length > 10) digits = digits.substring(0, 10);
   let formatted = '+7';
   if (digits.length > 0) formatted += ' (' + digits.substring(0, 3);
-  if (digits.length >= 4) formatted += ') ' + digits.substring(3, 6);
-  else if (digits.length === 3) formatted += ')';
+  if (digits.length >= 3) formatted += ') ' + digits.substring(3, 6);
   if (digits.length >= 6) formatted += '-' + digits.substring(6, 8);
   if (digits.length >= 8) formatted += '-' + digits.substring(8, 10);
   return formatted;
@@ -450,11 +420,6 @@ function isPassenger(userPhone) {
 }
 
 function generateCode() {
-  if (window.crypto && crypto.getRandomValues) {
-    const arr = new Uint32Array(1);
-    crypto.getRandomValues(arr);
-    return (1000 + (arr[0] % 9000)).toString();
-  }
   return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
@@ -486,7 +451,7 @@ function buildRouteOptionsForForm(selectedKey) {
 
 function requireApprovedUser() {
   if (!currentUser) {
-    showToast('️ Войдите в личный кабинет', 'warning');
+    showToast('⚠️ Войдите в личный кабинет', 'warning');
     openLoginModal();
     return false;
   }
@@ -499,7 +464,6 @@ function requireApprovedUser() {
   return true;
 }
 
-// ===== ТЕЛЕФОННЫЕ МАСКИ =====
 function initPhoneMasks() {
   document.querySelectorAll('.phone-input').forEach(function(input) {
     input.addEventListener('input', function() {
@@ -508,20 +472,16 @@ function initPhoneMasks() {
     input.addEventListener('focus', function() {
       if (!this.value || this.value === '+7') this.value = '+7 (';
     });
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Backspace' && this.value.length <= 4) {
-        e.preventDefault();
-      }
-    });
   });
 }
 
-// ===== ЗАГРУЗКА/СОХРАНЕНИЕ =====
-function migrateData() {
-  const savedVersion = localStorage.getItem('appVersion');
-  if (savedVersion !== APP_VERSION) {
-    localStorage.setItem('appVersion', APP_VERSION);
-  }
+function clearAllData() {
+  localStorage.removeItem('trips');
+  localStorage.removeItem('users');
+  localStorage.removeItem('currentUser');
+  trips = [];
+  users = [];
+  currentUser = null;
 }
 
 function loadTrips() {
@@ -571,7 +531,6 @@ function updateUserUI() {
   }
 }
 
-// ===== УДАЛЕНИЕ ПРОСРОЧЕННЫХ =====
 function removeExpiredTrips() {
   const now = new Date();
   const initialLength = trips.length;
@@ -589,17 +548,14 @@ function getAvailableSeats(trip) {
   return Math.max(0, trip.totalSeats - booked);
 }
 
-// ===== ТОСТЫ =====
 function showToast(message, type) {
   type = type || '';
-  if (toastTimer) clearTimeout(toastTimer);
   const toast = document.getElementById('toast');
   toast.textContent = message;
   toast.className = 'toast ' + type;
-  toastTimer = setTimeout(function() { toast.classList.add('hidden'); }, 3000);
+  setTimeout(function() { toast.classList.add('hidden'); }, 3000);
 }
 
-// ===== ВКЛАДКИ =====
 function switchTab(tab) {
   document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
   if (tab === 'trips') {
@@ -642,7 +598,6 @@ function handleAddClick() {
   switchTab('add');
 }
 
-// ===== ВХОД =====
 function openLoginModal() {
   document.getElementById('loginName').value = currentUser ? currentUser.name : '';
   document.getElementById('loginPhone').value = currentUser ? currentUser.phone : '+7 (';
@@ -660,8 +615,6 @@ function doLogin() {
   if (phone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
   
   const phoneIsAdmin = isAdminByPhone(phone);
-  
-  // Сначала сохраняем currentUser
   currentUser = { name: name, phone: phone };
   saveUser();
   
@@ -686,14 +639,13 @@ function doLogin() {
     showToast('✅ Добро пожаловать, ' + name + '!', 'success');
     showCabinet();
   } else if (user.codeVerified) {
-    showToast(' Код подтверждён. Ожидайте одобрения админа.', 'warning');
+    showToast('⚠️ Код подтверждён. Ожидайте одобрения админа.', 'warning');
     openWaitingModal();
   } else {
     sendAuthCode(user);
   }
 }
 
-// ===== КОД АВТОРИЗАЦИИ =====
 function sendAuthCode(user) {
   pendingUser = user;
   pendingCode = generateCode();
@@ -724,12 +676,6 @@ function moveToNext(current, nextId) {
   }
 }
 
-function handleCodeKey(e, current, prevId, nextId) {
-  if (e.key === 'Backspace' && current.value === '' && prevId) {
-    document.getElementById(prevId).focus();
-  }
-}
-
 function verifyCode() {
   const c1 = document.getElementById('code1').value;
   const c2 = document.getElementById('code2').value;
@@ -739,16 +685,6 @@ function verifyCode() {
   
   if (enteredCode.length !== 4) return;
   
-  // Проверяем срок жизни кода
-  if (pendingUser && pendingUser.authCodeSentAt) {
-    if (Date.now() - pendingUser.authCodeSentAt > CODE_LIFETIME_MS) {
-      document.getElementById('codeError').textContent = ' Код истёк. Войдите заново.';
-      document.getElementById('codeError').style.display = 'block';
-      setTimeout(closeCodeModal, 2000);
-      return;
-    }
-  }
-  
   if (enteredCode === pendingCode) {
     pendingUser.codeVerified = true;
     pendingUser.verifiedAt = Date.now();
@@ -757,7 +693,6 @@ function verifyCode() {
     showToast('✅ Код подтверждён! Заявка отправлена админу.', 'success');
     openWaitingModal();
   } else {
-    document.getElementById('codeError').textContent = '❌ Неверный код. Попробуйте ещё раз.';
     document.getElementById('codeError').style.display = 'block';
     setTimeout(function() {
       document.getElementById('code1').value = '';
@@ -775,7 +710,6 @@ function sendCodeWhatsApp() {
   const message = encodeURIComponent('Код авторизации для приложения Карамалы-Губеево Попутки: ' + pendingCode);
   const whatsappUrl = 'https://wa.me/' + phoneDigits + '?text=' + message;
   window.open(whatsappUrl, '_blank');
-  showToast(' Открываем WhatsApp...', 'success');
 }
 
 function closeCodeModal() {
@@ -799,7 +733,6 @@ function logout() {
   showToast('👋 Вы вышли из личного кабинета', 'success');
 }
 
-// ===== КАБИНЕТ =====
 function showCabinet() {
   if (!currentUser) {
     openLoginModal();
@@ -820,7 +753,7 @@ function showCabinet() {
   const statusEl = document.getElementById('cabinetStatus');
   statusEl.innerHTML = '';
   if (isAdmin()) {
-    statusEl.innerHTML = '<span class="status-badge status-active">👑 Администратор</span>';
+    statusEl.innerHTML = '<span class="status-badge status-active"> Администратор</span>';
   } else if (user && user.approved) {
     statusEl.innerHTML = '<span class="status-badge status-active">✅ Доступ активен</span>';
   }
@@ -849,7 +782,7 @@ function renderAdminPanel() {
   html += '<div class="stat-card drivers"><div class="stat-value">' + driverCount + '</div><div class="stat-label">🚗 Водителей</div></div>';
   html += '<div class="stat-card passengers"><div class="stat-value">' + passengerCount + '</div><div class="stat-label"> Попутчиков</div></div>';
   html += '<div class="stat-card"><div class="stat-value">' + totalTrips + '</div><div class="stat-label">🚙 Поездок</div></div>';
-  html += '<div class="stat-card"><div class="stat-value">' + totalBookings + '</div><div class="stat-label"> Бронирований</div></div>';
+  html += '<div class="stat-card"><div class="stat-value">' + totalBookings + '</div><div class="stat-label">🎯 Бронирований</div></div>';
   html += '</div>';
   
   html += '<div class="admin-nav">';
@@ -858,29 +791,19 @@ function renderAdminPanel() {
   } else {
     html += '<button class="btn secondary" onclick="showRequests()">📋 Заявки (0)</button>';
   }
-  html += '<button class="btn success" onclick="showAllUsers()">👥 Все участники (' + users.filter(function(u) { return !isAdminByPhone(u.phone); }).length + ')</button>';
+  html += '<button class="btn success" onclick="showAllUsers()"> Все участники (' + users.filter(function(u) { return !isAdminByPhone(u.phone); }).length + ')</button>';
   html += '</div>';
   
   if (pendingUsers.length > 0) {
-    html += '<div class="section-title"> Новые заявки (требуют одобрения)</div>';
-    html += pendingUsers.map(function(u) { return renderRequestCard(u); }).join('');
+    html += '<div class="section-title"> Новые заявки</div>';
+    html += pendingUsers.map(function(u) {
+      const regDate = new Date(u.registeredAt).toLocaleString('ru-RU');
+      const codeStatus = u.codeVerified ? '<span style="color: #43e97b; font-size: 12px;">✅ Код подтверждён</span>' : '<span style="color: #ff416c; font-size: 12px;">❌ Код не подтверждён</span>';
+      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + esc(u.name) + '</div><div class="request-phone">📞 ' + esc(u.phone) + '</div><div style="margin-top: 5px;">' + codeStatus + '</div></div><span class="status-badge status-pending">⏳ Новая заявка</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Зарегистрирован: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + esc(u.phone) + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">❌ Отклонить</button></div></div>';
+    }).join('');
   }
   
   panel.innerHTML = html;
-}
-
-function renderRequestCard(u) {
-  const regDate = new Date(u.registeredAt).toLocaleString('ru-RU');
-  const isDrv = isDriver(u.phone);
-  const isPas = isPassenger(u.phone);
-  let roleBadge = '<span class="badge" style="background: #999; color: white;">Новый</span>';
-  if (isDrv && isPas) roleBadge = '<span class="badge driver">🚗 Водитель + 🎫 Попутчик</span>';
-  else if (isDrv) roleBadge = '<span class="badge driver">🚗 Водитель</span>';
-  else if (isPas) roleBadge = '<span class="badge passenger">🎫 Попутчик</span>';
-  const codeStatus = u.codeVerified 
-    ? '<span style="color: #43e97b; font-size: 12px;">✅ Код подтверждён</span>' 
-    : '<span style="color: #ff416c; font-size: 12px;">❌ Код не подтверждён</span>';
-  return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + esc(u.name) + ' ' + roleBadge + '</div><div class="request-phone"> ' + esc(u.phone) + '</div><div style="margin-top: 5px;">' + codeStatus + '</div></div><span class="status-badge status-pending">⏳ Ожидает</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Заявка: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + esc(u.phone) + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">❌ Отклонить</button></div></div>';
 }
 
 function showRequests() {
@@ -889,7 +812,11 @@ function showRequests() {
   if (pendingUsers.length === 0) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Нет новых заявок</div></div>';
   } else {
-    container.innerHTML = pendingUsers.map(function(u) { return renderRequestCard(u); }).join('');
+    container.innerHTML = pendingUsers.map(function(u) {
+      const regDate = new Date(u.registeredAt).toLocaleString('ru-RU');
+      const codeStatus = u.codeVerified ? '<span style="color: #43e97b; font-size: 12px;">✅ Код подтверждён</span>' : '<span style="color: #ff416c; font-size: 12px;">❌ Код не подтверждён</span>';
+      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + esc(u.name) + '</div><div class="request-phone"> ' + esc(u.phone) + '</div><div style="margin-top: 5px;">' + codeStatus + '</div></div><span class="status-badge status-pending">⏳ Ожидает</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Заявка: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + esc(u.phone) + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">❌ Отклонить</button></div></div>';
+    }).join('');
   }
   document.getElementById('requestsModal').classList.remove('hidden');
 }
@@ -898,22 +825,22 @@ function showAllUsers() {
   const container = document.getElementById('usersList');
   const allUsers = users.filter(function(u) { return !isAdminByPhone(u.phone); });
   if (allUsers.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon"></div><div class="empty-text">Пока нет участников</div></div>';
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">Пока нет участников</div></div>';
   } else {
     container.innerHTML = allUsers.map(function(u) {
       const isDrv = isDriver(u.phone);
       const isPas = isPassenger(u.phone);
       let roleBadge = '<span class="badge" style="background: #999; color: white;">Новый</span>';
-      if (isDrv && isPas) roleBadge = '<span class="badge driver">🚗 Водитель + 🎫 Попутчик</span>';
-      else if (isDrv) roleBadge = '<span class="badge driver">🚗 Водитель</span>';
-      else if (isPas) roleBadge = '<span class="badge passenger">🎫 Попутчик</span>';
+      if (isDrv && isPas) roleBadge = '<span class="badge" style="background: #4facfe; color: white;">🚗 Водитель + 🎫 Попутчик</span>';
+      else if (isDrv) roleBadge = '<span class="badge" style="background: #4facfe; color: white;">🚗 Водитель</span>';
+      else if (isPas) roleBadge = '<span class="badge" style="background: #f093fb; color: white;">🎫 Попутчик</span>';
       let statusBadge = '';
       if (u.approved) {
         statusBadge = '<span class="status-badge status-active">✅ Активен</span>';
       } else if (u.codeVerified) {
         statusBadge = '<span class="status-badge status-pending">⏳ Код подтверждён</span>';
       } else {
-        statusBadge = '<span class="status-badge status-expired">❌ Код не подтверждён</span>';
+        statusBadge = '<span class="status-badge" style="background: #ff416c; color: white;">❌ Код не подтверждён</span>';
       }
       let actions = '';
       if (!u.approved) {
@@ -932,7 +859,8 @@ function approveUser(phone) {
   if (!user) return;
   user.approved = true;
   saveUsers();
-  refreshAdminViews();
+  showRequests();
+  showAllUsers();
   showToast('✅ Доступ активирован для ' + user.name, 'success');
 }
 
@@ -941,20 +869,9 @@ function rejectUser(phone) {
   if (!user) return;
   user.approved = false;
   saveUsers();
-  refreshAdminViews();
+  showRequests();
+  showAllUsers();
   showToast('❌ Доступ отозван у ' + user.name, 'warning');
-}
-
-function refreshAdminViews() {
-  if (!document.getElementById('requestsModal').classList.contains('hidden')) {
-    showRequests();
-  }
-  if (!document.getElementById('usersModal').classList.contains('hidden')) {
-    showAllUsers();
-  }
-  if (!document.getElementById('cabinetContent').classList.contains('hidden') && isAdmin()) {
-    showCabinet();
-  }
 }
 
 function closeRequestsModal() {
@@ -981,7 +898,7 @@ function renderCabinet() {
   });
   let html = '';
   if (myTrips.length > 0) {
-    html += '<div class="section-title">🚗 Мои поездки как водитель</div>';
+    html += '<div class="section-title"> Мои поездки как водитель</div>';
     html += myTrips.map(function(trip) {
       const route = ROUTES[trip.route];
       const availableSeats = getAvailableSeats(trip);
@@ -1044,7 +961,6 @@ function callDriver(phone) {
   window.location.href = 'tel:+' + cleanPhone;
 }
 
-// ===== ДОБАВЛЕНИЕ/РЕДАКТИРОВАНИЕ ПОЕЗДКИ =====
 function handleAddTrip() {
   if (!currentUser) {
     showToast('❌ Войдите в личный кабинет', 'error');
@@ -1069,14 +985,13 @@ function addNewTrip() {
   const comment = document.getElementById('tripComment').value.trim();
   
   if (!route) { showToast('❌ Выберите направление', 'error'); return; }
-  if (!date) { showToast(' Выберите дату', 'error'); return; }
+  if (!date) { showToast('❌ Выберите дату', 'error'); return; }
   if (!time) { showToast('❌ Укажите время', 'error'); return; }
   if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест (1-8)', 'error'); return; }
   if (isNaN(price) || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
-  if (!driverName) { showToast('❌ Введите имя водителя', 'error'); return; }
+  if (!driverName) { showToast(' Введите имя водителя', 'error'); return; }
   if (driverPhone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
   
-  // Запрет поездки в прошлом (минимум +5 минут)
   const tripDateTime = new Date(date + 'T' + time);
   if (tripDateTime.getTime() < Date.now() + 5 * 60 * 1000) {
     showToast('❌ Нельзя создать поездку в прошлом (минимум через 5 минут)', 'error');
@@ -1125,7 +1040,7 @@ function updateTrip() {
   const driverPhone = document.getElementById('driverPhone').value.trim();
   const comment = document.getElementById('tripComment').value.trim();
   
-  if (!route || !date || !time) { showToast('❌ Заполните обязательные поля', 'error'); return; }
+  if (!route || !date || !time) { showToast(' Заполните обязательные поля', 'error'); return; }
   if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест', 'error'); return; }
   if (isNaN(price) || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
   if (!driverName) { showToast('❌ Введите имя', 'error'); return; }
@@ -1176,10 +1091,9 @@ function clearAddForm() {
   document.getElementById('tripComment').value = '';
 }
 
-// ===== БРОНИРОВАНИЕ =====
 function openBooking(id) {
   if (!currentUser) {
-    showToast('️ Войдите в личный кабинет чтобы забронировать', 'warning');
+    showToast('⚠️ Войдите в личный кабинет чтобы забронировать', 'warning');
     openLoginModal();
     return;
   }
@@ -1188,7 +1102,6 @@ function openBooking(id) {
   tripToBook = trips.find(function(t) { return t.id === id; });
   if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   
-  // Запрет бронирования собственной поездки
   if (normalizePhone(tripToBook.driverPhone) === normalizePhone(currentUser.phone)) {
     showToast('❌ Нельзя бронировать собственную поездку', 'error');
     return;
@@ -1232,8 +1145,8 @@ function confirmBooking() {
   const name = document.getElementById('passengerName').value.trim();
   const phone = document.getElementById('passengerPhone').value.trim();
   const seats = parseInt(document.getElementById('bookingSeats').value);
-  if (!name) { showToast('❌ Введите ваше имя', 'error'); return; }
-  if (phone.length < 18) { showToast(' Введите полный номер телефона', 'error'); return; }
+  if (!name) { showToast(' Введите ваше имя', 'error'); return; }
+  if (phone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
   if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   const availableSeats = getAvailableSeats(tripToBook);
   if (seats > availableSeats) { showToast('❌ Недостаточно мест', 'error'); return; }
@@ -1245,7 +1158,6 @@ function confirmBooking() {
   showToast('✅ Забронировано! Номер водителя теперь виден в вашем ЛК', 'success');
 }
 
-// ===== УДАЛЕНИЕ =====
 function requestDelete(id) {
   const trip = trips.find(function(t) { return t.id === id; });
   if (!trip) return;
@@ -1255,7 +1167,7 @@ function requestDelete(id) {
     return;
   }
   if (!isAdmin() && normalizePhone(currentUser.phone) !== normalizePhone(trip.driverPhone)) {
-    showToast(' Только владелец может удалять', 'error');
+    showToast('❌ Только владелец может удалять', 'error');
     return;
   }
   tripToDelete = id;
@@ -1306,7 +1218,6 @@ function cancelBooking(tripId, passengerId) {
   showToast('✓ Бронирование отменено', 'success');
 }
 
-// ===== ДЕТАЛИ ПОЕЗДКИ =====
 function showTripDetails(id) {
   const trip = trips.find(function(t) { return t.id === id; });
   if (!trip) return;
@@ -1324,10 +1235,10 @@ function showTripDetails(id) {
   }
   
   const phoneDisplay = showPhone
-    ? '<div style="color: #667eea; font-size: 16px; margin-top: 5px;"> ' + esc(trip.driverPhone) + '</div>'
+    ? '<div style="color: #667eea; font-size: 16px; margin-top: 5px;">📞 ' + esc(trip.driverPhone) + '</div>'
     : '<div class="phone-hidden" style="margin-top: 5px;">🔒 Номер доступен после бронирования</div>';
   
-  let html = '<div style="margin-bottom: 20px;"><div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px;">' + esc(route.from) + ' → ' + esc(route.to) + '</div><div style="color: #666; font-size: 14px;"> ' + formatDate(trip.date) + ' в ' + esc(trip.time) + '<br> Расстояние: ' + esc(route.distance) + '<br>💺 Мест: ' + availableSeats + ' из ' + trip.totalSeats + '<br>💰 Цена: ' + trip.price + ' руб.</div></div>';
+  let html = '<div style="margin-bottom: 20px;"><div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px;">' + esc(route.from) + ' → ' + esc(route.to) + '</div><div style="color: #666; font-size: 14px;">📅 ' + formatDate(trip.date) + ' в ' + esc(trip.time) + '<br>📍 Расстояние: ' + esc(route.distance) + '<br>💺 Мест: ' + availableSeats + ' из ' + trip.totalSeats + '<br>💰 Цена: ' + trip.price + ' руб.</div></div>';
   html += '<div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Водитель:</div><div style="font-size: 18px; font-weight: bold; color: #333;">' + esc(trip.driverName) + '</div>' + phoneDisplay + '</div>';
   if (trip.comment) {
     html += '<div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><div style="font-weight: bold; color: #666; margin-bottom: 5px;">Комментарий:</div><div style="color: #333;">' + esc(trip.comment) + '</div></div>';
@@ -1335,10 +1246,10 @@ function showTripDetails(id) {
   html += passengersHtml;
   
   if (showPhone) {
-    html += '<a href="tel:' + trip.driverPhone.replace(/\D/g, '') + '" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;"> Позвонить водителю</a>';
+    html += '<a href="tel:' + trip.driverPhone.replace(/\D/g, '') + '" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">📞 Позвонить водителю</a>';
   }
   if (availableSeats > 0) {
-    html += '<button class="btn booking" onclick="closeModal(); openBooking(' + trip.id + ')">🎫 Забронировать место</button>';
+    html += '<button class="btn booking" onclick="closeModal(); openBooking(' + trip.id + ')"> Забронировать место</button>';
   } else {
     html += '<div style="text-align: center; padding: 16px; background: #fff0f0; border-radius: 12px; font-weight: bold; color: #ff416c; margin-top: 15px;">❌ Мест нет</div>';
   }
@@ -1358,41 +1269,13 @@ function closeModal() {
   document.getElementById('tripModal').classList.add('hidden');
 }
 
-// ===== КОПИРОВАНИЕ =====
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(function() {
-    showToast(' Номер скопирован!', 'success');
-  }).catch(function() {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-    showToast(' Номер скопирован!', 'success');
-  });
-}
-
-// ===== ЗАКРЫТИЕ ВСЕХ МОДАЛОК ПО ESC =====
-function closeAllModals() {
-  closeLoginModal();
-  closeCodeModal();
-  closeWaitingModal();
-  closeModal();
-  closeBookingModal();
-  closeDeleteModal();
-  closeRequestsModal();
-  closeUsersModal();
-}
-
-// ===== ИНИЦИАЛИЗАЦИЯ =====
 function populateRouteSelects() {
   document.getElementById('filterRoute').innerHTML = buildRouteOptionsHtml('all');
   document.getElementById('tripRoute').innerHTML = buildRouteOptionsForForm('to-ufa');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  migrateData();
+  clearAllData();
   loadTrips();
   loadUsers();
   loadUser();
@@ -1403,32 +1286,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (dateInput) dateInput.min = today;
   removeExpiredTrips();
   renderTrips();
-  setInterval(function() {
-    removeExpiredTrips();
-    if (!document.getElementById('tripsContent').classList.contains('hidden')) renderTrips();
-    if (!document.getElementById('cabinetContent').classList.contains('hidden')) showCabinet();
-  }, 60000);
 });
 
-// Синхронизация между вкладками
-window.addEventListener('storage', function(e) {
-  if (e.key === 'trips') {
-    trips = e.newValue ? JSON.parse(e.newValue) : [];
-    if (!document.getElementById('tripsContent').classList.contains('hidden')) renderTrips();
-    if (!document.getElementById('cabinetContent').classList.contains('hidden')) renderCabinet();
-  }
-  if (e.key === 'users') {
-    users = e.newValue ? JSON.parse(e.newValue) : [];
-    if (!document.getElementById('cabinetContent').classList.contains('hidden')) showCabinet();
-  }
-});
-
-// Escape закрывает модалки
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeAllModals();
-});
-
-// Обработчики закрытия модалок по клику на фон
 document.getElementById('loginModal').addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
 document.getElementById('codeModal').addEventListener('click', function(e) { if (e.target === this) closeCodeModal(); });
 document.getElementById('tripModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
