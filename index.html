@@ -25,7 +25,6 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   }
   
-  /* Вкладки */
   .tabs {
     display: flex;
     background: #2C2C2E;
@@ -47,7 +46,6 @@
     background: #1E1E1E;
   }
 
-  /* Экран */
   .display {
     padding: 24px;
     text-align: right;
@@ -71,7 +69,6 @@
   }
   .result.small { font-size: 36px; }
 
-  /* Кнопки */
   .keypad {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -94,8 +91,8 @@
   .btn.op { background: #FF9F0A; color: #fff; font-size: 28px; }
   .btn.eng { background: #2C2C2E; color: #FF9F0A; font-size: 20px; }
   .btn.zero { grid-column: span 2; text-align: left; padding-left: 24px; }
+  .btn.equals { grid-column: span 3; }
 
-  /* Строительный режим */
   .construction-mode {
     display: none;
     padding: 20px;
@@ -167,13 +164,11 @@
 <body>
 
 <div class="app-container">
-  <!-- Вкладки -->
   <div class="tabs">
     <div class="tab active" onclick="switchTab('standard')">🧮 Инженерный</div>
-    <div class="tab" onclick="switchTab('construction')">🏗️ Строительный</div>
+    <div class="tab" onclick="switchTab('construction')">️ Строительный</div>
   </div>
 
-  <!-- Режим 1: Инженерный калькулятор -->
   <div id="standard-mode">
     <div class="display">
       <div class="expression" id="expression">&nbsp;</div>
@@ -189,36 +184,34 @@
       <button class="btn num" onclick="append('7')">7</button>
       <button class="btn num" onclick="append('8')">8</button>
       <button class="btn num" onclick="append('9')">9</button>
-      <button class="btn op" onclick="appendOp('×')">×</button>
 
       <button class="btn eng" onclick="appendFunc('x²')">x²</button>
       <button class="btn num" onclick="append('4')">4</button>
       <button class="btn num" onclick="append('5')">5</button>
-      <button class="btn num" onclick="append('6')">6</button>
-      <button class="btn op" onclick="appendOp('−')">−</button>
+      <button class="btn op" onclick="appendOp('×')">×</button>
 
       <button class="btn eng" onclick="append('π')">π</button>
       <button class="btn num" onclick="append('1')">1</button>
       <button class="btn num" onclick="append('2')">2</button>
+      <button class="btn op" onclick="appendOp('−')">−</button>
+
+      <button class="btn func" onclick="backspace()">⌫</button>
       <button class="btn num" onclick="append('3')">3</button>
+      <button class="btn num" onclick="append('0')">0</button>
       <button class="btn op" onclick="appendOp('+')">+</button>
 
-      <button class="btn func" onclick="backspace()"></button>
-      <button class="btn num zero" onclick="append('0')">0</button>
       <button class="btn num" onclick="append('.')">.</button>
-      <button class="btn op" onclick="calculate()">=</button>
+      <button class="btn op equals" onclick="calculate()">=</button>
     </div>
   </div>
 
-  <!-- Режим 2: Строительный калькулятор -->
   <div id="construction-mode" class="construction-mode">
     <select class="calc-selector" id="calcType" onchange="updateInputs()">
       <option value="area">📐 Площадь (м²)</option>
-      <option value="volume"> Объем (м³)</option>
+      <option value="volume">📦 Объем (м³)</option>
       <option value="blocks">🧱 Кладка (блоки/кирпич)</option>
     </select>
 
-    <!-- Площадь -->
     <div id="inputs-area" class="input-section">
       <div class="input-group">
         <label>Длина (м)</label>
@@ -230,7 +223,6 @@
       </div>
     </div>
 
-    <!-- Объем -->
     <div id="inputs-volume" class="input-section hidden">
       <div class="input-group">
         <label>Длина (м)</label>
@@ -246,7 +238,6 @@
       </div>
     </div>
 
-    <!-- Кладка -->
     <div id="inputs-blocks" class="input-section hidden">
       <div class="input-group">
         <label>Длина стены (м)</label>
@@ -279,7 +270,6 @@
 </div>
 
 <script>
-  // ─── Переключение вкладок ─────────────────────────────
   function switchTab(tab) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     if (tab === 'standard') {
@@ -293,7 +283,6 @@
     }
   }
 
-  // ─── Инженерный калькулятор ──────────────────────────
   let current = '0';
   const exprEl = document.getElementById('expression');
   const resEl = document.getElementById('result');
@@ -365,7 +354,6 @@
     updateDisplay();
   }
 
-  // ─── Строительный калькулятор ─────────────────────────
   function updateInputs() {
     const type = document.getElementById('calcType').value;
     document.querySelectorAll('.input-section').forEach(el => el.classList.add('hidden'));
