@@ -46,7 +46,6 @@
   .btn.success { background: linear-gradient(135deg, #4facfe, #00f2fe); }
   .btn.danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
   .btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
-  .btn.payment { background: linear-gradient(135deg, #21a038, #1a7a2e); }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
   
   .form-group { margin-bottom: 15px; }
@@ -127,19 +126,28 @@
   }
   .modal-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; text-align: center; }
   
-  .payment-info {
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-    padding: 20px; border-radius: 12px; margin: 20px 0;
-    text-align: center;
+  .payment-block {
+    background: #f8f9ff; border: 2px solid #667eea; border-radius: 12px;
+    padding: 15px; margin: 15px 0;
+  }
+  .payment-block-title {
+    font-weight: bold; color: #667eea; font-size: 14px; margin-bottom: 10px;
   }
   .payment-amount {
-    font-size: 32px; font-weight: bold; color: #21a038; margin: 10px 0;
+    font-size: 28px; font-weight: bold; color: #333; margin: 10px 0;
   }
   .payment-details {
-    background: #f5f5f5; padding: 15px; border-radius: 10px; margin: 15px 0;
-    font-size: 14px; color: #666;
+    background: white; padding: 12px; border-radius: 8px; margin: 10px 0;
+    font-size: 14px;
   }
-  .payment-details strong { color: #333; }
+  .payment-details .label { color: #666; font-size: 12px; }
+  .payment-details .value { color: #333; font-weight: bold; font-size: 16px; margin-top: 4px; }
+  .copy-btn {
+    background: #667eea; color: white; border: none; padding: 8px 16px;
+    border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer;
+    margin-top: 8px;
+  }
+  .copy-btn:active { transform: scale(0.95); }
   
   .commission-notice {
     background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px;
@@ -154,7 +162,6 @@
   .passenger-info { flex: 1; }
   .passenger-name { font-weight: bold; color: #333; font-size: 14px; }
   .passenger-phone { color: #667eea; font-size: 12px; margin-top: 2px; }
-  .passenger-commission { font-size: 11px; color: #21a038; font-weight: bold; }
   
   .empty-state { text-align: center; padding: 60px 20px; color: #999; }
   .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
@@ -165,7 +172,6 @@
   .badge.tomorrow { background: #f093fb; color: white; }
   .badge.full { background: #ff416c; color: white; }
   .badge.paid { background: #21a038; color: white; }
-  .badge.pending { background: #ffc107; color: #333; }
   
   .toast {
     position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
@@ -218,19 +224,19 @@
 <div id="app">
   <div class="header">
     <div>
-      <div class="header-title"> Карамалы-Губеево</div>
+      <div class="header-title">🚗 Карамалы-Губеево</div>
       <div class="header-subtitle">Попутные поездки</div>
     </div>
     <div class="header-right">
       <button class="user-btn" id="userBtn" onclick="handleUserBtn()">
-        <span></span> <span id="userBtnText">Войти</span>
+        <span>👤</span> <span id="userBtnText">Войти</span>
       </button>
     </div>
   </div>
   
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('trips')">🔍 Найти поездку</div>
-    <div class="nav-tab" onclick="handleAddClick()">➕ Добавить</div>
+    <div class="nav-tab active" onclick="switchTab('trips')"> Найти поездку</div>
+    <div class="nav-tab" onclick="handleAddClick()"> Добавить</div>
   </div>
   
   <div class="content" id="tripsContent">
@@ -265,10 +271,10 @@
   
   <div class="content hidden" id="addContent">
     <div class="filter-section">
-      <div class="filter-title" id="addFormTitle">➕ Добавить поездку</div>
+      <div class="filter-title" id="addFormTitle"> Добавить поездку</div>
       
       <div class="commission-notice">
-        💰 Комиссия сервиса: 20₽ с каждого забронированного пассажира (оплачивает водитель после бронирования)
+        💰 Комиссия сервиса: 20₽ с каждого забронированного пассажира (оплачивается отдельно администратору)
       </div>
       
       <div class="form-group">
@@ -355,7 +361,7 @@
 <!-- Модалка входа -->
 <div class="modal hidden" id="loginModal">
   <div class="modal-content">
-    <div class="modal-title">👤 Вход в личный кабинет</div>
+    <div class="modal-title"> Вход в личный кабинет</div>
     <div style="color: #666; text-align: center; margin-bottom: 20px; font-size: 14px;">
       Введите ваш номер телефона для входа
     </div>
@@ -415,12 +421,12 @@
         <span style="font-weight: bold; color: #21a038;" id="commissionFee">20 ₽</span>
       </div>
       <div style="display: flex; justify-content: space-between; border-top: 2px solid #e0e0e0; padding-top: 8px;">
-        <span style="color: #666; font-weight: bold;">Итого к оплате:</span>
+        <span style="color: #666; font-weight: bold;">Итого:</span>
         <span style="font-weight: bold; color: #667eea; font-size: 18px;" id="totalPrice">0 ₽</span>
       </div>
     </div>
     
-    <button class="btn booking" onclick="confirmBooking()">✓ Забронировать и оплатить</button>
+    <button class="btn booking" onclick="confirmBooking()">✓ Забронировать</button>
     <button class="btn secondary" onclick="closeBookingModal()">Отмена</button>
   </div>
 </div>
@@ -428,8 +434,9 @@
 <!-- Модалка оплаты -->
 <div class="modal hidden" id="paymentModal">
   <div class="modal-content">
-    <div class="modal-title">💳 Оплата комиссии</div>
+    <div class="modal-title" id="paymentTitle">💳 Оплата</div>
     <div id="paymentInfo"></div>
+    <button class="btn secondary" onclick="closePaymentModal()" style="margin-top: 15px;">Закрыть</button>
   </div>
 </div>
 
@@ -474,7 +481,7 @@ const ROUTES = {
 };
 
 const ADMIN_PHONE = '+79656499498';
-const COMMISSION_FEE = 20; // 20 рублей комиссия
+const COMMISSION_FEE = 20;
 
 let trips = [];
 let currentUser = null;
@@ -546,13 +553,13 @@ function loadTrips() {
     trips = [
       { id: 1, route: 'to-ufa', date: today, time: '08:00', totalSeats: 3, price: 500,
         driverName: 'Ахмет', driverPhone: '+7 (917) 123-45-67',
-        comment: 'Еду утром, заберу по пути', passengers: [], commissionsPaid: 0, createdAt: Date.now() },
+        comment: 'Еду утром, заберу по пути', passengers: [], createdAt: Date.now() },
       { id: 2, route: 'from-ufa', date: today, time: '18:00', totalSeats: 2, price: 500,
         driverName: 'Рамиль', driverPhone: '+7 (927) 234-56-78',
-        comment: 'Возвращаюсь вечером', passengers: [], commissionsPaid: 0, createdAt: Date.now() - 1000 },
+        comment: 'Возвращаюсь вечером', passengers: [], createdAt: Date.now() - 1000 },
       { id: 3, route: 'to-serafim', date: tomorrow, time: '09:00', totalSeats: 4, price: 200,
         driverName: 'Ильдар', driverPhone: '+7 (906) 345-67-89',
-        comment: 'Еду в Серафимовский', passengers: [], commissionsPaid: 0, createdAt: Date.now() - 2000 }
+        comment: 'Еду в Серафимовский', passengers: [], createdAt: Date.now() - 2000 }
     ];
     saveTrips();
   }
@@ -645,7 +652,7 @@ function handleUserBtn() {
 
 function handleAddClick() {
   if (!currentUser) {
-    showToast('❌ Войдите в личный кабинет чтобы добавить поездку', 'warning');
+    showToast(' Войдите в личный кабинет чтобы добавить поездку', 'warning');
     openLoginModal();
     return;
   }
@@ -723,12 +730,9 @@ function renderCabinet() {
     }
   });
   
-  // Статистика комиссий для водителя
   if (myTrips.length > 0) {
     const totalPassengers = myTrips.reduce((sum, t) => sum + (t.passengers?.length || 0), 0);
     const totalCommission = totalPassengers * COMMISSION_FEE;
-    const paidCommission = myTrips.reduce((sum, t) => sum + (t.commissionsPaid || 0), 0);
-    const unpaidCommission = totalCommission - paidCommission;
     
     statsContainer.innerHTML = `
       <div class="commission-stats">
@@ -741,8 +745,8 @@ function renderCabinet() {
           <div class="stat-label">Пассажиров</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value">${unpaidCommission}₽</div>
-          <div class="stat-label">К оплате</div>
+          <div class="stat-value">${totalCommission}₽</div>
+          <div class="stat-label">Комиссия</div>
         </div>
       </div>
     `;
@@ -758,7 +762,7 @@ function renderCabinet() {
       const route = ROUTES[trip.route];
       const availableSeats = getAvailableSeats(trip);
       const isFull = availableSeats === 0;
-      const unpaidCommission = ((trip.passengers?.length || 0) * COMMISSION_FEE) - (trip.commissionsPaid || 0);
+      const commissionDue = (trip.passengers?.length || 0) * COMMISSION_FEE;
       
       return `
         <div class="trip-card" onclick="showTripDetails(${trip.id})">
@@ -776,20 +780,20 @@ function renderCabinet() {
               <span>${isFull ? '❌ Мест нет' : `✅ Свободно: ${availableSeats} из ${trip.totalSeats}`}</span>
             </div>
             <div class="trip-info-row">
-              <span class="trip-info-icon"></span>
+              <span class="trip-info-icon">👥</span>
               <span>Забронировано: ${trip.passengers?.length || 0} чел.</span>
             </div>
-            ${unpaidCommission > 0 ? `
+            ${commissionDue > 0 ? `
               <div class="trip-info-row">
                 <span class="trip-info-icon">💰</span>
-                <span style="color: #ff416c; font-weight: bold;">Комиссия к оплате: ${unpaidCommission} ₽</span>
+                <span style="color: #ff416c; font-weight: bold;">Комиссия к оплате: ${commissionDue} ₽</span>
               </div>
             ` : ''}
           </div>
           <div class="trip-actions">
             <button class="trip-btn edit" onclick="event.stopPropagation(); editTrip(${trip.id})">✏️ Редактировать</button>
-            <button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(${trip.id})">️ Удалить</button>
-            ${unpaidCommission > 0 ? `<button class="trip-btn booking" onclick="event.stopPropagation(); openDriverPayment(${trip.id})">💳 Оплатить ${unpaidCommission}₽</button>` : ''}
+            <button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(${trip.id})">🗑️ Удалить</button>
+            ${commissionDue > 0 ? `<button class="trip-btn booking" onclick="event.stopPropagation(); showCommissionPayment(${trip.id})"> Оплата комиссии</button>` : ''}
           </div>
         </div>
       `;
@@ -800,11 +804,12 @@ function renderCabinet() {
     html += '<div class="section-title"> Мои бронирования</div>';
     html += myBookings.map(({ trip, passenger }) => {
       const route = ROUTES[trip.route];
+      const tripPrice = passenger.seats * trip.price;
       return `
         <div class="trip-card" onclick="showTripDetails(${trip.id})">
           <div class="trip-header">
             <div class="trip-route">${route.from} → ${route.to}</div>
-            <span class="badge paid">Оплачено</span>
+            <span class="badge paid">Забронировано</span>
           </div>
           <div class="trip-info">
             <div class="trip-info-row">
@@ -816,17 +821,18 @@ function renderCabinet() {
               <span>${passenger.seats} ${passenger.seats === 1 ? 'место' : passenger.seats < 5 ? 'места' : 'мест'}</span>
             </div>
             <div class="trip-info-row">
-              <span class="trip-info-icon">👤</span>
+              <span class="trip-info-icon"></span>
               <span>Водитель: ${trip.driverName}</span>
             </div>
             <div class="trip-info-row">
               <span class="trip-info-icon">💰</span>
-              <span>Оплачено: ${passenger.seats * trip.price + COMMISSION_FEE} ₽ (включая комиссию ${COMMISSION_FEE}₽)</span>
+              <span>Перевозка: ${tripPrice} ₽ (водителю) + ${COMMISSION_FEE} ₽ (комиссия)</span>
             </div>
           </div>
           <div class="trip-actions">
-            <button class="trip-btn call" onclick="event.stopPropagation(); callDriver('${trip.driverPhone}')">📞 Позвонить</button>
+            <button class="trip-btn call" onclick="event.stopPropagation(); callDriver('${trip.driverPhone}')">📞 Позвонить водителю</button>
             <button class="trip-btn cancel" onclick="event.stopPropagation(); cancelBooking(${trip.id}, ${passenger.id})">Отменить бронь</button>
+            <button class="trip-btn booking" onclick="event.stopPropagation(); showPassengerPayment(${trip.id}, ${passenger.id})">💳 Оплата</button>
           </div>
         </div>
       `;
@@ -960,7 +966,7 @@ function addNewTrip() {
   const comment = document.getElementById('tripComment').value.trim();
   
   if (!route) { showToast('❌ Выберите направление', 'error'); return; }
-  if (!date) { showToast('❌ Выберите дату', 'error'); return; }
+  if (!date) { showToast(' Выберите дату', 'error'); return; }
   if (!time) { showToast('❌ Укажите время', 'error'); return; }
   if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест (1-8)', 'error'); return; }
   if (!price || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
@@ -969,7 +975,7 @@ function addNewTrip() {
   
   const newTrip = {
     id: Date.now(), route, date, time, totalSeats: seats, price,
-    driverName, driverPhone, comment, passengers: [], commissionsPaid: 0, createdAt: Date.now()
+    driverName, driverPhone, comment, passengers: [], createdAt: Date.now()
   };
   
   trips.push(newTrip);
@@ -1020,7 +1026,7 @@ function updateTrip() {
   const comment = document.getElementById('tripComment').value.trim();
   
   if (!route || !date || !time) { showToast('❌ Заполните обязательные поля', 'error'); return; }
-  if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест', 'error'); return; }
+  if (!seats || seats < 1 || seats > 8) { showToast(' Укажите количество мест', 'error'); return; }
   if (!price || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
   if (!driverName) { showToast('❌ Введите имя', 'error'); return; }
   if (driverPhone.length < 18) { showToast('❌ Введите телефон', 'error'); return; }
@@ -1075,7 +1081,7 @@ function openBooking(id) {
   if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   
   const availableSeats = getAvailableSeats(tripToBook);
-  if (availableSeats === 0) { showToast('❌ Свободных мест нет', 'error'); return; }
+  if (availableSeats === 0) { showToast(' Свободных мест нет', 'error'); return; }
   
   const route = ROUTES[tripToBook.route];
   document.getElementById('bookingInfo').innerHTML = `
@@ -1124,149 +1130,140 @@ function confirmBooking() {
   const seats = parseInt(document.getElementById('bookingSeats').value);
   
   if (!name) { showToast('❌ Введите ваше имя', 'error'); return; }
-  if (phone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
+  if (phone.length < 18) { showToast(' Введите полный номер телефона', 'error'); return; }
   if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   
   const availableSeats = getAvailableSeats(tripToBook);
   if (seats > availableSeats) { showToast('❌ Недостаточно мест', 'error'); return; }
   
-  const totalPrice = seats * tripToBook.price + COMMISSION_FEE;
+  if (!tripToBook.passengers) tripToBook.passengers = [];
   
-  // Показываем модалку оплаты
-  showPassengerPayment(tripToBook, name, phone, seats, totalPrice);
-}
-
-function showPassengerPayment(trip, name, phone, seats, totalAmount) {
-  const route = ROUTES[trip.route];
-  const adminPhoneClean = ADMIN_PHONE.replace(/\D/g, '');
-  
-  document.getElementById('paymentInfo').innerHTML = `
-    <div class="payment-info">
-      <div style="font-size: 14px; color: #666; margin-bottom: 10px;">К оплате:</div>
-      <div class="payment-amount">${totalAmount} ₽</div>
-      <div style="font-size: 12px; color: #666;">
-        ${seats} место × ${trip.price}₽ + комиссия ${COMMISSION_FEE}₽
-      </div>
-    </div>
-    
-    <div class="payment-details">
-      <div style="margin-bottom: 10px;"><strong>Маршрут:</strong> ${route.from} → ${route.to}</div>
-      <div style="margin-bottom: 10px;"><strong>Дата:</strong> ${formatDate(trip.date)} в ${trip.time}</div>
-      <div style="margin-bottom: 10px;"><strong>Водитель:</strong> ${trip.driverName}</div>
-      <div><strong>Пассажир:</strong> ${name}</div>
-    </div>
-    
-    <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 13px;">
-      <strong>💡 Как оплатить:</strong><br>
-      1. Нажмите кнопку ниже<br>
-      2. Откроется Сбербанк Онлайн<br>
-      3. Переведите ${totalAmount}₽ по номеру телефона<br>
-      4. Вернитесь и нажмите "Я оплатил"
-    </div>
-    
-    <a href="https://www.sberbank.ru/ru/person/dl/pay?phone=${adminPhoneClean}&amount=${totalAmount}" 
-       target="_blank" 
-       style="display: block; text-align: center; padding: 16px; background: #21a038; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-bottom: 10px;">
-       Оплатить через Сбербанк
-    </a>
-    
-    <button class="btn success" onclick="completePassengerBooking(${trip.id}, '${name}', '${phone}', ${seats})">
-      ✓ Я оплатил
-    </button>
-    <button class="btn secondary" onclick="closePaymentModal()">Отмена</button>
-  `;
-  
-  document.getElementById('paymentModal').classList.remove('hidden');
-  document.getElementById('bookingModal').classList.add('hidden');
-}
-
-function completePassengerBooking(tripId, name, phone, seats) {
-  const trip = trips.find(t => t.id === tripId);
-  if (!trip) return;
-  
-  if (!trip.passengers) trip.passengers = [];
-  
-  trip.passengers.push({
+  tripToBook.passengers.push({
     id: Date.now(),
     name,
     phone,
     seats,
-    paid: true,
-    paidAmount: seats * trip.price + COMMISSION_FEE,
     bookedAt: Date.now()
   });
   
   saveTrips();
-  closePaymentModal();
+  closeBookingModal();
   renderTrips();
-  showToast(`✅ Бронирование подтверждено! Оплачено ${seats * trip.price + COMMISSION_FEE}₽`, 'success');
+  showToast(`✅ Забронировано ${seats} ${seats === 1 ? 'место' : seats < 5 ? 'места' : 'мест'}! Теперь оплатите`, 'success');
+  
+  // Показываем оплату
+  const passenger = tripToBook.passengers[tripToBook.passengers.length - 1];
+  showPassengerPayment(tripToBook.id, passenger.id);
 }
 
-function openDriverPayment(tripId) {
+function showPassengerPayment(tripId, passengerId) {
   const trip = trips.find(t => t.id === tripId);
   if (!trip) return;
   
-  const unpaidCommission = ((trip.passengers?.length || 0) * COMMISSION_FEE) - (trip.commissionsPaid || 0);
-  if (unpaidCommission <= 0) {
-    showToast('✓ Все комиссии оплачены', 'success');
-    return;
-  }
+  const passenger = trip.passengers.find(p => p.id === passengerId);
+  if (!passenger) return;
   
-  showDriverPayment(trip, unpaidCommission);
-}
-
-function showDriverPayment(trip, amount) {
   const route = ROUTES[trip.route];
-  const adminPhoneClean = ADMIN_PHONE.replace(/\D/g, '');
-  const passengersCount = trip.passengers?.length || 0;
+  const tripPrice = passenger.seats * trip.price;
+  const driverPhoneClean = trip.driverPhone.replace(/\D/g, '');
   
+  document.getElementById('paymentTitle').textContent = '💳 Оплата бронирования';
   document.getElementById('paymentInfo').innerHTML = `
-    <div class="payment-info">
-      <div style="font-size: 14px; color: #666; margin-bottom: 10px;">Комиссия к оплате:</div>
-      <div class="payment-amount">${amount} ₽</div>
-      <div style="font-size: 12px; color: #666;">
-        ${passengersCount} пассажир(ов) × ${COMMISSION_FEE}₽
+    <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+      <div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Маршрут:</div>
+      <div style="font-size: 16px; color: #333;">${route.from} → ${route.to}</div>
+      <div style="color: #666; font-size: 14px; margin-top: 5px;">${formatDate(trip.date)} в ${trip.time}</div>
+      <div style="color: #666; font-size: 14px;">Водитель: ${trip.driverName}</div>
+    </div>
+    
+    <div class="payment-block">
+      <div class="payment-block-title">1️⃣ Оплата перевозки водителю</div>
+      <div class="payment-amount">${tripPrice} ₽</div>
+      <div class="payment-details">
+        <div class="label">Переведите водителю:</div>
+        <div class="value">${trip.driverPhone}</div>
+        <button class="copy-btn" onclick="copyToClipboard('${trip.driverPhone}')">📋 Скопировать номер</button>
+      </div>
+      <a href="tel:${driverPhoneClean}" style="display: block; text-align: center; padding: 12px; background: #4facfe; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">
+        📞 Позвонить водителю
+      </a>
+    </div>
+    
+    <div class="payment-block">
+      <div class="payment-block-title">2️⃣ Оплата комиссии сервиса</div>
+      <div class="payment-amount">${COMMISSION_FEE} ₽</div>
+      <div class="payment-details">
+        <div class="label">Переведите администратору (СБП):</div>
+        <div class="value">${ADMIN_PHONE}</div>
+        <button class="copy-btn" onclick="copyToClipboard('${ADMIN_PHONE}')">📋 Скопировать номер</button>
+      </div>
+      <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px; color: #1976d2;">
+        💡 Откройте Сбербанк Онлайн → Перевод по номеру телефона → введите номер выше
       </div>
     </div>
     
-    <div class="payment-details">
-      <div style="margin-bottom: 10px;"><strong>Маршрут:</strong> ${route.from} → ${route.to}</div>
-      <div style="margin-bottom: 10px;"><strong>Дата:</strong> ${formatDate(trip.date)} в ${trip.time}</div>
-      <div><strong>Пассажиров:</strong> ${passengersCount}</div>
+    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; font-size: 13px; color: #856404;">
+      ⚠️ После оплаты сохраните чеки. При возникновении вопросов обращайтесь к администратору: ${ADMIN_PHONE}
     </div>
-    
-    <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 13px;">
-      <strong>💡 Как оплатить:</strong><br>
-      1. Нажмите кнопку ниже<br>
-      2. Откроется Сбербанк Онлайн<br>
-      3. Переведите ${amount}₽ по номеру телефона<br>
-      4. Вернитесь и нажмите "Я оплатил"
-    </div>
-    
-    <a href="https://www.sberbank.ru/ru/person/dl/pay?phone=${adminPhoneClean}&amount=${amount}" 
-       target="_blank" 
-       style="display: block; text-align: center; padding: 16px; background: #21a038; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-bottom: 10px;">
-      💳 Оплатить через Сбербанк
-    </a>
-    
-    <button class="btn success" onclick="completeDriverPayment(${trip.id}, ${amount})">
-      ✓ Я оплатил
-    </button>
-    <button class="btn secondary" onclick="closePaymentModal()">Отмена</button>
   `;
   
   document.getElementById('paymentModal').classList.remove('hidden');
 }
 
-function completeDriverPayment(tripId, amount) {
+function showCommissionPayment(tripId) {
   const trip = trips.find(t => t.id === tripId);
   if (!trip) return;
   
-  trip.commissionsPaid = (trip.commissionsPaid || 0) + amount;
-  saveTrips();
-  closePaymentModal();
-  showCabinet();
-  showToast(`✓ Комиссия ${amount}₽ оплачена!`, 'success');
+  const commissionDue = (trip.passengers?.length || 0) * COMMISSION_FEE;
+  if (commissionDue <= 0) {
+    showToast('✓ Все комиссии оплачены', 'success');
+    return;
+  }
+  
+  document.getElementById('paymentTitle').textContent = '💳 Оплата комиссии сервиса';
+  document.getElementById('paymentInfo').innerHTML = `
+    <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+      <div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Поездка:</div>
+      <div style="font-size: 16px; color: #333;">${ROUTES[trip.route].from} → ${ROUTES[trip.route].to}</div>
+      <div style="color: #666; font-size: 14px; margin-top: 5px;">${formatDate(trip.date)} в ${trip.time}</div>
+      <div style="color: #666; font-size: 14px;">Пассажиров: ${trip.passengers?.length || 0}</div>
+    </div>
+    
+    <div class="payment-block">
+      <div class="payment-block-title">Комиссия сервиса</div>
+      <div class="payment-amount">${commissionDue} ₽</div>
+      <div class="payment-details">
+        <div class="label">Переведите администратору (СБП):</div>
+        <div class="value">${ADMIN_PHONE}</div>
+        <button class="copy-btn" onclick="copyToClipboard('${ADMIN_PHONE}')">📋 Скопировать номер</button>
+      </div>
+      <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px; color: #1976d2;">
+        💡 Откройте Сбербанк Онлайн → Перевод по номеру телефона → введите номер выше
+      </div>
+    </div>
+    
+    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; font-size: 13px; color: #856404;">
+      ⚠️ Комиссия: ${COMMISSION_FEE}₽ × ${trip.passengers?.length || 0} пассажиров = ${commissionDue}₽
+    </div>
+  `;
+  
+  document.getElementById('paymentModal').classList.remove('hidden');
+}
+
+function copyToClipboard(text) {
+  const cleanText = text.replace(/\D/g, '');
+  navigator.clipboard.writeText(cleanText).then(() => {
+    showToast('📋 Номер скопирован!', 'success');
+  }).catch(() => {
+    // Fallback для старых браузеров
+    const textArea = document.createElement('textarea');
+    textArea.value = cleanText;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    showToast('📋 Номер скопирован!', 'success');
+  });
 }
 
 function closePaymentModal() {
@@ -1284,7 +1281,7 @@ function requestDelete(id) {
   }
   
   if (!isAdmin() && normalizePhone(currentUser.phone) !== normalizePhone(trip.driverPhone)) {
-    showToast(' Только администратор или владелец может удалять', 'error');
+    showToast('❌ Только администратор или владелец может удалять', 'error');
     return;
   }
   
@@ -1358,9 +1355,8 @@ function showTripDetails(id) {
         ${trip.passengers.map(p => `
           <div class="passenger-item">
             <div class="passenger-info">
-              <div class="passenger-name">${p.name} ${p.paid ? '<span class="badge paid">Оплачено</span>' : ''}</div>
-              <div class="passenger-phone">📞 ${p.phone} • ${p.seats} ${p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест'}</div>
-              <div class="passenger-commission">Комиссия: ${COMMISSION_FEE}₽ ✓</div>
+              <div class="passenger-name">${p.name}</div>
+              <div class="passenger-phone"> ${p.phone} • ${p.seats} ${p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест'}</div>
             </div>
           </div>
         `).join('')}
@@ -1368,13 +1364,15 @@ function showTripDetails(id) {
     </div>
   ` : '<div style="color: #999; text-align: center; margin-top: 20px;">Пока никто не забронировал</div>';
   
+  const isDriverOrAdmin = currentUser && (isAdmin() || normalizePhone(currentUser.phone) === normalizePhone(trip.driverPhone));
+  
   content.innerHTML = `
     <div style="margin-bottom: 20px;">
       <div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px;">
         ${route.from} → ${route.to}
       </div>
       <div style="color: #666; font-size: 14px;">
-        📅 ${formatDate(trip.date)} в ${trip.time}<br>
+         ${formatDate(trip.date)} в ${trip.time}<br>
         📍 Расстояние: ${route.distance}<br>
         💺 Мест: ${availableSeats} из ${trip.totalSeats}<br>
         💰 Цена: ${trip.price} руб.
@@ -1397,13 +1395,14 @@ function showTripDetails(id) {
     ${passengersHtml}
     
     <a href="tel:${trip.driverPhone.replace(/\D/g, '')}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">
-      📞 Позвонить водителю
+       Позвонить водителю
     </a>
     ${availableSeats > 0 ? `
       <button class="btn booking" onclick="closeModal(); openBooking(${trip.id})">
-        🎫 Забронировать место (${COMMISSION_FEE}₽ комиссия)
+        🎫 Забронировать место
       </button>
     ` : '<div style="text-align: center; padding: 16px; background: #fff0f0; border-radius: 12px; font-weight: bold; color: #ff416c; margin-top: 15px;">❌ Мест нет</div>'}
+    ${isDriverOrAdmin ? `<button class="btn danger" onclick="closeModal(); requestDelete(${trip.id})">🗑️ Удалить поездку</button>` : ''}
   `;
   
   document.getElementById('tripModal').classList.remove('hidden');
