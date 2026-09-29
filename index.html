@@ -6,99 +6,147 @@
 <title>Safiya Nitro Rush</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
-  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Arial', sans-serif; }
-  body { display: flex; flex-direction: column; }
-
-  /* Главное меню */
-  .menu-screen {
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif; }
+  
+  #gameCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .screen {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #1a0033, #000);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 100;
     padding: 20px;
+    z-index: 100;
   }
-  .menu-screen.hidden { display: none; }
-  .game-title {
-    font-size: 42px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #ff006e, #ffbe0b, #00f5ff);
+  .screen.hidden { display: none; }
+  
+  .menu-bg {
+    background: linear-gradient(135deg, #1a0033 0%, #000 50%, #330066 100%);
+  }
+  
+  .title {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #ff006e, #ffbe0b, #00f5ff, #ff006e);
+    background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+    animation: gradient 3s ease infinite;
+    text-shadow: 0 0 40px rgba(255, 0, 110, 0.5);
     margin-bottom: 10px;
     text-align: center;
   }
-  .subtitle { color: #888; font-size: 14px; margin-bottom: 30px; }
-
-  .menu-btn {
-    width: 280px;
-    padding: 16px;
-    margin: 8px;
+  
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  .subtitle {
+    color: #888;
+    font-size: 16px;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+  }
+  
+  .btn {
+    width: 300px;
+    padding: 18px;
+    margin: 10px;
     background: linear-gradient(135deg, #ff006e, #8338ec);
-    border: none;
-    border-radius: 12px;
+    border: 2px solid #ff006e;
+    border-radius: 15px;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
   }
-  .menu-btn:active { transform: scale(0.95); }
-  .menu-btn.secondary { background: linear-gradient(135deg, #3a0ca3, #7209b7); }
-
-  /* Выбор машины */
-  .car-select {
-    position: absolute;
-    inset: 0;
+  .btn:active { transform: scale(0.95); background: linear-gradient(135deg, #8338ec, #ff006e); }
+  .btn.secondary { background: linear-gradient(135deg, #3a0ca3, #7209b7); border-color: #7209b7; }
+  
+  .car-select-bg {
     background: linear-gradient(135deg, #0a0a1a, #1a0033);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    z-index: 90;
     overflow-y: auto;
   }
-  .car-select.hidden { display: none; }
-  .car-select h2 {
+  
+  .car-select-title {
     color: #ffbe0b;
-    font-size: 28px;
+    font-size: 32px;
     margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 190, 11, 0.5);
   }
-  .cars-grid {
+  
+  .cars-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 15px;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
+    margin-bottom: 20px;
   }
+  
   .car-card {
-    background: #1a1a2e;
-    border: 2px solid #333;
-    border-radius: 12px;
-    padding: 12px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 3px solid #333;
+    border-radius: 15px;
+    padding: 15px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
   }
-  .car-card.selected { border-color: #ff006e; background: #2a1a3e; }
-  .car-card.locked { opacity: 0.5; }
-  .car-emoji { font-size: 40px; margin-bottom: 8px; }
-  .car-name { color: white; font-size: 14px; font-weight: bold; }
-  .car-stats { color: #888; font-size: 11px; margin-top: 4px; }
-
-  /* Игровой экран */
-  #game-canvas {
-    flex: 1;
-    display: block;
-    background: #111;
+  .car-card.selected { 
+    border-color: #ff006e; 
+    background: linear-gradient(135deg, #2a1a3e, #3d1a5e);
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
   }
-
-  /* HUD */
+  .car-card.locked { opacity: 0.4; }
+  
+  .car-preview {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .car-name {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .car-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 8px;
+  }
+  
+  .stat {
+    text-align: center;
+  }
+  
+  .stat-label {
+    color: #888;
+    font-size: 10px;
+  }
+  
+  .stat-value {
+    color: #ffbe0b;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
   .hud {
     position: absolute;
     top: 10px;
@@ -110,20 +158,33 @@
     z-index: 50;
   }
   .hud.hidden { display: none; }
-  .hud-item {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 8px 12px;
-    border-radius: 8px;
+  
+  .hud-box {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff006e;
+    border-radius: 10px;
+    padding: 10px 15px;
     color: white;
     font-size: 14px;
     font-weight: bold;
   }
-  .hud-item.nitro {
-    background: rgba(255, 0, 110, 0.8);
-    color: #fff;
+  
+  .hud-box.nitro {
+    background: linear-gradient(135deg, rgba(255, 0, 110, 0.8), rgba(131, 56, 236, 0.8));
+    border-color: #ffbe0b;
   }
-
-  /* Управление */
+  
+  .hud-label {
+    color: #888;
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+  
+  .hud-value {
+    color: #ffbe0b;
+    font-size: 20px;
+  }
+  
   .controls {
     position: absolute;
     bottom: 20px;
@@ -136,135 +197,369 @@
     z-index: 50;
   }
   .controls.hidden { display: none; }
-  .ctrl-group {
+  
+  .ctrl-side {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     pointer-events: auto;
   }
+  
   .ctrl-btn {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 3px solid rgba(255, 255, 255, 0.3);
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     color: white;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.1s;
   }
-  .ctrl-btn:active { background: rgba(255, 0, 110, 0.6); }
-  .ctrl-btn.nitro-btn {
-    background: rgba(255, 0, 110, 0.8);
+  .ctrl-btn:active { 
+    background: rgba(255, 0, 110, 0.8); 
+    transform: scale(0.9);
     border-color: #ff006e;
   }
-
-  /* Экран результатов */
-  .results-screen {
-    position: absolute;
-    inset: 0;
+  
+  .ctrl-btn.gas {
+    background: linear-gradient(135deg, #00ff00, #00cc00);
+    border-color: #00ff00;
+    width: 90px;
+    height: 90px;
+  }
+  
+  .ctrl-btn.brake {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    border-color: #ff0000;
+  }
+  
+  .ctrl-btn.nitro-btn {
+    background: linear-gradient(135deg, #ff006e, #8338ec);
+    border-color: #ffbe0b;
+    animation: pulse 1s ease infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
+    50% { box-shadow: 0 0 40px rgba(255, 0, 110, 0.8); }
+  }
+  
+  .results-bg {
     background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 80;
-    padding: 20px;
   }
-  .results-screen.hidden { display: none; }
-  .results-screen h2 {
-    font-size: 36px;
+  
+  .results-title {
+    font-size: 42px;
     color: #ffbe0b;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 30px rgba(255, 190, 11, 0.5);
   }
-  .result-item {
-    color: white;
+  
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    padding: 15px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  
+  .result-label {
+    color: #888;
+    font-size: 16px;
+  }
+  
+  .result-value {
+    color: #ffbe0b;
     font-size: 18px;
-    margin: 8px;
+    font-weight: bold;
   }
 </style>
 </head>
 <body>
 
+<canvas id="gameCanvas"></canvas>
+
 <!-- Главное меню -->
-<div class="menu-screen" id="menu-screen">
-  <div class="game-title">Safiya Nitro Rush</div>
-  <div class="subtitle">Гоночная аркада</div>
-  <button class="menu-btn" onclick="showCarSelect()">🏎️ Гонка</button>
-  <button class="menu-btn secondary" onclick="showTracks()">🗺️ Трассы</button>
+<div class="screen menu-bg" id="menuScreen">
+  <div class="title">SAFIYA NITRO RUSH</div>
+  <div class="subtitle">UNDERGROUND RACING</div>
+  <button class="btn" onclick="showCarSelect()">️ ГОНКА</button>
+  <button class="btn secondary" onclick="showTracks()">️ ТРАССЫ</button>
 </div>
 
 <!-- Выбор машины -->
-<div class="car-select hidden" id="car-select">
-  <h2>Выберите машину</h2>
-  <div class="cars-grid" id="cars-grid"></div>
-  <button class="menu-btn" style="margin-top: 20px;" onclick="startRace()">🏁 Начать гонку</button>
-  <button class="menu-btn secondary" onclick="backToMenu()">← Назад</button>
+<div class="screen car-select-bg hidden" id="carSelectScreen">
+  <div class="car-select-title">ВЫБЕРИТЕ МАШИНУ</div>
+  <div class="cars-container" id="carsContainer"></div>
+  <button class="btn" onclick="startRace()">🏁 НАЧАТЬ ГОНКУ</button>
+  <button class="btn secondary" onclick="backToMenu()">← НАЗАД</button>
 </div>
-
-<!-- Игровой экран -->
-<canvas id="game-canvas"></canvas>
 
 <!-- HUD -->
 <div class="hud hidden" id="hud">
-  <div class="hud-item">Трасса: <span id="track-num">1</span>/50</div>
-  <div class="hud-item">Круг: <span id="lap">1</span>/3</div>
-  <div class="hud-item">Скорость: <span id="speed">0</span> км/ч</div>
-  <div class="hud-item nitro">NITRO: <span id="nitro">100</span>%</div>
+  <div class="hud-box">
+    <div class="hud-label">ТРАССА</div>
+    <div class="hud-value" id="trackNum">1/50</div>
+  </div>
+  <div class="hud-box">
+    <div class="hud-label">КРУГ</div>
+    <div class="hud-value" id="lapNum">1/3</div>
+  </div>
+  <div class="hud-box">
+    <div class="hud-label">СКОРОСТЬ</div>
+    <div class="hud-value" id="speedVal">0 км/ч</div>
+  </div>
+  <div class="hud-box nitro">
+    <div class="hud-label">NITRO</div>
+    <div class="hud-value" id="nitroVal">100%</div>
+  </div>
 </div>
 
 <!-- Управление -->
 <div class="controls hidden" id="controls">
-  <div class="ctrl-group">
-    <button class="ctrl-btn" id="btn-left">←</button>
-    <button class="ctrl-btn" id="btn-right">→</button>
+  <div class="ctrl-side">
+    <button class="ctrl-btn" id="btnLeft">←</button>
+    <button class="ctrl-btn" id="btnRight">→</button>
   </div>
-  <div class="ctrl-group">
-    <button class="ctrl-btn nitro-btn" id="btn-nitro">N</button>
-    <button class="ctrl-btn" id="btn-brake">B</button>
+  <div class="ctrl-side">
+    <button class="ctrl-btn nitro-btn" id="btnNitro">N</button>
+    <button class="ctrl-btn brake" id="btnBrake">B</button>
+    <button class="ctrl-btn gas" id="btnGas">GAS</button>
   </div>
 </div>
 
 <!-- Результаты -->
-<div class="results-screen hidden" id="results-screen">
-  <h2>Финиш!</h2>
-  <div class="result-item">Время: <span id="result-time">0:00</span></div>
-  <div class="result-item">Позиция: <span id="result-position">1</span></div>
-  <div class="result-item">Очки: <span id="result-score">0</span></div>
-  <button class="menu-btn" onclick="nextTrack()">Следующая трасса →</button>
-  <button class="menu-btn secondary" onclick="backToMenu()">В меню</button>
+<div class="screen results-bg hidden" id="resultsScreen">
+  <div class="results-title">ФИНИШ!</div>
+  <div class="result-row">
+    <div class="result-label">Время:</div>
+    <div class="result-value" id="resultTime">0:00</div>
+  </div>
+  <div class="result-row">
+    <div class="result-label">Позиция:</div>
+    <div class="result-value" id="resultPos">1 место</div>
+  </div>
+  <div class="result-row">
+    <div class="result-label">Очки:</div>
+    <div class="result-value" id="resultScore">0</div>
+  </div>
+  <button class="btn" onclick="nextTrack()">СЛЕДУЮЩАЯ ТРАССА →</button>
+  <button class="btn secondary" onclick="backToMenu()">В МЕНЮ</button>
 </div>
 
 <script>
-const canvas = document.getElementById('game-canvas');
+const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Машины
+// Настройка canvas
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Машины с детальной информацией
 const CARS = [
-  { name: 'Nissan Skyline', emoji: '', speed: 8, accel: 0.3, handling: 0.8, color: '#0066ff', unlocked: true },
-  { name: 'Toyota Supra', emoji: '🚙', speed: 9, accel: 0.35, handling: 0.75, color: '#ff6600', unlocked: true },
-  { name: 'Mazda RX-7', emoji: '️', speed: 8.5, accel: 0.4, handling: 0.85, color: '#ff0066', unlocked: true },
-  { name: 'BMW M3', emoji: '🚘', speed: 9.5, accel: 0.38, handling: 0.8, color: '#00ccff', unlocked: true },
-  { name: 'Audi R8', emoji: '🚕', speed: 10, accel: 0.42, handling: 0.78, color: '#cccccc', unlocked: false },
-  { name: 'Lamborghini', emoji: '🏎️', speed: 11, accel: 0.45, handling: 0.75, color: '#ffcc00', unlocked: false },
-  { name: 'Ferrari', emoji: '', speed: 11.5, accel: 0.48, handling: 0.8, color: '#ff0000', unlocked: false },
-  { name: 'Porsche 911', emoji: '🚙', speed: 10.5, accel: 0.5, handling: 0.85, color: '#00ff00', unlocked: false }
+  { 
+    name: 'Nissan Skyline GT-R', 
+    speed: 280, 
+    accel: 0.4, 
+    handling: 0.85,
+    color: '#0066ff',
+    secondaryColor: '#0044cc',
+    unlocked: true,
+    bodyShape: 'sport'
+  },
+  { 
+    name: 'Toyota Supra MK4', 
+    speed: 300, 
+    accel: 0.45, 
+    handling: 0.8,
+    color: '#ff6600',
+    secondaryColor: '#cc5200',
+    unlocked: true,
+    bodyShape: 'muscle'
+  },
+  { 
+    name: 'Mazda RX-7 FD', 
+    speed: 270, 
+    accel: 0.5, 
+    handling: 0.9,
+    color: '#ff0066',
+    secondaryColor: '#cc0052',
+    unlocked: true,
+    bodyShape: 'sport'
+  },
+  { 
+    name: 'BMW M3 E46', 
+    speed: 290, 
+    accel: 0.48, 
+    handling: 0.85,
+    color: '#00ccff',
+    secondaryColor: '#0099cc',
+    unlocked: true,
+    bodyShape: 'sedan'
+  },
+  { 
+    name: 'Audi R8 V10', 
+    speed: 320, 
+    accel: 0.52, 
+    handling: 0.82,
+    color: '#cccccc',
+    secondaryColor: '#999999',
+    unlocked: false,
+    bodyShape: 'supercar'
+  },
+  { 
+    name: 'Lamborghini Aventador', 
+    speed: 350, 
+    accel: 0.55, 
+    handling: 0.78,
+    color: '#ffcc00',
+    secondaryColor: '#cc9900',
+    unlocked: false,
+    bodyShape: 'supercar'
+  },
+  { 
+    name: 'Ferrari 458 Italia', 
+    speed: 340, 
+    accel: 0.58, 
+    handling: 0.83,
+    color: '#ff0000',
+    secondaryColor: '#cc0000',
+    unlocked: false,
+    bodyShape: 'supercar'
+  },
+  { 
+    name: 'Porsche 911 GT3', 
+    speed: 310, 
+    accel: 0.6, 
+    handling: 0.88,
+    color: '#00ff00',
+    secondaryColor: '#00cc00',
+    unlocked: false,
+    bodyShape: 'sport'
+  }
 ];
 
 let selectedCar = 0;
 let currentTrack = 1;
-let score = 0;
+let totalScore = 0;
 
 // Игровые переменные
-let player = { x: 0, y: 0, speed: 0, angle: 0, nitro: 100 };
+let player = {
+  x: 0, y: 0,
+  speed: 0,
+  angle: 0,
+  velocity: { x: 0, y: 0 },
+  nitro: 100,
+  drifting: false
+};
+
 let track = [];
 let opponents = [];
 let gameTime = 0;
 let lap = 1;
 let isRacing = false;
 let keys = {};
+let camera = { x: 0, y: 0 };
+let particles = [];
+
+// Рисование реалистичной машины
+function drawRealisticCar(x, y, angle, car, isPlayer = false) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  
+  const length = 50;
+  const width = 24;
+  
+  // Тень
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  ctx.fillRect(-length/2 + 3, -width/2 + 3, length, width);
+  
+  // Основной корпус
+  const gradient = ctx.createLinearGradient(-length/2, 0, length/2, 0);
+  gradient.addColorStop(0, car.color);
+  gradient.addColorStop(0.5, car.secondaryColor);
+  gradient.addColorStop(1, car.color);
+  ctx.fillStyle = gradient;
+  
+  // Форма кузова в зависимости от типа
+  if (car.bodyShape === 'supercar') {
+    // Суперкар - низкий и широкий
+    ctx.beginPath();
+    ctx.moveTo(-length/2, -width/2);
+    ctx.lineTo(length/2 - 5, -width/2);
+    ctx.quadraticCurveTo(length/2, -width/2, length/2, -width/2 + 5);
+    ctx.lineTo(length/2, width/2 - 5);
+    ctx.quadraticCurveTo(length/2, width/2, length/2 - 5, width/2);
+    ctx.lineTo(-length/2, width/2);
+    ctx.quadraticCurveTo(-length/2, width/2, -length/2, width/2 - 5);
+    ctx.lineTo(-length/2, -width/2 + 5);
+    ctx.quadraticCurveTo(-length/2, -width/2, -length/2 + 5, -width/2);
+    ctx.closePath();
+    ctx.fill();
+  } else if (car.bodyShape === 'muscle') {
+    // Маслкар - мощный и широкий
+    ctx.fillRect(-length/2, -width/2, length, width);
+  } else {
+    // Спортивный/седан
+    ctx.beginPath();
+    ctx.moveTo(-length/2 + 5, -width/2);
+    ctx.lineTo(length/2 - 10, -width/2);
+    ctx.quadraticCurveTo(length/2, -width/2, length/2, -width/2 + 8);
+    ctx.lineTo(length/2, width/2 - 8);
+    ctx.quadraticCurveTo(length/2, width/2, length/2 - 10, width/2);
+    ctx.lineTo(-length/2 + 5, width/2);
+    ctx.quadraticCurveTo(-length/2, width/2, -length/2, width/2 - 8);
+    ctx.lineTo(-length/2, -width/2 + 8);
+    ctx.quadraticCurveTo(-length/2, -width/2, -length/2 + 5, -width/2);
+    ctx.closePath();
+    ctx.fill();
+  }
+  
+  // Кабина (стекло)
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+  ctx.fillRect(-10, -width/2 + 4, 20, width - 8);
+  
+  // Фары
+  ctx.fillStyle = '#ffff00';
+  ctx.fillRect(length/2 - 8, -width/2 + 3, 6, 4);
+  ctx.fillRect(length/2 - 8, width/2 - 7, 6, 4);
+  
+  // Задние фонари
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(-length/2 + 2, -width/2 + 3, 6, 4);
+  ctx.fillRect(-length/2 + 2, width/2 - 7, 6, 4);
+  
+  // Колёса
+  ctx.fillStyle = '#111';
+  ctx.fillRect(-length/2 + 5, -width/2 - 2, 12, 4);
+  ctx.fillRect(-length/2 + 5, width/2 - 2, 12, 4);
+  ctx.fillRect(length/2 - 17, -width/2 - 2, 12, 4);
+  ctx.fillRect(length/2 - 17, width/2 - 2, 12, 4);
+  
+  // Эффект нитро
+  if (isPlayer && player.nitro < 100 && keys['nitro']) {
+    ctx.fillStyle = 'rgba(0, 200, 255, 0.8)';
+    ctx.beginPath();
+    ctx.moveTo(-length/2, -5);
+    ctx.lineTo(-length/2 - 15 - Math.random() * 10, 0);
+    ctx.lineTo(-length/2, 5);
+    ctx.closePath();
+    ctx.fill();
+  }
+  
+  ctx.restore();
+}
 
 // Генерация трассы
 function generateTrack(trackNum) {
@@ -272,26 +567,34 @@ function generateTrack(trackNum) {
   const isNight = trackNum % 2 === 0;
   const difficulty = Math.min(10, Math.floor(trackNum / 5) + 1);
   
-  // Создаем трассу из точек
-  const points = 200;
+  const points = 300;
   for (let i = 0; i < points; i++) {
     const t = (i / points) * Math.PI * 2;
-    const radius = 800 + Math.sin(t * 3) * 200 + Math.cos(t * 5) * 100;
+    const radius = 1000 + Math.sin(t * 3) * 300 + Math.cos(t * 5) * 150;
     const x = Math.cos(t) * radius;
     const y = Math.sin(t) * radius;
-    track.push({ x, y, width: 120 - difficulty * 5 });
+    track.push({ 
+      x, y, 
+      width: Math.max(80, 150 - difficulty * 7),
+      angle: Math.atan2(
+        track[(i + 1) % points]?.y - y || 0,
+        track[(i + 1) % points]?.x - x || 0
+      )
+    });
   }
   
-  // Добавляем соперников
+  // Соперники
   opponents = [];
   const numOpponents = 3 + Math.floor(difficulty / 2);
   for (let i = 0; i < numOpponents; i++) {
     opponents.push({
-      x: track[0].x + (Math.random() - 0.5) * 100,
-      y: track[0].y + (Math.random() - 0.5) * 100,
-      speed: 5 + Math.random() * 3,
-      trackPos: Math.random() * points,
-      color: `hsl(${Math.random() * 360}, 70%, 50%)`
+      x: track[0].x + (Math.random() - 0.5) * 200,
+      y: track[0].y + (Math.random() - 0.5) * 200,
+      speed: 0,
+      maxSpeed: 15 + Math.random() * 5 + difficulty,
+      trackPos: (i + 1) * (points / numOpponents),
+      color: `hsl(${Math.random() * 360}, 70%, 50%)`,
+      car: CARS[Math.floor(Math.random() * CARS.length)]
     });
   }
   
@@ -300,24 +603,27 @@ function generateTrack(trackNum) {
 
 // Инициализация игры
 function initGame() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  
   const trackData = generateTrack(currentTrack);
   
   player.x = track[0].x;
   player.y = track[0].y;
   player.speed = 0;
-  player.angle = 0;
+  player.angle = track[0].angle;
+  player.velocity = { x: 0, y: 0 };
   player.nitro = 100;
+  player.drifting = false;
   
   gameTime = 0;
   lap = 1;
   isRacing = true;
+  particles = [];
+  
+  camera.x = player.x;
+  camera.y = player.y;
   
   document.getElementById('hud').classList.remove('hidden');
   document.getElementById('controls').classList.remove('hidden');
-  document.getElementById('track-num').textContent = currentTrack;
+  document.getElementById('trackNum').textContent = `${currentTrack}/50`;
   
   gameLoop();
 }
@@ -331,67 +637,137 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-// Обновление
+// Обновление физики
 function update() {
   gameTime += 1/60;
   
   const car = CARS[selectedCar];
-  const maxSpeed = car.speed * 20;
+  const maxSpeed = car.speed / 10;
   const accel = car.accel;
   const handling = car.handling;
   
-  // Управление
-  if (keys['ArrowLeft'] || keys['left']) player.angle -= 0.05 * handling;
-  if (keys['ArrowRight'] || keys['right']) player.angle += 0.05 * handling;
+  // Управление поворотом
+  if (keys['ArrowLeft'] || keys['left']) {
+    player.angle -= 0.04 * handling * (player.speed > 0 ? 1 : 0.3);
+  }
+  if (keys['ArrowRight'] || keys['right']) {
+    player.angle += 0.04 * handling * (player.speed > 0 ? 1 : 0.3);
+  }
   
-  // Ускорение
-  if (keys['ArrowUp'] || keys['up']) {
+  // Педаль газа
+  if (keys['gas'] || keys['ArrowUp']) {
     player.speed += accel;
-  } else if (keys['ArrowDown'] || keys['down'] || keys['brake']) {
+    
+    // Частицы выхлопа
+    if (Math.random() < 0.3) {
+      particles.push({
+        x: player.x - Math.cos(player.angle) * 25,
+        y: player.y - Math.sin(player.angle) * 25,
+        vx: -Math.cos(player.angle) * 2 + (Math.random() - 0.5),
+        vy: -Math.sin(player.angle) * 2 + (Math.random() - 0.5),
+        life: 20,
+        color: 'rgba(100, 100, 100, 0.5)'
+      });
+    }
+  } else if (keys['brake'] || keys['ArrowDown']) {
     player.speed -= accel * 2;
+    player.drifting = player.speed > 5;
+    
+    // Частицы дыма при дрифте
+    if (player.drifting && Math.random() < 0.5) {
+      particles.push({
+        x: player.x + (Math.random() - 0.5) * 20,
+        y: player.y + (Math.random() - 0.5) * 20,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        life: 30,
+        color: 'rgba(200, 200, 200, 0.7)'
+      });
+    }
   } else {
-    player.speed *= 0.98;
+    player.speed *= 0.97;
+    player.drifting = false;
   }
   
   // Нитро
-  if (keys['n'] || keys['nitro']) {
+  if (keys['nitro']) {
     if (player.nitro > 0) {
-      player.speed += accel * 3;
-      player.nitro -= 0.5;
+      player.speed += accel * 4;
+      player.nitro -= 0.8;
+      
+      // Частицы нитро
+      for (let i = 0; i < 3; i++) {
+        particles.push({
+          x: player.x - Math.cos(player.angle) * 25 + (Math.random() - 0.5) * 10,
+          y: player.y - Math.sin(player.angle) * 25 + (Math.random() - 0.5) * 10,
+          vx: -Math.cos(player.angle) * 5 + (Math.random() - 0.5) * 3,
+          vy: -Math.sin(player.angle) * 5 + (Math.random() - 0.5) * 3,
+          life: 25,
+          color: `rgba(0, ${150 + Math.random() * 100}, 255, 0.8)`
+        });
+      }
     }
   } else {
-    player.nitro = Math.min(100, player.nitro + 0.1);
+    player.nitro = Math.min(100, player.nitro + 0.15);
   }
   
   // Ограничение скорости
-  player.speed = Math.max(0, Math.min(player.speed, maxSpeed * (player.nitro > 0 ? 1.5 : 1)));
+  const speedLimit = maxSpeed * (player.nitro > 0 && keys['nitro'] ? 1.6 : 1);
+  player.speed = Math.max(0, Math.min(player.speed, speedLimit));
   
-  // Движение
-  player.x += Math.cos(player.angle) * player.speed;
-  player.y += Math.sin(player.angle) * player.speed;
+  // Физика движения с инерцией
+  player.velocity.x = Math.cos(player.angle) * player.speed;
+  player.velocity.y = Math.sin(player.angle) * player.speed;
+  
+  player.x += player.velocity.x;
+  player.y += player.velocity.y;
+  
+  // Обновление камеры
+  camera.x += (player.x - camera.x) * 0.1;
+  camera.y += (player.y - camera.y) * 0.1;
   
   // Обновление соперников
   opponents.forEach(opp => {
-    opp.trackPos += opp.speed / 100;
-    if (opp.trackPos >= track.length) opp.trackPos = 0;
+    opp.trackPos += opp.maxSpeed / 100;
+    if (opp.trackPos >= track.length) {
+      opp.trackPos = 0;
+    }
     const trackPoint = track[Math.floor(opp.trackPos)];
-    opp.x += (trackPoint.x - opp.x) * 0.1;
-    opp.y += (trackPoint.y - opp.y) * 0.1;
+    const targetX = trackPoint.x;
+    const targetY = trackPoint.y;
+    
+    const dx = targetX - opp.x;
+    const dy = targetY - opp.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    
+    if (dist > 0) {
+      opp.x += (dx / dist) * opp.maxSpeed;
+      opp.y += (dy / dist) * opp.maxSpeed;
+    }
   });
   
   // Проверка круга
   const distToStart = Math.hypot(player.x - track[0].x, player.y - track[0].y);
-  if (distToStart < 100 && player.speed > 5) {
-    lap++;
-    if (lap > 3) {
-      finishRace();
-    }
+  if (distToStart < 150 && player.speed > 10 && lap === 1) {
+    lap = 2;
+  } else if (distToStart < 150 && player.speed > 10 && lap === 2) {
+    lap = 3;
+  } else if (distToStart < 150 && player.speed > 10 && lap === 3) {
+    finishRace();
   }
   
+  // Обновление частиц
+  particles = particles.filter(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life--;
+    return p.life > 0;
+  });
+  
   // Обновление HUD
-  document.getElementById('speed').textContent = Math.floor(player.speed * 10);
-  document.getElementById('lap').textContent = Math.min(lap, 3);
-  document.getElementById('nitro').textContent = Math.floor(player.nitro);
+  document.getElementById('speedVal').textContent = `${Math.floor(player.speed * 10)} км/ч`;
+  document.getElementById('lapNum').textContent = `${Math.min(lap, 3)}/3`;
+  document.getElementById('nitroVal').textContent = `${Math.floor(player.nitro)}%`;
 }
 
 // Рендеринг
@@ -399,17 +775,25 @@ function render() {
   const trackData = generateTrack(currentTrack);
   
   // Фон
-  ctx.fillStyle = trackData.isNight ? '#0a0a1a' : '#87CEEB';
+  const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  if (trackData.isNight) {
+    bgGradient.addColorStop(0, '#0a0a1a');
+    bgGradient.addColorStop(1, '#1a0033');
+  } else {
+    bgGradient.addColorStop(0, '#87CEEB');
+    bgGradient.addColorStop(1, '#4a90e2');
+  }
+  ctx.fillStyle = bgGradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
-  // Камера следует за игроком
   ctx.save();
-  ctx.translate(canvas.width/2 - player.x, canvas.height/2 - player.y);
+  ctx.translate(canvas.width/2 - camera.x, canvas.height/2 - camera.y);
   
   // Рисуем трассу
-  ctx.strokeStyle = trackData.isNight ? '#333' : '#666';
-  ctx.lineWidth = 120;
+  ctx.strokeStyle = trackData.isNight ? '#2a2a3e' : '#555';
+  ctx.lineWidth = 150;
   ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
   ctx.beginPath();
   track.forEach((point, i) => {
     if (i === 0) ctx.moveTo(point.x, point.y);
@@ -419,27 +803,41 @@ function render() {
   ctx.stroke();
   
   // Разметка
-  ctx.strokeStyle = '#fff';
+  ctx.strokeStyle = trackData.isNight ? '#444' : '#fff';
   ctx.lineWidth = 4;
-  ctx.setLineDash([20, 20]);
+  ctx.setLineDash([30, 30]);
   ctx.stroke();
   ctx.setLineDash([]);
   
+  // Обочины
+  ctx.strokeStyle = trackData.isNight ? '#ff0000' : '#ff6600';
+  ctx.lineWidth = 8;
+  ctx.beginPath();
+  track.forEach((point, i) => {
+    const offset = 75;
+    const x = point.x + Math.cos(point.angle + Math.PI/2) * offset;
+    const y = point.y + Math.sin(point.angle + Math.PI/2) * offset;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.stroke();
+  
+  // Частицы
+  particles.forEach(p => {
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.life / 30;
+    ctx.fillRect(p.x - 3, p.y - 3, 6, 6);
+  });
+  ctx.globalAlpha = 1;
+  
   // Соперники
   opponents.forEach(opp => {
-    ctx.fillStyle = opp.color;
-    ctx.fillRect(opp.x - 20, opp.y - 10, 40, 20);
+    drawRealisticCar(opp.x, opp.y, Math.atan2(opp.velocity?.y || 0, opp.velocity?.x || 0), opp.car);
   });
   
   // Игрок
-  ctx.save();
-  ctx.translate(player.x, player.y);
-  ctx.rotate(player.angle);
-  ctx.fillStyle = CARS[selectedCar].color;
-  ctx.fillRect(-25, -12, 50, 24);
-  ctx.fillStyle = '#000';
-  ctx.fillRect(-15, -8, 10, 16);
-  ctx.restore();
+  drawRealisticCar(player.x, player.y, player.angle, CARS[selectedCar], true);
   
   ctx.restore();
 }
@@ -449,45 +847,60 @@ function finishRace() {
   isRacing = false;
   document.getElementById('hud').classList.add('hidden');
   document.getElementById('controls').classList.add('hidden');
-  document.getElementById('results-screen').classList.remove('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
   
   const minutes = Math.floor(gameTime / 60);
   const seconds = Math.floor(gameTime % 60);
-  document.getElementById('result-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  document.getElementById('result-position').textContent = '1';
-  document.getElementById('result-score').textContent = Math.floor(1000 - gameTime * 10);
-  
-  score += Math.floor(1000 - gameTime * 10);
+  document.getElementById('resultTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  document.getElementById('resultPos').textContent = '1 место';
+  const raceScore = Math.floor(1000 - gameTime * 10);
+  document.getElementById('resultScore').textContent = raceScore;
+  totalScore += raceScore;
 }
 
 function nextTrack() {
   if (currentTrack < 50) {
     currentTrack++;
-    document.getElementById('results-screen').classList.add('hidden');
+    document.getElementById('resultsScreen').classList.add('hidden');
     initGame();
   } else {
-    alert('Поздравляем! Вы прошли все 50 трасс!');
+    alert(`Поздравляем! Вы прошли все 50 трасс!\nОбщий счёт: ${totalScore}`);
     backToMenu();
   }
 }
 
 // Управление
 function showCarSelect() {
-  document.getElementById('menu-screen').classList.add('hidden');
-  document.getElementById('car-select').classList.remove('hidden');
+  document.getElementById('menuScreen').classList.add('hidden');
+  document.getElementById('carSelectScreen').classList.remove('hidden');
   renderCars();
 }
 
 function renderCars() {
-  const grid = document.getElementById('cars-grid');
-  grid.innerHTML = '';
+  const container = document.getElementById('carsContainer');
+  container.innerHTML = '';
   CARS.forEach((car, i) => {
     const card = document.createElement('div');
     card.className = `car-card ${i === selectedCar ? 'selected' : ''} ${!car.unlocked ? 'locked' : ''}`;
     card.innerHTML = `
-      <div class="car-emoji">${car.emoji}</div>
+      <div class="car-preview">
+        <canvas width="100" height="80" id="carPreview${i}"></canvas>
+      </div>
       <div class="car-name">${car.name}</div>
-      <div class="car-stats">Скорость: ${car.speed} | Управление: ${car.handling}</div>
+      <div class="car-stats">
+        <div class="stat">
+          <div class="stat-label">СКОРОСТЬ</div>
+          <div class="stat-value">${car.speed}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">РАЗГОН</div>
+          <div class="stat-value">${(car.accel * 100).toFixed(0)}%</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">УПРАВЛ</div>
+          <div class="stat-value">${(car.handling * 100).toFixed(0)}%</div>
+        </div>
+      </div>
     `;
     card.onclick = () => {
       if (car.unlocked) {
@@ -495,37 +908,62 @@ function renderCars() {
         renderCars();
       }
     };
-    grid.appendChild(card);
+    container.appendChild(card);
+    
+    // Рисуем превью машины
+    setTimeout(() => {
+      const previewCanvas = document.getElementById(`carPreview${i}`);
+      if (previewCanvas) {
+        const pctx = previewCanvas.getContext('2d');
+        pctx.translate(50, 40);
+        const tempPlayer = { ...player, nitro: 100 };
+        const origPlayer = player;
+        player = tempPlayer;
+        keys = {};
+        drawRealisticCar.call({ save: () => {}, restore: () => {}, translate: (x, y) => pctx.translate(x, y), rotate: (a) => pctx.rotate(a), fillStyle: '', fillRect: (x, y, w, h) => pctx.fillRect(x, y, w, h), beginPath: () => pctx.beginPath(), moveTo: (x, y) => pctx.moveTo(x, y), lineTo: (x, y) => pctx.lineTo(x, y), quadraticCurveTo: (x1, y1, x2, y2) => pctx.quadraticCurveTo(x1, y1, x2, y2), closePath: () => pctx.closePath(), fill: () => pctx.fill(), createLinearGradient: (x1, y1, x2, y2) => pctx.createLinearGradient(x1, y1, x2, y2) }, 0, 0, 0, car);
+        player = origPlayer;
+      }
+    }, 100);
   });
 }
 
 function startRace() {
-  document.getElementById('car-select').classList.add('hidden');
+  document.getElementById('carSelectScreen').classList.add('hidden');
   initGame();
 }
 
 function showTracks() {
-  alert(`Трасса ${currentTrack}/50\nСложность: ${Math.min(10, Math.floor(currentTrack / 5) + 1)}/10\n${currentTrack % 2 === 0 ? '🌙 Ночь' : '☀️ День'}`);
+  const isNight = currentTrack % 2 === 0;
+  const difficulty = Math.min(10, Math.floor(currentTrack / 5) + 1);
+  alert(`Трасса ${currentTrack}/50\nСложность: ${difficulty}/10\n${isNight ? '🌙 НОЧНАЯ ГОНКА' : '☀️ ДНЕВНАЯ ГОНКА'}\n\nОбщий счёт: ${totalScore}`);
 }
 
 function backToMenu() {
-  document.getElementById('menu-screen').classList.remove('hidden');
-  document.getElementById('car-select').classList.add('hidden');
-  document.getElementById('results-screen').classList.add('hidden');
+  document.getElementById('menuScreen').classList.remove('hidden');
+  document.getElementById('carSelectScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.add('hidden');
   document.getElementById('hud').classList.add('hidden');
   document.getElementById('controls').classList.add('hidden');
   isRacing = false;
 }
 
 // Обработчики кнопок
-document.getElementById('btn-left').addEventListener('touchstart', (e) => { e.preventDefault(); keys['left'] = true; });
-document.getElementById('btn-left').addEventListener('touchend', () => keys['left'] = false);
-document.getElementById('btn-right').addEventListener('touchstart', (e) => { e.preventDefault(); keys['right'] = true; });
-document.getElementById('btn-right').addEventListener('touchend', () => keys['right'] = false);
-document.getElementById('btn-nitro').addEventListener('touchstart', (e) => { e.preventDefault(); keys['nitro'] = true; });
-document.getElementById('btn-nitro').addEventListener('touchend', () => keys['nitro'] = false);
-document.getElementById('btn-brake').addEventListener('touchstart', (e) => { e.preventDefault(); keys['brake'] = true; });
-document.getElementById('btn-brake').addEventListener('touchend', () => keys['brake'] = false);
+const btnGas = document.getElementById('btnGas');
+const btnBrake = document.getElementById('btnBrake');
+const btnNitro = document.getElementById('btnNitro');
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+
+btnGas.addEventListener('touchstart', (e) => { e.preventDefault(); keys['gas'] = true; });
+btnGas.addEventListener('touchend', () => keys['gas'] = false);
+btnBrake.addEventListener('touchstart', (e) => { e.preventDefault(); keys['brake'] = true; });
+btnBrake.addEventListener('touchend', () => keys['brake'] = false);
+btnNitro.addEventListener('touchstart', (e) => { e.preventDefault(); keys['nitro'] = true; });
+btnNitro.addEventListener('touchend', () => keys['nitro'] = false);
+btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys['left'] = true; });
+btnLeft.addEventListener('touchend', () => keys['left'] = false);
+btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); keys['right'] = true; });
+btnRight.addEventListener('touchend', () => keys['right'] = false);
 
 // Клавиатура
 document.addEventListener('keydown', (e) => {
@@ -534,10 +972,7 @@ document.addEventListener('keydown', (e) => {
 });
 document.addEventListener('keyup', (e) => keys[e.key] = false);
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+document.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
 </script>
 
 </body>
