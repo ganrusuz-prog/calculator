@@ -66,19 +66,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 .modal.hidden { display: none; }
 .modal-content { background: white; border-radius: 20px; padding: 30px; max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto; }
 .modal-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; text-align: center; }
-.subscription-card { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center; }
-.subscription-price { font-size: 48px; font-weight: bold; margin: 15px 0; }
-.subscription-period { font-size: 16px; opacity: 0.9; }
-.subscription-features { text-align: left; margin: 20px 0; padding: 0 10px; }
-.subscription-features li { list-style: none; padding: 8px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.2); }
-.subscription-features li:last-child { border-bottom: none; }
-.payment-block { background: #f8f9ff; border: 2px solid #667eea; border-radius: 12px; padding: 15px; margin: 15px 0; }
-.payment-block-title { font-weight: bold; color: #667eea; font-size: 14px; margin-bottom: 10px; }
-.payment-details { background: white; padding: 12px; border-radius: 8px; margin: 10px 0; font-size: 14px; }
-.payment-details .label { color: #666; font-size: 12px; }
-.payment-details .value { color: #333; font-weight: bold; font-size: 16px; margin-top: 4px; }
-.copy-btn { background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 8px; }
-.copy-btn:active { transform: scale(0.95); }
 .status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin: 5px 0; }
 .status-active { background: #43e97b; color: #333; }
 .status-pending { background: #ffc107; color: #333; }
@@ -136,6 +123,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 .phone-hidden { color: #999; font-style: italic; font-size: 12px; }
 .admin-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 .admin-nav .btn { flex: 1; min-width: 120px; padding: 12px; font-size: 13px; margin-bottom: 0; }
+.waiting-screen { text-align: center; padding: 40px 20px; }
+.waiting-icon { font-size: 80px; margin-bottom: 20px; }
+.waiting-text { font-size: 18px; color: #666; margin-bottom: 10px; }
+.waiting-subtext { font-size: 14px; color: #999; }
 @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 </style>
@@ -268,7 +259,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 
 <div class="modal hidden" id="loginModal">
   <div class="modal-content">
-    <div class="modal-title"> Вход в личный кабинет</div>
+    <div class="modal-title">👤 Вход в личный кабинет</div>
     <div style="color: #666; text-align: center; margin-bottom: 20px; font-size: 14px;">Введите ваш номер телефона для входа</div>
     <div class="form-group">
       <label class="form-label">Ваше имя</label>
@@ -283,33 +274,14 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
   </div>
 </div>
 
-<div class="modal hidden" id="subscriptionModal">
+<div class="modal hidden" id="waitingModal">
   <div class="modal-content">
-    <div class="modal-title">💳 Активация доступа</div>
-    <div class="subscription-card">
-      <div style="font-size: 14px; opacity: 0.9;">Абонентская плата</div>
-      <div class="subscription-price">100 ₽</div>
-      <div class="subscription-period">в месяц</div>
+    <div class="waiting-screen">
+      <div class="waiting-icon">⏳</div>
+      <div class="waiting-text">Заявка отправлена администратору</div>
+      <div class="waiting-subtext">Ваша заявка на регистрацию отправлена. Администратор проверит и активирует ваш доступ. Пожалуйста, ожидайте.</div>
     </div>
-    <ul class="subscription-features">
-      <li>✅ Доступ к личному кабинету</li>
-      <li>✅ Добавление поездок (для водителей)</li>
-      <li>✅ Бронирование мест (для попутчиков)</li>
-      <li>✅ Просмотр контактов после брони</li>
-      <li>✅ Без скрытых комиссий</li>
-    </ul>
-    <div class="payment-block">
-      <div class="payment-block-title">Реквизиты для оплаты:</div>
-      <div class="payment-details">
-        <div class="label">Перевод по номеру телефона (СБП):</div>
-        <div class="value">+7 (965) 649-94-98</div>
-        <button class="copy-btn" onclick="copyToClipboard('79656499498')">📋 Скопировать номер</button>
-      </div>
-      <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px; color: #1976d2;">💡 Откройте Сбербанк Онлайн → Перевод по номеру телефона → введите номер выше → 100₽</div>
-    </div>
-    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; font-size: 13px; color: #856404; margin: 15px 0;">⚠️ После оплаты нажмите кнопку ниже. Заявка автоматически отправится администратору. Доступ будет активирован после проверки платежа!</div>
-    <button class="btn success" onclick="submitPaymentRequest()">✓ Я оплатил — отправить заявку админу</button>
-    <button class="btn secondary" onclick="closeSubscriptionModal()">Отмена</button>
+    <button class="btn secondary" onclick="closeWaitingModal()">Понятно</button>
   </div>
 </div>
 
@@ -373,7 +345,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; f
 
 <div class="modal hidden" id="usersModal">
   <div class="modal-content">
-    <div class="modal-title">👥 Все участники</div>
+    <div class="modal-title"> Все участники</div>
     <div id="usersList"></div>
     <button class="btn secondary" onclick="closeUsersModal()" style="margin-top: 15px;">Закрыть</button>
   </div>
@@ -406,8 +378,6 @@ const ROUTES = {
 };
 
 const ADMIN_PHONE = '+79656499498';
-const SUBSCRIPTION_PRICE = 100;
-const SUBSCRIPTION_DAYS = 30;
 
 let trips = [];
 let users = [];
@@ -484,16 +454,6 @@ function loadTrips() {
     const saved = localStorage.getItem('trips');
     trips = saved ? JSON.parse(saved) : [];
   } catch (e) { trips = []; }
-  if (trips.length === 0) {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-    trips = [
-      { id: 1, route: 'to-ufa', date: today, time: '08:00', totalSeats: 3, price: 500, driverName: 'Ахмет', driverPhone: '+7 (917) 123-45-67', comment: 'Еду утром', passengers: [], createdAt: Date.now() },
-      { id: 2, route: 'from-ufa', date: today, time: '18:00', totalSeats: 2, price: 500, driverName: 'Рамиль', driverPhone: '+7 (927) 234-56-78', comment: 'Возвращаюсь вечером', passengers: [], createdAt: Date.now() - 1000 },
-      { id: 3, route: 'to-serafim', date: tomorrow, time: '09:00', totalSeats: 4, price: 200, driverName: 'Ильдар', driverPhone: '+7 (906) 345-67-89', comment: 'Еду в Серафимовский', passengers: [], createdAt: Date.now() - 2000 }
-    ];
-    saveTrips();
-  }
 }
 
 function saveTrips() {
@@ -572,14 +532,14 @@ function switchTab(tab) {
     renderTrips();
   } else if (tab === 'add') {
     if (!currentUser) {
-      showToast(' Войдите в личный кабинет', 'warning');
+      showToast('⚠️ Войдите в личный кабинет', 'warning');
       openLoginModal();
       return;
     }
     const user = getUserByPhone(currentUser.phone);
-    if (!user || !user.subscriptionActive) {
-      showToast('⚠️ Оплатите подписку для доступа', 'warning');
-      openSubscriptionModal();
+    if (!user || !user.approved) {
+      showToast('⚠️ Ваша заявка ещё не одобрена администратором', 'warning');
+      openWaitingModal();
       return;
     }
     document.querySelectorAll('.nav-tab')[1].classList.add('active');
@@ -605,14 +565,14 @@ function handleUserBtn() {
 
 function handleAddClick() {
   if (!currentUser) {
-    showToast(' Войдите в личный кабинет чтобы добавить поездку', 'warning');
+    showToast('⚠️ Войдите в личный кабинет чтобы добавить поездку', 'warning');
     openLoginModal();
     return;
   }
   const user = getUserByPhone(currentUser.phone);
-  if (!user || !user.subscriptionActive) {
-    showToast('❌ Оплатите подписку для доступа к ЛК', 'warning');
-    openSubscriptionModal();
+  if (!user || !user.approved) {
+    showToast('⚠️ Ваша заявка ещё не одобрена администратором', 'warning');
+    openWaitingModal();
     return;
   }
   switchTab('add');
@@ -628,6 +588,14 @@ function closeLoginModal() {
   document.getElementById('loginModal').classList.add('hidden');
 }
 
+function openWaitingModal() {
+  document.getElementById('waitingModal').classList.remove('hidden');
+}
+
+function closeWaitingModal() {
+  document.getElementById('waitingModal').classList.add('hidden');
+}
+
 function doLogin() {
   const name = document.getElementById('loginName').value.trim();
   const phone = document.getElementById('loginPhone').value.trim();
@@ -636,16 +604,12 @@ function doLogin() {
   currentUser = { name: name, phone: phone };
   saveUser();
   let user = getUserByPhone(phone);
-  const isNewUser = !user;
   if (!user) {
     user = {
       phone: normalizePhone(phone),
       name: name,
-      subscriptionActive: false,
-      subscriptionExpiry: null,
-      paymentPending: false,
-      registeredAt: Date.now(),
-      role: 'new'
+      approved: false,
+      registeredAt: Date.now()
     };
     users.push(user);
     saveUsers();
@@ -656,21 +620,13 @@ function doLogin() {
     showCabinet();
     return;
   }
-  if (!user.subscriptionActive) {
-    const now = new Date();
-    if (user.subscriptionExpiry && new Date(user.subscriptionExpiry) > now) {
-      user.subscriptionActive = true;
-      saveUsers();
-      showToast('✅ Добро пожаловать, ' + name + '!', 'success');
-      showCabinet();
-    } else {
-      showToast('⚠️ Требуется оплата подписки 100₽/мес', 'warning');
-      openSubscriptionModal();
-    }
-    return;
+  if (user.approved) {
+    showToast('✅ Добро пожаловать, ' + name + '!', 'success');
+    showCabinet();
+  } else {
+    showToast('⚠️ Ваша заявка на рассмотрении', 'warning');
+    openWaitingModal();
   }
-  showToast('✅ Добро пожаловать, ' + name + '!', 'success');
-  showCabinet();
 }
 
 function logout() {
@@ -680,46 +636,14 @@ function logout() {
   showToast('👋 Вы вышли из личного кабинета', 'success');
 }
 
-function openSubscriptionModal() {
-  document.getElementById('subscriptionModal').classList.remove('hidden');
-}
-
-function closeSubscriptionModal() {
-  document.getElementById('subscriptionModal').classList.add('hidden');
-}
-
-function submitPaymentRequest() {
-  if (!currentUser) return;
-  let user = getUserByPhone(currentUser.phone);
-  if (!user) {
-    user = {
-      phone: normalizePhone(currentUser.phone),
-      name: currentUser.name,
-      subscriptionActive: false,
-      subscriptionExpiry: null,
-      paymentPending: true,
-      paymentRequestedAt: Date.now(),
-      registeredAt: Date.now(),
-      role: 'new'
-    };
-    users.push(user);
-  } else {
-    user.paymentPending = true;
-    user.paymentRequestedAt = Date.now();
-  }
-  saveUsers();
-  closeSubscriptionModal();
-  showToast('✅ Заявка отправлена администратору! Ожидайте активации.', 'success');
-}
-
 function showCabinet() {
   if (!currentUser) {
     openLoginModal();
     return;
   }
   const user = getUserByPhone(currentUser.phone);
-  if (!isAdmin() && (!user || !user.subscriptionActive)) {
-    openSubscriptionModal();
+  if (!isAdmin() && (!user || !user.approved)) {
+    openWaitingModal();
     return;
   }
   document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
@@ -732,11 +656,9 @@ function showCabinet() {
   const statusEl = document.getElementById('cabinetStatus');
   statusEl.innerHTML = '';
   if (isAdmin()) {
-    statusEl.innerHTML = '<span class="status-badge status-active">👑 Администратор</span>';
-  } else if (user && user.subscriptionExpiry) {
-    const expiryDate = new Date(user.subscriptionExpiry);
-    const daysLeft = Math.ceil((expiryDate - new Date()) / (1000 * 60 * 60 * 24));
-    statusEl.innerHTML = '<span class="status-badge status-active">✅ Активно до ' + formatDate(user.subscriptionExpiry) + ' (' + daysLeft + ' дн.)</span>';
+    statusEl.innerHTML = '<span class="status-badge status-active"> Администратор</span>';
+  } else if (user && user.approved) {
+    statusEl.innerHTML = '<span class="status-badge status-active">✅ Доступ активен</span>';
   }
   const adminPanel = document.getElementById('adminPanel');
   if (isAdmin()) {
@@ -749,20 +671,20 @@ function showCabinet() {
 
 function renderAdminPanel() {
   const panel = document.getElementById('adminPanel');
-  const pendingUsers = users.filter(function(u) { return u.paymentPending && !u.subscriptionActive && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
-  const activeUsers = users.filter(function(u) { return u.subscriptionActive && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
-  const driverCount = users.filter(function(u) { return u.subscriptionActive && isDriver(u.phone) && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); }).length;
-  const passengerCount = users.filter(function(u) { return u.subscriptionActive && isPassenger(u.phone) && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); }).length;
+  const pendingUsers = users.filter(function(u) { return !u.approved && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
+  const activeUsers = users.filter(function(u) { return u.approved && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
+  const driverCount = users.filter(function(u) { return u.approved && isDriver(u.phone) && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); }).length;
+  const passengerCount = users.filter(function(u) { return u.approved && isPassenger(u.phone) && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); }).length;
   const totalTrips = trips.length;
   const totalBookings = trips.reduce(function(sum, t) { return sum + (t.passengers ? t.passengers.length : 0); }, 0);
   
   let html = '<div class="section-title">👑 Панель администратора</div>';
   html += '<div class="stats-grid">';
-  html += '<div class="stat-card pending"><div class="stat-value">' + pendingUsers.length + '</div><div class="stat-label">⏳ Ожидают доступа</div></div>';
+  html += '<div class="stat-card pending"><div class="stat-value">' + pendingUsers.length + '</div><div class="stat-label"> Ожидают одобрения</div></div>';
   html += '<div class="stat-card active"><div class="stat-value">' + activeUsers.length + '</div><div class="stat-label">✅ Активных</div></div>';
   html += '<div class="stat-card drivers"><div class="stat-value">' + driverCount + '</div><div class="stat-label">🚗 Водителей</div></div>';
-  html += '<div class="stat-card passengers"><div class="stat-value">' + passengerCount + '</div><div class="stat-label">🎫 Попутчиков</div></div>';
-  html += '<div class="stat-card"><div class="stat-value">' + totalTrips + '</div><div class="stat-label"> Поездок</div></div>';
+  html += '<div class="stat-card passengers"><div class="stat-value">' + passengerCount + '</div><div class="stat-label"> Попутчиков</div></div>';
+  html += '<div class="stat-card"><div class="stat-value">' + totalTrips + '</div><div class="stat-label">🚙 Поездок</div></div>';
   html += '<div class="stat-card"><div class="stat-value">' + totalBookings + '</div><div class="stat-label">🎯 Бронирований</div></div>';
   html += '</div>';
   
@@ -776,10 +698,10 @@ function renderAdminPanel() {
   html += '</div>';
   
   if (pendingUsers.length > 0) {
-    html += '<div class="section-title">⏳ Новые заявки (требуют доступа)</div>';
+    html += '<div class="section-title">⏳ Новые заявки (требуют одобрения)</div>';
     html += pendingUsers.map(function(u) {
-      const regDate = new Date(u.registeredAt || u.paymentRequestedAt).toLocaleString('ru-RU');
-      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + u.name + '</div><div class="request-phone">📞 ' + u.phone + '</div></div><span class="status-badge status-pending">⏳ Новая заявка</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Зарегистрирован: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + u.phone + '\')">✅ Добавить и дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')">❌ Отклонить</button></div></div>';
+      const regDate = new Date(u.registeredAt).toLocaleString('ru-RU');
+      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + u.name + '</div><div class="request-phone">📞 ' + u.phone + '</div></div><span class="status-badge status-pending">⏳ Новая заявка</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Зарегистрирован: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + u.phone + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')"> Отклонить</button></div></div>';
     }).join('');
   }
   
@@ -788,18 +710,18 @@ function renderAdminPanel() {
 
 function showRequests() {
   const container = document.getElementById('requestsList');
-  const pendingUsers = users.filter(function(u) { return u.paymentPending && !u.subscriptionActive && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
+  const pendingUsers = users.filter(function(u) { return !u.approved && normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
   if (pendingUsers.length === 0) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Нет новых заявок</div></div>';
   } else {
     container.innerHTML = pendingUsers.map(function(u) {
-      const regDate = new Date(u.registeredAt || u.paymentRequestedAt).toLocaleString('ru-RU');
+      const regDate = new Date(u.registeredAt).toLocaleString('ru-RU');
       const isDrv = isDriver(u.phone);
       const isPas = isPassenger(u.phone);
       let roleBadge = '<span class="badge" style="background: #999; color: white;">Новый</span>';
-      if (isDrv) roleBadge = '<span class="badge driver">🚗 Водитель</span>';
+      if (isDrv) roleBadge = '<span class="badge driver"> Водитель</span>';
       else if (isPas) roleBadge = '<span class="badge passenger">🎫 Попутчик</span>';
-      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + u.name + ' ' + roleBadge + '</div><div class="request-phone">📞 ' + u.phone + '</div></div><span class="status-badge status-pending">⏳ Ожидает</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Заявка: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + u.phone + '\')">✅ Добавить и дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')">❌ Отклонить</button></div></div>';
+      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + u.name + ' ' + roleBadge + '</div><div class="request-phone">📞 ' + u.phone + '</div></div><span class="status-badge status-pending">⏳ Ожидает</span></div><div style="font-size: 12px; color: #666; margin: 8px 0;">Заявка: ' + regDate + '</div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + u.phone + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')">❌ Отклонить</button></div></div>';
     }).join('');
   }
   document.getElementById('requestsModal').classList.remove('hidden');
@@ -809,31 +731,28 @@ function showAllUsers() {
   const container = document.getElementById('usersList');
   const allUsers = users.filter(function(u) { return normalizePhone(u.phone) !== normalizePhone(ADMIN_PHONE); });
   if (allUsers.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">Пока нет участников</div></div>';
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon"></div><div class="empty-text">Пока нет участников</div></div>';
   } else {
     container.innerHTML = allUsers.map(function(u) {
       const isDrv = isDriver(u.phone);
       const isPas = isPassenger(u.phone);
       let roleBadge = '<span class="badge" style="background: #999; color: white;">Новый</span>';
-      if (isDrv && isPas) roleBadge = '<span class="badge driver">🚗 Водитель + 🎫 Попутчик</span>';
-      else if (isDrv) roleBadge = '<span class="badge driver"> Водитель</span>';
+      if (isDrv && isPas) roleBadge = '<span class="badge driver">🚗 Водитель +  Попутчик</span>';
+      else if (isDrv) roleBadge = '<span class="badge driver">🚗 Водитель</span>';
       else if (isPas) roleBadge = '<span class="badge passenger">🎫 Попутчик</span>';
       let statusBadge = '';
-      if (u.subscriptionActive) {
-        const daysLeft = Math.ceil((new Date(u.subscriptionExpiry) - new Date()) / (1000 * 60 * 60 * 24));
-        statusBadge = '<span class="status-badge status-active">✅ ' + daysLeft + ' дн.</span>';
-      } else if (u.paymentPending) {
-        statusBadge = '<span class="status-badge status-pending">⏳ Ожидает</span>';
+      if (u.approved) {
+        statusBadge = '<span class="status-badge status-active">✅ Активен</span>';
       } else {
-        statusBadge = '<span class="status-badge status-expired">❌ Нет доступа</span>';
+        statusBadge = '<span class="status-badge status-pending">⏳ Ожидает</span>';
       }
       let actions = '';
-      if (!u.subscriptionActive) {
-        actions = '<div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + u.phone + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')">❌ Убрать</button></div>';
+      if (!u.approved) {
+        actions = '<div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + u.phone + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')">❌ Отклонить</button></div>';
       } else {
-        actions = '<div class="request-actions"><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')"> Отозвать доступ</button></div>';
+        actions = '<div class="request-actions"><button class="btn reject" onclick="rejectUser(\'' + u.phone + '\')">🚫 Отозвать доступ</button></div>';
       }
-      return '<div class="request-card ' + (u.subscriptionActive ? 'approved' : '') + '"><div class="request-header"><div><div class="request-name">' + u.name + '</div><div class="request-phone">📞 ' + u.phone + '</div><div style="margin-top: 5px;">' + roleBadge + ' ' + statusBadge + '</div></div></div>' + actions + '</div>';
+      return '<div class="request-card ' + (u.approved ? 'approved' : '') + '"><div class="request-header"><div><div class="request-name">' + u.name + '</div><div class="request-phone">📞 ' + u.phone + '</div><div style="margin-top: 5px;">' + roleBadge + ' ' + statusBadge + '</div></div></div>' + actions + '</div>';
     }).join('');
   }
   document.getElementById('usersModal').classList.remove('hidden');
@@ -842,11 +761,7 @@ function showAllUsers() {
 function approveUser(phone) {
   const user = users.find(function(u) { return normalizePhone(u.phone) === normalizePhone(phone); });
   if (!user) return;
-  const now = new Date();
-  const expiry = new Date(now.getTime() + SUBSCRIPTION_DAYS * 24 * 60 * 60 * 1000);
-  user.subscriptionActive = true;
-  user.subscriptionExpiry = expiry.toISOString();
-  user.paymentPending = false;
+  user.approved = true;
   saveUsers();
   if (!document.getElementById('requestsModal').classList.contains('hidden')) {
     showRequests();
@@ -855,15 +770,13 @@ function approveUser(phone) {
   } else {
     showCabinet();
   }
-  showToast('✅ Доступ активирован для ' + user.name + ' на 30 дней!', 'success');
+  showToast('✅ Доступ активирован для ' + user.name, 'success');
 }
 
 function rejectUser(phone) {
   const user = users.find(function(u) { return normalizePhone(u.phone) === normalizePhone(phone); });
   if (!user) return;
-  user.paymentPending = false;
-  user.subscriptionActive = false;
-  user.subscriptionExpiry = null;
+  user.approved = false;
   saveUsers();
   if (!document.getElementById('requestsModal').classList.contains('hidden')) {
     showRequests();
@@ -899,12 +812,12 @@ function renderCabinet() {
   });
   let html = '';
   if (myTrips.length > 0) {
-    html += '<div class="section-title">🚗 Мои поездки как водитель</div>';
+    html += '<div class="section-title"> Мои поездки как водитель</div>';
     html += myTrips.map(function(trip) {
       const route = ROUTES[trip.route];
       const availableSeats = getAvailableSeats(trip);
       const isFull = availableSeats === 0;
-      return '<div class="trip-card" onclick="showTripDetails(' + trip.id + ')"><div class="trip-header"><div class="trip-route">' + route.from + ' → ' + route.to + '</div><div class="trip-price">' + trip.price + ' ₽</div></div><div class="trip-info"><div class="trip-info-row"><span class="trip-info-icon">📅</span><span>' + formatDate(trip.date) + ' в ' + trip.time + '</span></div><div class="trip-info-row"><span class="trip-info-icon">💺</span><span>' + (isFull ? '❌ Мест нет' : '✅ Свободно: ' + availableSeats + ' из ' + trip.totalSeats) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">👥</span><span>Забронировано: ' + (trip.passengers ? trip.passengers.length : 0) + ' чел.</span></div></div><div class="trip-actions"><button class="trip-btn edit" onclick="event.stopPropagation(); editTrip(' + trip.id + ')">✏️ Редактировать</button><button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(' + trip.id + ')">🗑️ Удалить</button></div></div>';
+      return '<div class="trip-card" onclick="showTripDetails(' + trip.id + ')"><div class="trip-header"><div class="trip-route">' + route.from + ' → ' + route.to + '</div><div class="trip-price">' + trip.price + ' ₽</div></div><div class="trip-info"><div class="trip-info-row"><span class="trip-info-icon"></span><span>' + formatDate(trip.date) + ' в ' + trip.time + '</span></div><div class="trip-info-row"><span class="trip-info-icon">💺</span><span>' + (isFull ? '❌ Мест нет' : '✅ Свободно: ' + availableSeats + ' из ' + trip.totalSeats) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">👥</span><span>Забронировано: ' + (trip.passengers ? trip.passengers.length : 0) + ' чел.</span></div></div><div class="trip-actions"><button class="trip-btn edit" onclick="event.stopPropagation(); editTrip(' + trip.id + ')">✏️ Редактировать</button><button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(' + trip.id + ')">🗑️ Удалить</button></div></div>';
     }).join('');
   }
   if (myBookings.length > 0) {
@@ -916,7 +829,7 @@ function renderCabinet() {
     }).join('');
   }
   if (myTrips.length === 0 && myBookings.length === 0) {
-    html = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">У вас пока нет поездок и бронирований</div></div>';
+    html = '<div class="empty-state"><div class="empty-icon"></div><div class="empty-text">У вас пока нет поездок и бронирований</div></div>';
   }
   container.innerHTML = html;
 }
@@ -928,7 +841,7 @@ function renderTrips() {
   if (filter !== 'all') filteredTrips = filteredTrips.filter(function(t) { return t.route === filter; });
   filteredTrips.sort(function(a, b) { return new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time); });
   if (filteredTrips.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🚗</div><div class="empty-text">Нет доступных поездок</div><div style="color: #999; font-size: 14px;">Попробуйте изменить фильтр</div></div>';
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon"></div><div class="empty-text">Нет доступных поездок</div><div style="color: #999; font-size: 14px;">Попробуйте изменить фильтр или добавьте свою поездку</div></div>';
     return;
   }
   container.innerHTML = filteredTrips.map(function(trip) { return renderTripCard(trip); }).join('');
@@ -984,10 +897,10 @@ function addNewTrip() {
   const driverName = document.getElementById('driverName').value.trim();
   const driverPhone = document.getElementById('driverPhone').value.trim();
   const comment = document.getElementById('tripComment').value.trim();
-  if (!route) { showToast('❌ Выберите направление', 'error'); return; }
+  if (!route) { showToast(' Выберите направление', 'error'); return; }
   if (!date) { showToast('❌ Выберите дату', 'error'); return; }
   if (!time) { showToast('❌ Укажите время', 'error'); return; }
-  if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест (1-8)', 'error'); return; }
+  if (!seats || seats < 1 || seats > 8) { showToast(' Укажите количество мест (1-8)', 'error'); return; }
   if (!price || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
   if (!driverName) { showToast('❌ Введите имя водителя', 'error'); return; }
   if (driverPhone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
@@ -1033,7 +946,7 @@ function updateTrip() {
   const driverPhone = document.getElementById('driverPhone').value.trim();
   const comment = document.getElementById('tripComment').value.trim();
   if (!route || !date || !time) { showToast('❌ Заполните обязательные поля', 'error'); return; }
-  if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест', 'error'); return; }
+  if (!seats || seats < 1 || seats > 8) { showToast(' Укажите количество мест', 'error'); return; }
   if (!price || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
   if (!driverName) { showToast('❌ Введите имя', 'error'); return; }
   if (driverPhone.length < 18) { showToast('❌ Введите телефон', 'error'); return; }
@@ -1076,14 +989,14 @@ function clearAddForm() {
 
 function openBooking(id) {
   if (!currentUser) {
-    showToast('❌ Войдите в личный кабинет чтобы забронировать', 'warning');
+    showToast(' Войдите в личный кабинет чтобы забронировать', 'warning');
     openLoginModal();
     return;
   }
   const user = getUserByPhone(currentUser.phone);
-  if (!user || !user.subscriptionActive) {
-    showToast(' Оплатите подписку для бронирования', 'warning');
-    openSubscriptionModal();
+  if (!user || !user.approved) {
+    showToast('⚠️ Ваша заявка ещё не одобрена администратором', 'warning');
+    openWaitingModal();
     return;
   }
   tripToBook = trips.find(function(t) { return t.id === id; });
@@ -1126,11 +1039,11 @@ function confirmBooking() {
   const name = document.getElementById('passengerName').value.trim();
   const phone = document.getElementById('passengerPhone').value.trim();
   const seats = parseInt(document.getElementById('bookingSeats').value);
-  if (!name) { showToast('❌ Введите ваше имя', 'error'); return; }
+  if (!name) { showToast(' Введите ваше имя', 'error'); return; }
   if (phone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
-  if (!tripToBook) { showToast(' Поездка не найдена', 'error'); return; }
+  if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   const availableSeats = getAvailableSeats(tripToBook);
-  if (seats > availableSeats) { showToast('❌ Недостаточно мест', 'error'); return; }
+  if (seats > availableSeats) { showToast(' Недостаточно мест', 'error'); return; }
   if (!tripToBook.passengers) tripToBook.passengers = [];
   tripToBook.passengers.push({ id: Date.now(), name: name, phone: phone, seats: seats, bookedAt: Date.now() });
   saveTrips();
@@ -1148,7 +1061,7 @@ function requestDelete(id) {
     return;
   }
   if (!isAdmin() && normalizePhone(currentUser.phone) !== normalizePhone(trip.driverPhone)) {
-    showToast('❌ Только владелец может удалять', 'error');
+    showToast(' Только владелец может удалять', 'error');
     return;
   }
   tripToDelete = id;
@@ -1185,7 +1098,7 @@ function cancelBooking(tripId, passengerId) {
   const passenger = trip.passengers.find(function(p) { return p.id === passengerId; });
   if (!passenger) return;
   if (normalizePhone(passenger.phone) !== normalizePhone(currentUser.phone)) {
-    showToast('❌ Вы можете отменить только свою бронь', 'error');
+    showToast(' Вы можете отменить только свою бронь', 'error');
     return;
   }
   trip.passengers = trip.passengers.filter(function(p) { return p.id !== passengerId; });
@@ -1211,12 +1124,12 @@ function showTripDetails(id) {
   const showPhone = userHasBooked || isDriver || isAdmin();
   let passengersHtml = '<div style="color: #999; text-align: center; margin-top: 20px;">Пока никто не забронировал</div>';
   if (trip.passengers && trip.passengers.length > 0) {
-    passengersHtml = '<div style="margin-top: 20px;"><div style="font-weight: bold; color: #333; margin-bottom: 10px;">Забронировали (' + trip.passengers.length + '):</div><div class="passenger-list">' + trip.passengers.map(function(p) { return '<div class="passenger-item"><div class="passenger-info"><div class="passenger-name">' + p.name + '</div><div class="passenger-phone">📞 ' + p.phone + ' • ' + p.seats + ' ' + (p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест') + '</div></div></div>'; }).join('') + '</div></div>';
+    passengersHtml = '<div style="margin-top: 20px;"><div style="font-weight: bold; color: #333; margin-bottom: 10px;">Забронировали (' + trip.passengers.length + '):</div><div class="passenger-list">' + trip.passengers.map(function(p) { return '<div class="passenger-item"><div class="passenger-info"><div class="passenger-name">' + p.name + '</div><div class="passenger-phone"> ' + p.phone + ' • ' + p.seats + ' ' + (p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест') + '</div></div></div>'; }).join('') + '</div></div>';
   }
   const phoneDisplay = showPhone
     ? '<div style="color: #667eea; font-size: 16px; margin-top: 5px;">📞 ' + trip.driverPhone + '</div>'
-    : '<div class="phone-hidden" style="margin-top: 5px;">🔒 Номер доступен после бронирования</div>';
-  content.innerHTML = '<div style="margin-bottom: 20px;"><div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px;">' + route.from + ' → ' + route.to + '</div><div style="color: #666; font-size: 14px;"> ' + formatDate(trip.date) + ' в ' + trip.time + '<br>📍 Расстояние: ' + route.distance + '<br>💺 Мест: ' + availableSeats + ' из ' + trip.totalSeats + '<br>💰 Цена: ' + trip.price + ' руб.</div></div><div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Водитель:</div><div style="font-size: 18px; font-weight: bold; color: #333;">' + trip.driverName + '</div>' + phoneDisplay + '</div>' + (trip.comment ? '<div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><div style="font-weight: bold; color: #666; margin-bottom: 5px;">Комментарий:</div><div style="color: #333;">' + trip.comment + '</div></div>' : '') + passengersHtml;
+    : '<div class="phone-hidden" style="margin-top: 5px;"> Номер доступен после бронирования</div>';
+  content.innerHTML = '<div style="margin-bottom: 20px;"><div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px;">' + route.from + ' → ' + route.to + '</div><div style="color: #666; font-size: 14px;">📅 ' + formatDate(trip.date) + ' в ' + trip.time + '<br>📍 Расстояние: ' + route.distance + '<br>💺 Мест: ' + availableSeats + ' из ' + trip.totalSeats + '<br>💰 Цена: ' + trip.price + ' руб.</div></div><div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Водитель:</div><div style="font-size: 18px; font-weight: bold; color: #333;">' + trip.driverName + '</div>' + phoneDisplay + '</div>' + (trip.comment ? '<div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><div style="font-weight: bold; color: #666; margin-bottom: 5px;">Комментарий:</div><div style="color: #333;">' + trip.comment + '</div></div>' : '') + passengersHtml;
   if (showPhone) {
     content.innerHTML += '<a href="tel:' + trip.driverPhone.replace(/\D/g, '') + '" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">📞 Позвонить водителю</a>';
   }
@@ -1239,20 +1152,6 @@ function closeModal() {
   document.getElementById('tripModal').classList.add('hidden');
 }
 
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(function() {
-    showToast('📋 Номер скопирован!', 'success');
-  }).catch(function() {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-    showToast('📋 Номер скопирован!', 'success');
-  });
-}
-
 document.addEventListener('DOMContentLoaded', function() {
   loadTrips();
   loadUsers();
@@ -1273,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('loginModal').addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
 document.getElementById('tripModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 document.getElementById('bookingModal').addEventListener('click', function(e) { if (e.target === this) closeBookingModal(); });
-document.getElementById('subscriptionModal').addEventListener('click', function(e) { if (e.target === this) closeSubscriptionModal(); });
+document.getElementById('waitingModal').addEventListener('click', function(e) { if (e.target === this) closeWaitingModal(); });
 document.getElementById('deleteModal').addEventListener('click', function(e) { if (e.target === this) closeDeleteModal(); });
 document.getElementById('requestsModal').addEventListener('click', function(e) { if (e.target === this) closeRequestsModal(); });
 document.getElementById('usersModal').addEventListener('click', function(e) { if (e.target === this) closeUsersModal(); });
