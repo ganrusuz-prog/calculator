@@ -8,66 +8,30 @@
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
   html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
   
-  #app {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  #app { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
   
   .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    z-index: 10;
+    color: white; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 10;
   }
   .header-title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
   .header-subtitle { font-size: 14px; opacity: 0.9; }
   
-  .nav-tabs {
-    display: flex;
-    background: white;
-    border-bottom: 1px solid #e0e0e0;
-  }
+  .nav-tabs { display: flex; background: white; border-bottom: 1px solid #e0e0e0; overflow-x: auto; }
   .nav-tab {
-    flex: 1;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: #666;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s;
+    flex: 1; min-width: 100px; padding: 15px; text-align: center;
+    font-size: 13px; font-weight: 600; color: #666; cursor: pointer;
+    border-bottom: 3px solid transparent; transition: all 0.3s; white-space: nowrap;
   }
-  .nav-tab.active {
-    color: #667eea;
-    border-bottom-color: #667eea;
-    background: #f8f9ff;
-  }
+  .nav-tab.active { color: #667eea; border-bottom-color: #667eea; background: #f8f9ff; }
   
-  .content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background: #f5f5f5;
-  }
+  .content { flex: 1; overflow-y: auto; padding: 20px; background: #f5f5f5; }
   .content.hidden { display: none; }
   
   .btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 10px;
+    width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 10px;
   }
   .btn:active { transform: scale(0.98); }
   .btn.secondary { background: linear-gradient(135deg, #f093fb, #f5576c); }
@@ -77,241 +41,124 @@
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
   
   .form-group { margin-bottom: 15px; }
-  .form-label {
-    display: block;
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 6px;
-    font-weight: 600;
-  }
+  .form-label { display: block; color: #666; font-size: 14px; margin-bottom: 6px; font-weight: 600; }
   .form-input, .form-select {
-    width: 100%;
-    padding: 14px;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-    background: white;
-    font-family: inherit;
+    width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px;
+    font-size: 16px; transition: border-color 0.3s; background: white; font-family: inherit;
   }
-  .form-input:focus, .form-select:focus {
-    outline: none;
-    border-color: #667eea;
-  }
+  .form-input:focus, .form-select:focus { outline: none; border-color: #667eea; }
   
   .trip-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    transition: all 0.3s;
-    animation: slideIn 0.3s ease;
-    cursor: pointer;
+    background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08); transition: all 0.3s;
+    animation: slideIn 0.3s ease; cursor: pointer;
   }
   .trip-card:active { transform: scale(0.98); }
+  .trip-card.expired { opacity: 0.5; border: 2px dashed #ff416c; }
   
-  .trip-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
+  .trip-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
   .trip-route { font-size: 18px; font-weight: bold; color: #333; }
   .trip-price {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 16px;
-    font-weight: bold;
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    padding: 8px 16px; border-radius: 20px; font-size: 16px; font-weight: bold;
   }
   
-  .trip-info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  .trip-info-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #666;
-    font-size: 14px;
-  }
+  .trip-info { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+  .trip-info-row { display: flex; align-items: center; gap: 10px; color: #666; font-size: 14px; }
   .trip-info-icon { font-size: 18px; width: 24px; text-align: center; }
   
-  .trip-driver {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
-  }
+  .trip-driver { display: flex; align-items: center; gap: 12px; padding-top: 15px; border-top: 1px solid #f0f0f0; }
   .driver-avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    width: 45px; height: 45px; border-radius: 50%;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 20px; font-weight: bold;
   }
   .driver-info { flex: 1; }
   .driver-name { font-weight: bold; color: #333; font-size: 16px; }
   .driver-phone { color: #667eea; font-size: 14px; margin-top: 2px; }
   
-  .trip-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-  }
+  .trip-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
   .trip-btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
+    flex: 1; min-width: 80px; padding: 12px; border: none; border-radius: 10px;
+    font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s;
   }
   .trip-btn.call { background: #4facfe; color: white; }
   .trip-btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
   .trip-btn.delete { background: #ff416c; color: white; }
+  .trip-btn.cancel { background: #f093fb; color: white; }
   .trip-btn:active { transform: scale(0.95); }
   .trip-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   
   .seats-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: #f0f8ff;
-    border-radius: 8px;
+    display: flex; align-items: center; gap: 8px; margin-top: 10px;
+    padding: 8px 12px; background: #f0f8ff; border-radius: 8px;
   }
   .seats-indicator.full { background: #fff0f0; }
   .seats-dots { display: flex; gap: 4px; }
-  .seat-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #43e97b;
-  }
+  .seat-dot { width: 12px; height: 12px; border-radius: 50%; background: #43e97b; }
   .seat-dot.taken { background: #ff416c; }
   .seats-text { font-size: 12px; color: #666; font-weight: bold; }
   
   .filter-section {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    background: white; border-radius: 15px; padding: 20px;
+    margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
   .filter-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px; }
   
   .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 20px;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; padding: 20px;
   }
   .modal.hidden { display: none; }
   .modal-content {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 400px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+    background: white; border-radius: 20px; padding: 30px;
+    max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto;
   }
-  .modal-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
+  .modal-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; text-align: center; }
   
   .passenger-list { margin-top: 15px; }
   .passenger-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background: #f8f9ff;
-    border-radius: 10px;
-    margin-bottom: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px; background: #f8f9ff; border-radius: 10px; margin-bottom: 8px;
   }
   .passenger-info { flex: 1; }
   .passenger-name { font-weight: bold; color: #333; font-size: 14px; }
   .passenger-phone { color: #667eea; font-size: 12px; margin-top: 2px; }
   .passenger-cancel {
-    background: #ff416c;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
+    background: #ff416c; color: white; border: none; border-radius: 8px;
+    padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer;
   }
   
   .empty-state { text-align: center; padding: 60px 20px; color: #999; }
   .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
   .empty-text { font-size: 18px; margin-bottom: 10px; }
   
-  .badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
-    margin-right: 5px;
-  }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 5px; }
   .badge.today { background: #4facfe; color: white; }
   .badge.tomorrow { background: #f093fb; color: white; }
-  .badge.seats { background: #43e97b; color: white; }
   .badge.full { background: #ff416c; color: white; }
+  .badge.mine { background: #667eea; color: white; }
   
   .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 200;
-    animation: slideUp 0.3s ease;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    text-align: center;
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: #333; color: white; padding: 15px 25px; border-radius: 10px;
+    font-size: 14px; font-weight: bold; z-index: 200; animation: slideUp 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; max-width: 90%;
   }
   .toast.hidden { display: none; }
   .toast.success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
   .toast.error { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
   
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .admin-badge {
+    position: fixed; top: 10px; right: 10px; background: #ff416c; color: white;
+    padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold;
+    z-index: 50; cursor: pointer;
   }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translate(-50%, 20px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
-  }
+  
+  @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 </style>
 </head>
 <body>
@@ -323,7 +170,8 @@
   </div>
   
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('trips')"> Найти поездку</div>
+    <div class="nav-tab active" onclick="switchTab('trips')">🔍 Найти</div>
+    <div class="nav-tab" onclick="switchTab('my')"> Мои</div>
     <div class="nav-tab" onclick="switchTab('add')">➕ Добавить</div>
   </div>
   
@@ -352,8 +200,21 @@
         <option value="from-metevtamak">Метевтамак → Карамалы-Губеево</option>
       </select>
     </div>
-    
     <div id="tripsList"></div>
+  </div>
+  
+  <div class="content hidden" id="myContent">
+    <div class="filter-section">
+      <div class="filter-title">👤 Мои поездки и брони</div>
+      <div style="color: #666; font-size: 14px; margin-bottom: 15px;">
+        Введите ваш номер телефона, чтобы увидеть ваши поездки и бронирования:
+      </div>
+      <div class="form-group">
+        <input type="tel" class="form-input" id="myPhone" placeholder="+7 (___) ___-__-__">
+      </div>
+      <button class="btn" onclick="showMyTrips()">Показать мои</button>
+    </div>
+    <div id="myTripsList"></div>
   </div>
   
   <div class="content hidden" id="addContent">
@@ -411,7 +272,7 @@
       
       <div class="form-group">
         <label class="form-label">Номер телефона</label>
-        <input type="tel" class="form-input" id="driverPhone" placeholder="+7 (___) ___-__-__">
+        <input type="tel" class="form-input phone-input" id="driverPhone" placeholder="+7 (___) ___-__-__">
       </div>
       
       <div class="form-group">
@@ -446,7 +307,7 @@
     
     <div class="form-group">
       <label class="form-label">Номер телефона</label>
-      <input type="tel" class="form-input" id="passengerPhone" placeholder="+7 (___) ___-__-__">
+      <input type="tel" class="form-input phone-input" id="passengerPhone" placeholder="+7 (___) ___-__-__">
     </div>
     
     <div class="form-group">
@@ -484,6 +345,21 @@
   </div>
 </div>
 
+<!-- Модальное окно ввода пароля админа -->
+<div class="modal hidden" id="adminModal">
+  <div class="modal-content">
+    <div class="modal-title">🔐 Вход администратора</div>
+    <div style="text-align: center; color: #666; margin-bottom: 20px;">
+      Введите пароль администратора для удаления чужой поездки
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-input" id="adminPassword" placeholder="Пароль">
+    </div>
+    <button class="btn" onclick="confirmAdminDelete()">Подтвердить</button>
+    <button class="btn secondary" onclick="closeAdminModal()">Отмена</button>
+  </div>
+</div>
+
 <div class="toast hidden" id="toast"></div>
 
 <script>
@@ -508,67 +384,85 @@ const ROUTES = {
   'from-metevtamak': { from: 'Метевтамак', to: 'Карамалы-Губеево', distance: '20 км' }
 };
 
+// Пароль администратора (можно изменить)
+const ADMIN_PASSWORD = 'admin2024';
+
 let trips = [];
 let tripToDelete = null;
 let tripToBook = null;
+let currentPhone = ''; // Телефон текущего пользователя
 
-// Загрузка поездок из localStorage
+// Маска телефона
+function formatPhone(value) {
+  let digits = value.replace(/\D/g, '');
+  if (digits.startsWith('7')) digits = digits.substring(1);
+  if (digits.startsWith('8')) digits = digits.substring(1);
+  
+  let formatted = '+7';
+  if (digits.length > 0) formatted += ' (' + digits.substring(0, 3);
+  if (digits.length >= 3) formatted += ') ' + digits.substring(3, 6);
+  if (digits.length >= 6) formatted += '-' + digits.substring(6, 8);
+  if (digits.length >= 8) formatted += '-' + digits.substring(8, 10);
+  
+  return formatted;
+}
+
+function normalizePhone(phone) {
+  return phone.replace(/\D/g, '').replace(/^8/, '7').replace(/^7/, '+7');
+}
+
+// Инициализация масок для всех полей телефона
+function initPhoneMasks() {
+  document.querySelectorAll('.phone-input').forEach(input => {
+    input.addEventListener('input', function(e) {
+      let cursorPos = this.selectionStart;
+      let oldValue = this.value;
+      this.value = formatPhone(this.value);
+      // Восстанавливаем позицию курсора
+      let newPos = this.value.length;
+      this.setSelectionRange(newPos, newPos);
+    });
+    
+    input.addEventListener('focus', function() {
+      if (!this.value) this.value = '+7 (';
+    });
+    
+    input.addEventListener('keydown', function(e) {
+      // Запрещаем удалять +7 (
+      if (e.key === 'Backspace' && this.value.length <= 4) {
+        e.preventDefault();
+      }
+    });
+  });
+}
+
 function loadTrips() {
   try {
     const saved = localStorage.getItem('trips');
-    if (saved) {
-      trips = JSON.parse(saved);
-    } else {
-      trips = [];
-    }
+    trips = saved ? JSON.parse(saved) : [];
   } catch (e) {
     trips = [];
   }
   
-  // Если пусто, добавляем демо-данные
   if (trips.length === 0) {
     const today = new Date().toISOString().split('T')[0];
     const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
     
     trips = [
       {
-        id: 1,
-        route: 'to-ufa',
-        date: today,
-        time: '08:00',
-        totalSeats: 3,
-        price: 500,
-        driverName: 'Ахмет',
-        driverPhone: '+7 (917) 123-45-67',
-        comment: 'Еду утром, заберу по пути',
-        passengers: [],
-        createdAt: Date.now()
+        id: 1, route: 'to-ufa', date: today, time: '08:00', totalSeats: 3, price: 500,
+        driverName: 'Ахмет', driverPhone: '+7 (917) 123-45-67',
+        comment: 'Еду утром, заберу по пути', passengers: [], createdAt: Date.now()
       },
       {
-        id: 2,
-        route: 'from-ufa',
-        date: today,
-        time: '18:00',
-        totalSeats: 2,
-        price: 500,
-        driverName: 'Рамиль',
-        driverPhone: '+7 (927) 234-56-78',
-        comment: 'Возвращаюсь вечером',
-        passengers: [],
-        createdAt: Date.now() - 1000
+        id: 2, route: 'from-ufa', date: today, time: '18:00', totalSeats: 2, price: 500,
+        driverName: 'Рамиль', driverPhone: '+7 (927) 234-56-78',
+        comment: 'Возвращаюсь вечером', passengers: [], createdAt: Date.now() - 1000
       },
       {
-        id: 3,
-        route: 'to-kazan',
-        date: tomorrow,
-        time: '07:00',
-        totalSeats: 4,
-        price: 800,
-        driverName: 'Ильдар',
-        driverPhone: '+7 (906) 345-67-89',
-        comment: 'Еду в Казань, есть места',
-        passengers: [],
-        createdAt: Date.now() - 2000
+        id: 3, route: 'to-kazan', date: tomorrow, time: '07:00', totalSeats: 4, price: 800,
+        driverName: 'Ильдар', driverPhone: '+7 (906) 345-67-89',
+        comment: 'Еду в Казань, есть места', passengers: [], createdAt: Date.now() - 2000
       }
     ];
     saveTrips();
@@ -578,25 +472,39 @@ function loadTrips() {
 function saveTrips() {
   try {
     localStorage.setItem('trips', JSON.stringify(trips));
-    console.log('Поездки сохранены:', trips.length);
   } catch (e) {
     console.error('Ошибка сохранения:', e);
+  }
+}
+
+// Проверка и удаление просроченных поездок (через 1 минуту после времени отправления)
+function removeExpiredTrips() {
+  const now = new Date();
+  const initialLength = trips.length;
+  
+  trips = trips.filter(trip => {
+    const tripDateTime = new Date(trip.date + 'T' + trip.time);
+    const expireTime = new Date(tripDateTime.getTime() + 60000); // +1 минута
+    return now < expireTime;
+  });
+  
+  if (trips.length < initialLength) {
+    saveTrips();
+    console.log(`Удалено просроченных поездок: ${initialLength - trips.length}`);
   }
 }
 
 function getAvailableSeats(trip) {
   if (!trip.passengers) trip.passengers = [];
   const booked = trip.passengers.reduce((sum, p) => sum + (p.seats || 1), 0);
-  return trip.totalSeats - booked;
+  return Math.max(0, trip.totalSeats - booked);
 }
 
 function showToast(message, type = '') {
   const toast = document.getElementById('toast');
   toast.textContent = message;
   toast.className = 'toast ' + type;
-  setTimeout(() => {
-    toast.classList.add('hidden');
-  }, 3000);
+  setTimeout(() => { toast.classList.add('hidden'); }, 3000);
 }
 
 function switchTab(tab) {
@@ -604,17 +512,24 @@ function switchTab(tab) {
   if (tab === 'trips') {
     document.querySelectorAll('.nav-tab')[0].classList.add('active');
     document.getElementById('tripsContent').classList.remove('hidden');
+    document.getElementById('myContent').classList.add('hidden');
     document.getElementById('addContent').classList.add('hidden');
+    removeExpiredTrips();
     renderTrips();
-  } else {
+  } else if (tab === 'my') {
     document.querySelectorAll('.nav-tab')[1].classList.add('active');
     document.getElementById('tripsContent').classList.add('hidden');
+    document.getElementById('myContent').classList.remove('hidden');
+    document.getElementById('addContent').classList.add('hidden');
+  } else {
+    document.querySelectorAll('.nav-tab')[2].classList.add('active');
+    document.getElementById('tripsContent').classList.add('hidden');
+    document.getElementById('myContent').classList.add('hidden');
     document.getElementById('addContent').classList.remove('hidden');
   }
 }
 
 function renderTrips() {
-  console.log('Рендеринг поездок, всего:', trips.length);
   const filter = document.getElementById('filterRoute').value;
   const container = document.getElementById('tripsList');
   
@@ -640,77 +555,73 @@ function renderTrips() {
     return;
   }
   
-  container.innerHTML = filteredTrips.map(trip => {
-    const route = ROUTES[trip.route];
-    if (!route) return '';
-    
-    const tripDate = new Date(trip.date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    let dateBadge = '';
-    if (tripDate.getTime() === today.getTime()) {
-      dateBadge = '<span class="badge today">Сегодня</span>';
-    } else if (tripDate.getTime() === tomorrow.getTime()) {
-      dateBadge = '<span class="badge tomorrow">Завтра</span>';
-    }
-    
-    const availableSeats = getAvailableSeats(trip);
-    const isFull = availableSeats === 0;
-    
-    const seatsDots = Array.from({length: trip.totalSeats}, (_, i) => 
-      `<div class="seat-dot ${i >= availableSeats ? 'taken' : ''}"></div>`
-    ).join('');
-    
-    return `
-      <div class="trip-card" onclick="showTripDetails(${trip.id})">
-        <div class="trip-header">
-          <div class="trip-route">${route.from} → ${route.to}</div>
-          <div class="trip-price">${trip.price} ₽</div>
-        </div>
-        <div class="trip-info">
-          <div class="trip-info-row">
-            <span class="trip-info-icon"></span>
-            <span>${dateBadge} ${formatDate(trip.date)} в ${trip.time}</span>
-          </div>
-          <div class="trip-info-row">
-            <span class="trip-info-icon">📍</span>
-            <span>Расстояние: ${route.distance}</span>
-          </div>
-        </div>
-        
-        <div class="seats-indicator ${isFull ? 'full' : ''}">
-          <div class="seats-dots">${seatsDots}</div>
-          <div class="seats-text">
-            ${isFull ? '❌ Мест нет' : `✅ Свободно: ${availableSeats} из ${trip.totalSeats}`}
-          </div>
-        </div>
-        
-        <div class="trip-driver">
-          <div class="driver-avatar">${trip.driverName.charAt(0)}</div>
-          <div class="driver-info">
-            <div class="driver-name">${trip.driverName}</div>
-            <div class="driver-phone">📞 ${trip.driverPhone}</div>
-          </div>
-        </div>
-        
-        <div class="trip-actions">
-          <button class="trip-btn call" onclick="event.stopPropagation(); callDriver('${trip.driverPhone}')">📞 Позвонить</button>
-          <button class="trip-btn booking" onclick="event.stopPropagation(); openBooking(${trip.id})" ${isFull ? 'disabled' : ''}>
-            ${isFull ? 'Мест нет' : '🎫 Забронировать'}
-          </button>
-          <button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(${trip.id})">🗑️</button>
-        </div>
-      </div>
-    `;
-  }).join('');
+  container.innerHTML = filteredTrips.map(trip => renderTripCard(trip)).join('');
 }
 
-function filterTrips() {
-  renderTrips();
+function renderTripCard(trip) {
+  const route = ROUTES[trip.route];
+  if (!route) return '';
+  
+  const tripDate = new Date(trip.date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  
+  let dateBadge = '';
+  if (tripDate.getTime() === today.getTime()) dateBadge = '<span class="badge today">Сегодня</span>';
+  else if (tripDate.getTime() === tomorrow.getTime()) dateBadge = '<span class="badge tomorrow">Завтра</span>';
+  
+  const availableSeats = getAvailableSeats(trip);
+  const isFull = availableSeats === 0;
+  
+  const seatsDots = Array.from({length: trip.totalSeats}, (_, i) => 
+    `<div class="seat-dot ${i >= availableSeats ? 'taken' : ''}"></div>`
+  ).join('');
+  
+  return `
+    <div class="trip-card" onclick="showTripDetails(${trip.id})">
+      <div class="trip-header">
+        <div class="trip-route">${route.from} → ${route.to}</div>
+        <div class="trip-price">${trip.price} ₽</div>
+      </div>
+      <div class="trip-info">
+        <div class="trip-info-row">
+          <span class="trip-info-icon"></span>
+          <span>${dateBadge} ${formatDate(trip.date)} в ${trip.time}</span>
+        </div>
+        <div class="trip-info-row">
+          <span class="trip-info-icon">📍</span>
+          <span>Расстояние: ${route.distance}</span>
+        </div>
+      </div>
+      
+      <div class="seats-indicator ${isFull ? 'full' : ''}">
+        <div class="seats-dots">${seatsDots}</div>
+        <div class="seats-text">
+          ${isFull ? '❌ Мест нет' : `✅ Свободно: ${availableSeats} из ${trip.totalSeats}`}
+        </div>
+      </div>
+      
+      <div class="trip-driver">
+        <div class="driver-avatar">${trip.driverName.charAt(0)}</div>
+        <div class="driver-info">
+          <div class="driver-name">${trip.driverName}</div>
+          <div class="driver-phone">📞 ${trip.driverPhone}</div>
+        </div>
+      </div>
+      
+      <div class="trip-actions">
+        <button class="trip-btn call" onclick="event.stopPropagation(); callDriver('${trip.driverPhone}')">📞 Позвонить</button>
+        <button class="trip-btn booking" onclick="event.stopPropagation(); openBooking(${trip.id})" ${isFull ? 'disabled' : ''}>
+          ${isFull ? '❌ Мест нет' : '🎫 Забронировать'}
+        </button>
+      </div>
+    </div>
+  `;
 }
+
+function filterTrips() { renderTrips(); }
 
 function formatDate(dateStr) {
   const date = new Date(dateStr);
@@ -719,21 +630,16 @@ function formatDate(dateStr) {
 }
 
 function callDriver(phone) {
-  window.location.href = `tel:${phone}`;
+  const cleanPhone = phone.replace(/\D/g, '');
+  window.location.href = `tel:+${cleanPhone}`;
 }
 
 function openBooking(id) {
   tripToBook = trips.find(t => t.id === id);
-  if (!tripToBook) {
-    showToast('❌ Поездка не найдена', 'error');
-    return;
-  }
+  if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   
   const availableSeats = getAvailableSeats(tripToBook);
-  if (availableSeats === 0) {
-    showToast(' Свободных мест нет', 'error');
-    return;
-  }
+  if (availableSeats === 0) { showToast('❌ Свободных мест нет', 'error'); return; }
   
   const route = ROUTES[tripToBook.route];
   document.getElementById('bookingInfo').innerHTML = `
@@ -753,7 +659,6 @@ function openBooking(id) {
   
   document.getElementById('pricePerSeat').textContent = `${tripToBook.price} ₽`;
   updateTotalPrice();
-  
   seatsSelect.onchange = updateTotalPrice;
   
   document.getElementById('bookingModal').classList.remove('hidden');
@@ -778,32 +683,17 @@ function confirmBooking() {
   const phone = document.getElementById('passengerPhone').value.trim();
   const seats = parseInt(document.getElementById('bookingSeats').value);
   
-  if (!name || !phone) {
-    showToast('❌ Заполните имя и телефон', 'error');
-    return;
-  }
-  
-  if (!tripToBook) {
-    showToast('❌ Поездка не найдена', 'error');
-    return;
-  }
+  if (!name) { showToast('❌ Введите ваше имя', 'error'); return; }
+  if (phone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
+  if (!tripToBook) { showToast('❌ Поездка не найдена', 'error'); return; }
   
   const availableSeats = getAvailableSeats(tripToBook);
-  if (seats > availableSeats) {
-    showToast('❌ Недостаточно мест', 'error');
-    return;
-  }
+  if (seats > availableSeats) { showToast('❌ Недостаточно мест', 'error'); return; }
   
-  if (!tripToBook.passengers) {
-    tripToBook.passengers = [];
-  }
+  if (!tripToBook.passengers) tripToBook.passengers = [];
   
   tripToBook.passengers.push({
-    id: Date.now(),
-    name,
-    phone,
-    seats,
-    bookedAt: Date.now()
+    id: Date.now(), name, phone, seats, bookedAt: Date.now()
   });
   
   saveTrips();
@@ -812,14 +702,53 @@ function confirmBooking() {
   showToast(`✅ Забронировано ${seats} ${seats === 1 ? 'место' : seats < 5 ? 'места' : 'мест'}!`, 'success');
 }
 
+// Удаление с проверкой прав
 function requestDelete(id) {
+  const trip = trips.find(t => t.id === id);
+  if (!trip) return;
+  
+  const myPhone = document.getElementById('myPhone').value.trim();
+  const normalizedMy = normalizePhone(myPhone);
+  const normalizedDriver = normalizePhone(trip.driverPhone);
+  
+  // Если телефон совпадает с водителем — удаляем сразу
+  if (myPhone && normalizedMy === normalizedDriver) {
+    tripToDelete = id;
+    document.getElementById('deleteModal').classList.remove('hidden');
+    return;
+  }
+  
+  // Иначе запрашиваем пароль админа
   tripToDelete = id;
-  document.getElementById('deleteModal').classList.remove('hidden');
+  document.getElementById('adminPassword').value = '';
+  document.getElementById('adminModal').classList.remove('hidden');
 }
 
 function closeDeleteModal() {
   tripToDelete = null;
   document.getElementById('deleteModal').classList.add('hidden');
+}
+
+function closeAdminModal() {
+  tripToDelete = null;
+  document.getElementById('adminModal').classList.add('hidden');
+  document.getElementById('adminPassword').value = '';
+}
+
+function confirmAdminDelete() {
+  const password = document.getElementById('adminPassword').value;
+  if (password !== ADMIN_PASSWORD) {
+    showToast('❌ Неверный пароль администратора', 'error');
+    return;
+  }
+  if (tripToDelete !== null) {
+    trips = trips.filter(t => t.id !== tripToDelete);
+    saveTrips();
+    showToast('✓ Поездка удалена администратором', 'success');
+    renderTrips();
+    closeAdminModal();
+    closeDeleteModal();
+  }
 }
 
 function confirmDelete() {
@@ -842,63 +771,22 @@ function addTrip() {
   const driverPhone = document.getElementById('driverPhone').value.trim();
   const comment = document.getElementById('tripComment').value.trim();
   
-  // Валидация
-  if (!route) {
-    showToast('❌ Выберите направление', 'error');
-    return;
-  }
-  
-  if (!date) {
-    showToast('❌ Выберите дату', 'error');
-    return;
-  }
-  
-  if (!time) {
-    showToast('❌ Укажите время', 'error');
-    return;
-  }
-  
-  if (!seats || seats < 1 || seats > 8) {
-    showToast('❌ Укажите количество мест (1-8)', 'error');
-    return;
-  }
-  
-  if (!price || price < 0) {
-    showToast('❌ Укажите цену за поездку', 'error');
-    return;
-  }
-  
-  if (!driverName) {
-    showToast('❌ Введите ваше имя', 'error');
-    return;
-  }
-  
-  if (!driverPhone) {
-    showToast('❌ Введите номер телефона', 'error');
-    return;
-  }
+  if (!route) { showToast('❌ Выберите направление', 'error'); return; }
+  if (!date) { showToast('❌ Выберите дату', 'error'); return; }
+  if (!time) { showToast('❌ Укажите время', 'error'); return; }
+  if (!seats || seats < 1 || seats > 8) { showToast('❌ Укажите количество мест (1-8)', 'error'); return; }
+  if (!price || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
+  if (!driverName) { showToast('❌ Введите ваше имя', 'error'); return; }
+  if (driverPhone.length < 18) { showToast('❌ Введите полный номер телефона', 'error'); return; }
   
   const newTrip = {
-    id: Date.now(),
-    route,
-    date,
-    time,
-    totalSeats: seats,
-    price,
-    driverName,
-    driverPhone,
-    comment,
-    passengers: [],
-    createdAt: Date.now()
+    id: Date.now(), route, date, time, totalSeats: seats, price,
+    driverName, driverPhone, comment, passengers: [], createdAt: Date.now()
   };
   
   trips.push(newTrip);
   saveTrips();
   
-  console.log('Добавлена поездка:', newTrip);
-  console.log('Всего поездок:', trips.length);
-  
-  // Очистка формы
   document.getElementById('tripDate').value = '';
   document.getElementById('tripTime').value = '';
   document.getElementById('tripSeats').value = '3';
@@ -908,41 +796,48 @@ function addTrip() {
   document.getElementById('tripComment').value = '';
   
   showToast('✓ Поездка успешно размещена!', 'success');
-  
-  // Переключаемся на список и обновляем
   switchTab('trips');
 }
 
 function showTripDetails(id) {
   const trip = trips.find(t => t.id === id);
-  if (!trip) {
-    showToast('❌ Поездка не найдена', 'error');
-    return;
-  }
+  if (!trip) { showToast('❌ Поездка не найдена', 'error'); return; }
   
   const route = ROUTES[trip.route];
   if (!route) return;
   
   const availableSeats = getAvailableSeats(trip);
-  const modal = document.getElementById('tripModal');
   const content = document.getElementById('modalContent');
   
+  const myPhone = document.getElementById('myPhone').value.trim();
+  const normalizedMy = normalizePhone(myPhone);
+  
+  // Список пассажиров с возможностью отмены только для своих
   const passengersHtml = trip.passengers && trip.passengers.length > 0 ? `
     <div style="margin-top: 20px;">
       <div style="font-weight: bold; color: #333; margin-bottom: 10px;">Забронировали (${trip.passengers.length}):</div>
       <div class="passenger-list">
-        ${trip.passengers.map(p => `
-          <div class="passenger-item">
-            <div class="passenger-info">
-              <div class="passenger-name">${p.name}</div>
-              <div class="passenger-phone">📞 ${p.phone} • ${p.seats} ${p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест'}</div>
+        ${trip.passengers.map(p => {
+          const isMyBooking = myPhone && normalizePhone(p.phone) === normalizedMy;
+          return `
+            <div class="passenger-item">
+              <div class="passenger-info">
+                <div class="passenger-name">${p.name} ${isMyBooking ? '<span class="badge mine">Моё</span>' : ''}</div>
+                <div class="passenger-phone"> ${p.phone} • ${p.seats} ${p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест'}</div>
+              </div>
+              ${isMyBooking ? `<button class="passenger-cancel" onclick="cancelBooking(${trip.id}, ${p.id})">Отмена</button>` : ''}
             </div>
-            <button class="passenger-cancel" onclick="cancelBooking(${trip.id}, ${p.id})">Отмена</button>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   ` : '<div style="color: #999; text-align: center; margin-top: 20px;">Пока никто не забронировал</div>';
+  
+  // Кнопка удаления только для водителя или админа
+  const isDriver = myPhone && normalizedMy === normalizePhone(trip.driverPhone);
+  const deleteButton = isDriver 
+    ? `<button class="btn danger" onclick="closeModal(); requestDelete(${trip.id})">🗑️ Удалить поездку</button>`
+    : `<button class="btn danger" onclick="closeModal(); requestDelete(${trip.id})">🗑️ Удалить (нужен пароль)</button>`;
   
   content.innerHTML = `
     <div style="margin-bottom: 20px;">
@@ -951,7 +846,7 @@ function showTripDetails(id) {
       </div>
       <div style="color: #666; font-size: 14px;">
         📅 ${formatDate(trip.date)} в ${trip.time}<br>
-         Расстояние: ${route.distance}<br>
+        📍 Расстояние: ${route.distance}<br>
         💺 Мест: ${availableSeats} из ${trip.totalSeats}<br>
         💰 Цена: ${trip.price} руб.
       </div>
@@ -960,7 +855,7 @@ function showTripDetails(id) {
     <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
       <div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Водитель:</div>
       <div style="font-size: 18px; font-weight: bold; color: #333;">${trip.driverName}</div>
-      <div style="color: #667eea; font-size: 16px; margin-top: 5px;">📞 ${trip.driverPhone}</div>
+      <div style="color: #667eea; font-size: 16px; margin-top: 5px;"> ${trip.driverPhone}</div>
     </div>
     
     ${trip.comment ? `
@@ -972,20 +867,18 @@ function showTripDetails(id) {
     
     ${passengersHtml}
     
-    <a href="tel:${trip.driverPhone}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">
-       Позвонить водителю
+    <a href="tel:${trip.driverPhone.replace(/\D/g, '')}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">
+      📞 Позвонить водителю
     </a>
     ${availableSeats > 0 ? `
       <button class="btn booking" onclick="closeModal(); openBooking(${trip.id})">
-        🎫 Забронировать место
+         Забронировать место
       </button>
-    ` : ''}
-    <button class="btn danger" onclick="closeModal(); requestDelete(${trip.id})">
-      🗑️ Удалить поездку
-    </button>
+    ` : '<div style="text-align: center; padding: 16px; background: #fff0f0; border-radius: 12px; font-weight: bold; color: #ff416c; margin-top: 15px;">❌ Мест нет</div>'}
+    ${deleteButton}
   `;
   
-  modal.classList.remove('hidden');
+  document.getElementById('tripModal').classList.remove('hidden');
 }
 
 function closeModal() {
@@ -996,7 +889,21 @@ function cancelBooking(tripId, passengerId) {
   const trip = trips.find(t => t.id === tripId);
   if (!trip) return;
   
-  if (!trip.passengers) trip.passengers = [];
+  const myPhone = document.getElementById('myPhone').value.trim();
+  if (!myPhone) {
+    showToast('❌ Введите ваш телефон во вкладке "Мои"', 'error');
+    return;
+  }
+  
+  const passenger = trip.passengers.find(p => p.id === passengerId);
+  if (!passenger) return;
+  
+  // Проверка: только владелец брони может отменить
+  if (normalizePhone(passenger.phone) !== normalizePhone(myPhone)) {
+    showToast('❌ Вы можете отменить только свою бронь', 'error');
+    return;
+  }
+  
   trip.passengers = trip.passengers.filter(p => p.id !== passengerId);
   saveTrips();
   showTripDetails(tripId);
@@ -1004,33 +911,130 @@ function cancelBooking(tripId, passengerId) {
   showToast('✓ Бронирование отменено', 'success');
 }
 
-// Инициализация при загрузке
-document.addEventListener('DOMContentLoaded', function() {
-  loadTrips();
-  
-  // Установка минимальной даты
-  const today = new Date().toISOString().split('T')[0];
-  const dateInput = document.getElementById('tripDate');
-  if (dateInput) {
-    dateInput.min = today;
+function showMyTrips() {
+  const phone = document.getElementById('myPhone').value.trim();
+  if (phone.length < 18) {
+    showToast('❌ Введите полный номер телефона', 'error');
+    return;
   }
   
-  // Первичный рендеринг
+  currentPhone = normalizePhone(phone);
+  const container = document.getElementById('myTripsList');
+  
+  // Находим поездки где пользователь — водитель
+  const myAsDriver = trips.filter(t => normalizePhone(t.driverPhone) === currentPhone);
+  
+  // Находим брони пользователя
+  const myBookings = [];
+  trips.forEach(trip => {
+    if (trip.passengers) {
+      trip.passengers.forEach(p => {
+        if (normalizePhone(p.phone) === currentPhone) {
+          myBookings.push({ trip, passenger: p });
+        }
+      });
+    }
+  });
+  
+  let html = '';
+  
+  if (myAsDriver.length > 0) {
+    html += '<div class="filter-title" style="margin-top: 20px;">🚗 Мои поездки как водитель:</div>';
+    html += myAsDriver.map(trip => {
+      const availableSeats = getAvailableSeats(trip);
+      const isFull = availableSeats === 0;
+      return `
+        <div class="trip-card" onclick="showTripDetails(${trip.id})">
+          <div class="trip-header">
+            <div class="trip-route">${ROUTES[trip.route].from} → ${ROUTES[trip.route].to}</div>
+            <span class="badge mine">Водитель</span>
+          </div>
+          <div class="trip-info">
+            <div class="trip-info-row">
+              <span class="trip-info-icon">📅</span>
+              <span>${formatDate(trip.date)} в ${trip.time}</span>
+            </div>
+            <div class="trip-info-row">
+              <span class="trip-info-icon">💺</span>
+              <span>${isFull ? '❌ Мест нет' : `✅ Свободно: ${availableSeats} из ${trip.totalSeats}`}</span>
+            </div>
+          </div>
+          <div class="trip-actions">
+            <button class="trip-btn delete" onclick="event.stopPropagation(); requestDelete(${trip.id})">🗑️ Удалить</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  if (myBookings.length > 0) {
+    html += '<div class="filter-title" style="margin-top: 20px;">🎫 Мои бронирования:</div>';
+    html += myBookings.map(({ trip, passenger }) => `
+      <div class="trip-card" onclick="showTripDetails(${trip.id})">
+        <div class="trip-header">
+          <div class="trip-route">${ROUTES[trip.route].from} → ${ROUTES[trip.route].to}</div>
+          <span class="badge" style="background: #43e97b; color: #333;">Бронь</span>
+        </div>
+        <div class="trip-info">
+          <div class="trip-info-row">
+            <span class="trip-info-icon">📅</span>
+            <span>${formatDate(trip.date)} в ${trip.time}</span>
+          </div>
+          <div class="trip-info-row">
+            <span class="trip-info-icon">💺</span>
+            <span>${passenger.seats} ${passenger.seats === 1 ? 'место' : passenger.seats < 5 ? 'места' : 'мест'}</span>
+          </div>
+          <div class="trip-info-row">
+            <span class="trip-info-icon">👤</span>
+            <span>Водитель: ${trip.driverName}</span>
+          </div>
+        </div>
+        <div class="trip-actions">
+          <button class="trip-btn call" onclick="event.stopPropagation(); callDriver('${trip.driverPhone}')"> Позвонить</button>
+          <button class="trip-btn cancel" onclick="event.stopPropagation(); cancelBooking(${trip.id}, ${passenger.id})">Отменить бронь</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  if (myAsDriver.length === 0 && myBookings.length === 0) {
+    html = `
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <div class="empty-text">У вас нет поездок и бронирований</div>
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+  loadTrips();
+  initPhoneMasks();
+  
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('tripDate');
+  if (dateInput) dateInput.min = today;
+  
+  removeExpiredTrips();
   renderTrips();
   
-  console.log('Приложение загружено, поездок:', trips.length);
+  // Автообновление каждую минуту для удаления просроченных
+  setInterval(() => {
+    removeExpiredTrips();
+    if (!document.getElementById('tripsContent').classList.contains('hidden')) {
+      renderTrips();
+    }
+  }, 60000);
 });
 
 // Закрытие модалок по клику на фон
-document.getElementById('tripModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.getElementById('bookingModal').addEventListener('click', function(e) {
-  if (e.target === this) closeBookingModal();
-});
-document.getElementById('deleteModal').addEventListener('click', function(e) {
-  if (e.target === this) closeDeleteModal();
-});
+document.getElementById('tripModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.getElementById('bookingModal').addEventListener('click', function(e) { if (e.target === this) closeBookingModal(); });
+document.getElementById('deleteModal').addEventListener('click', function(e) { if (e.target === this) closeDeleteModal(); });
+document.getElementById('adminModal').addEventListener('click', function(e) { if (e.target === this) closeAdminModal(); });
 </script>
 
 </body>
