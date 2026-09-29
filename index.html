@@ -203,7 +203,7 @@
       <button class="btn num" onclick="append('3')">3</button>
       <button class="btn op" onclick="appendOp('+')">+</button>
 
-      <button class="btn func" onclick="backspace()">⌫</button>
+      <button class="btn func" onclick="backspace()"></button>
       <button class="btn num zero" onclick="append('0')">0</button>
       <button class="btn num" onclick="append('.')">.</button>
       <button class="btn op" onclick="calculate()">=</button>
@@ -214,7 +214,7 @@
   <div id="construction-mode" class="construction-mode">
     <select class="calc-selector" id="calcType" onchange="updateInputs()">
       <option value="area">📐 Площадь (м²)</option>
-      <option value="volume">📦 Объем (м³)</option>
+      <option value="volume"> Объем (м³)</option>
       <option value="blocks">🧱 Кладка (блоки/кирпич)</option>
     </select>
 
@@ -293,7 +293,7 @@
     }
   }
 
-  // ─── Инженерный калькулятор ───────────────────────────
+  // ─── Инженерный калькулятор ──────────────────────────
   let current = '0';
   const exprEl = document.getElementById('expression');
   const resEl = document.getElementById('result');
@@ -351,14 +351,12 @@
         .replace(/√\(/g, 'Math.sqrt(')
         .replace(/\^2/g, '**2');
       
-      // Безопасное вычисление
       let result = Function('"use strict"; return (' + expr + ')')();
       
       if (!isFinite(result) || isNaN(result)) {
         current = 'Ошибка';
       } else {
         exprEl.textContent = current + ' =';
-        // Округление до 8 знаков, убираем лишние нули
         current = parseFloat(result.toPrecision(10)).toString();
       }
     } catch (e) {
@@ -407,7 +405,7 @@
         const wallArea = wl * wh;
         const blockArea = bl * bh;
         const exactCount = wallArea / blockArea;
-        result = Math.ceil(exactCount * 1.05); // +5% на бой
+        result = Math.ceil(exactCount * 1.05);
         
         desc = `Стена: ${wl}×${wh}м. Блок: ${bl}×${bh}м. (включая 5% запаса)`;
         document.getElementById('const-val').textContent = result + ' шт.';
