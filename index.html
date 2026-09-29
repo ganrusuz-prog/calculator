@@ -3,976 +3,698 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Safiya Nitro Rush</title>
+<title>Карамалы-Губеево Попутки</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
-  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
   
-  #gameCanvas {
-    display: block;
+  #app {
     width: 100%;
     height: 100%;
-  }
-  
-  .screen {
-    position: absolute;
-    inset: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
+  }
+  
+  /* Шапка */
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
     padding: 20px;
-    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    z-index: 10;
   }
-  .screen.hidden { display: none; }
-  
-  .menu-bg {
-    background: linear-gradient(135deg, #1a0033 0%, #000 50%, #330066 100%);
-  }
-  
-  .title {
-    font-size: 48px;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ff006e, #ffbe0b, #00f5ff, #ff006e);
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient 3s ease infinite;
-    text-shadow: 0 0 40px rgba(255, 0, 110, 0.5);
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  @keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  
-  .subtitle {
-    color: #888;
-    font-size: 16px;
-    margin-bottom: 40px;
-    letter-spacing: 3px;
-  }
-  
-  .btn {
-    width: 300px;
-    padding: 18px;
-    margin: 10px;
-    background: linear-gradient(135deg, #ff006e, #8338ec);
-    border: 2px solid #ff006e;
-    border-radius: 15px;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  .btn:active { transform: scale(0.95); background: linear-gradient(135deg, #8338ec, #ff006e); }
-  .btn.secondary { background: linear-gradient(135deg, #3a0ca3, #7209b7); border-color: #7209b7; }
-  
-  .car-select-bg {
-    background: linear-gradient(135deg, #0a0a1a, #1a0033);
-    overflow-y: auto;
-  }
-  
-  .car-select-title {
-    color: #ffbe0b;
-    font-size: 32px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 20px rgba(255, 190, 11, 0.5);
-  }
-  
-  .cars-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    width: 100%;
-    max-width: 450px;
-    margin-bottom: 20px;
-  }
-  
-  .car-card {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border: 3px solid #333;
-    border-radius: 15px;
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .car-card.selected { 
-    border-color: #ff006e; 
-    background: linear-gradient(135deg, #2a1a3e, #3d1a5e);
-    box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
-  }
-  .car-card.locked { opacity: 0.4; }
-  
-  .car-preview {
-    width: 100%;
-    height: 80px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .car-name {
-    color: white;
-    font-size: 14px;
+  .header-title {
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 5px;
   }
-  
-  .car-stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 8px;
+  .header-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
   }
   
-  .stat {
+  /* Навигация */
+  .nav-tabs {
+    display: flex;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .nav-tab {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+  }
+  .nav-tab.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+    background: #f8f9ff;
+  }
+  
+  /* Контент */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f5f5f5;
+  }
+  .content.hidden { display: none; }
+  
+  /* Кнопки */
+  .btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn.secondary { background: linear-gradient(135deg, #f093fb, #f5576c); }
+  .btn.success { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+  
+  /* Формы */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-label {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .form-input, .form-select {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    background: white;
+  }
+  .form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  
+  /* Карточки поездок */
+  .trip-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+  }
+  .trip-card:active { transform: scale(0.98); }
+  
+  .trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .trip-route {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  .trip-price {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .trip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .trip-info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 14px;
+  }
+  .trip-info-icon {
+    font-size: 18px;
+    width: 24px;
     text-align: center;
   }
   
-  .stat-label {
-    color: #888;
-    font-size: 10px;
-  }
-  
-  .stat-value {
-    color: #ffbe0b;
-    font-size: 12px;
-    font-weight: bold;
-  }
-  
-  .hud {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
+  .trip-driver {
     display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-    z-index: 50;
+    align-items: center;
+    gap: 12px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
   }
-  .hud.hidden { display: none; }
-  
-  .hud-box {
-    background: rgba(0, 0, 0, 0.8);
-    border: 2px solid #ff006e;
-    border-radius: 10px;
-    padding: 10px 15px;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .hud-box.nitro {
-    background: linear-gradient(135deg, rgba(255, 0, 110, 0.8), rgba(131, 56, 236, 0.8));
-    border-color: #ffbe0b;
-  }
-  
-  .hud-label {
-    color: #888;
-    font-size: 10px;
-    margin-bottom: 3px;
-  }
-  
-  .hud-value {
-    color: #ffbe0b;
-    font-size: 20px;
-  }
-  
-  .controls {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    pointer-events: none;
-    z-index: 50;
-  }
-  .controls.hidden { display: none; }
-  
-  .ctrl-side {
-    display: flex;
-    gap: 15px;
-    pointer-events: auto;
-  }
-  
-  .ctrl-btn {
-    width: 80px;
-    height: 80px;
+  .driver-avatar {
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 32px;
-    font-weight: bold;
-    cursor: pointer;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.1s;
-  }
-  .ctrl-btn:active { 
-    background: rgba(255, 0, 110, 0.8); 
-    transform: scale(0.9);
-    border-color: #ff006e;
-  }
-  
-  .ctrl-btn.gas {
-    background: linear-gradient(135deg, #00ff00, #00cc00);
-    border-color: #00ff00;
-    width: 90px;
-    height: 90px;
-  }
-  
-  .ctrl-btn.brake {
-    background: linear-gradient(135deg, #ff0000, #cc0000);
-    border-color: #ff0000;
-  }
-  
-  .ctrl-btn.nitro-btn {
-    background: linear-gradient(135deg, #ff006e, #8338ec);
-    border-color: #ffbe0b;
-    animation: pulse 1s ease infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
-    50% { box-shadow: 0 0 40px rgba(255, 0, 110, 0.8); }
-  }
-  
-  .results-bg {
-    background: rgba(0, 0, 0, 0.95);
-  }
-  
-  .results-title {
-    font-size: 42px;
-    color: #ffbe0b;
-    margin-bottom: 30px;
-    text-shadow: 0 0 30px rgba(255, 190, 11, 0.5);
-  }
-  
-  .result-row {
-    display: flex;
-    justify-content: space-between;
-    width: 300px;
-    padding: 15px;
-    margin: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-  
-  .result-label {
-    color: #888;
-    font-size: 16px;
-  }
-  
-  .result-value {
-    color: #ffbe0b;
-    font-size: 18px;
+    color: white;
+    font-size: 20px;
     font-weight: bold;
   }
+  .driver-info {
+    flex: 1;
+  }
+  .driver-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+  }
+  .driver-phone {
+    color: #667eea;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+  
+  .trip-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .trip-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .trip-btn.call {
+    background: #4facfe;
+    color: white;
+  }
+  .trip-btn.details {
+    background: #f0f0f0;
+    color: #333;
+  }
+  
+  /* Фильтры */
+  .filter-section {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  .filter-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Модальное окно */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal.hidden { display: none; }
+  .modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Пустое состояние */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+  }
+  .empty-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+  .empty-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* Бейджи */
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  .badge.today { background: #4facfe; color: white; }
+  .badge.tomorrow { background: #f093fb; color: white; }
+  .badge.seats { background: #43e97b; color: white; }
+  
+  /* Анимации */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .trip-card { animation: slideIn 0.3s ease; }
 </style>
 </head>
 <body>
 
-<canvas id="gameCanvas"></canvas>
-
-<!-- Главное меню -->
-<div class="screen menu-bg" id="menuScreen">
-  <div class="title">SAFIYA NITRO RUSH</div>
-  <div class="subtitle">UNDERGROUND RACING</div>
-  <button class="btn" onclick="showCarSelect()">️ ГОНКА</button>
-  <button class="btn secondary" onclick="showTracks()">️ ТРАССЫ</button>
+<div id="app">
+  <!-- Шапка -->
+  <div class="header">
+    <div class="header-title">🚗 Карамалы-Губеево</div>
+    <div class="header-subtitle">Попутные поездки</div>
+  </div>
+  
+  <!-- Навигация -->
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('trips')">🔍 Найти поездку</div>
+    <div class="nav-tab" onclick="switchTab('add')">➕ Добавить</div>
+  </div>
+  
+  <!-- Список поездок -->
+  <div class="content" id="tripsContent">
+    <div class="filter-section">
+      <div class="filter-title">Фильтр по направлению</div>
+      <select class="form-select" id="filterRoute" onchange="filterTrips()">
+        <option value="all">Все направления</option>
+        <option value="to-tuimazy">Карамалы-Губеево → Туймазы</option>
+        <option value="from-tuimazy">Туймазы → Карамалы-Губеево</option>
+        <option value="to-belebey">Карамалы-Губеево → Белебей</option>
+        <option value="from-belebey">Белебей → Карамалы-Губеево</option>
+        <option value="to-oktyabrsky">Карамалы-Губеево → Октябрьский</option>
+        <option value="from-oktyabrsky">Октябрьский → Карамалы-Губеево</option>
+        <option value="to-ufa">Карамалы-Губеево → Уфа</option>
+        <option value="from-ufa">Уфа → Карамалы-Губеево</option>
+        <option value="to-kazan">Карамалы-Губеево → Казань</option>
+        <option value="from-kazan">Казань → Карамалы-Губеево</option>
+        <option value="to-chukady">Карамалы-Губеево → Чукады-Тамак</option>
+        <option value="from-chukady">Чукады-Тамак → Карамалы-Губеево</option>
+        <option value="to-tukaevo">Карамалы-Губеево → Тукаево</option>
+        <option value="from-tukaevo">Тукаево → Карамалы-Губеево</option>
+        <option value="to-alekseevka">Карамалы-Губеево → Алексеевка</option>
+        <option value="from-alekseevka">Алексеевка → Карамалы-Губеево</option>
+        <option value="to-metevtamak">Карамалы-Губеево → Метевтамак</option>
+        <option value="from-metevtamak">Метевтамак → Карамалы-Губеево</option>
+      </select>
+    </div>
+    
+    <div id="tripsList"></div>
+  </div>
+  
+  <!-- Форма добавления -->
+  <div class="content hidden" id="addContent">
+    <div class="filter-section">
+      <div class="filter-title">Разместить поездку</div>
+      
+      <div class="form-group">
+        <label class="form-label">Направление</label>
+        <select class="form-select" id="tripRoute">
+          <option value="to-tuimazy">Карамалы-Губеево → Туймазы</option>
+          <option value="from-tuimazy">Туймазы → Карамалы-Губеево</option>
+          <option value="to-belebey">Карамалы-Губеево → Белебей</option>
+          <option value="from-belebey">Белебей → Карамалы-Губеево</option>
+          <option value="to-oktyabrsky">Карамалы-Губеево → Октябрьский</option>
+          <option value="from-oktyabrsky">Октябрьский → Карамалы-Губеево</option>
+          <option value="to-ufa">Карамалы-Губеево → Уфа</option>
+          <option value="from-ufa">Уфа → Карамалы-Губеево</option>
+          <option value="to-kazan">Карамалы-Губеево → Казань</option>
+          <option value="from-kazan">Казань → Карамалы-Губеево</option>
+          <option value="to-chukady">Карамалы-Губеево → Чукады-Тамак</option>
+          <option value="from-chukady">Чукады-Тамак → Карамалы-Губеево</option>
+          <option value="to-tukaevo">Карамалы-Губеево → Тукаево</option>
+          <option value="from-tukaevo">Тукаево → Карамалы-Губеево</option>
+          <option value="to-alekseevka">Карамалы-Губеево → Алексеевка</option>
+          <option value="from-alekseevka">Алексеевка → Карамалы-Губеево</option>
+          <option value="to-metevtamak">Карамалы-Губеево → Метевтамак</option>
+          <option value="from-metevtamak">Метевтамак → Карамалы-Губеево</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Дата поездки</label>
+        <input type="date" class="form-input" id="tripDate">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Время отправления</label>
+        <input type="time" class="form-input" id="tripTime">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Количество свободных мест</label>
+        <input type="number" class="form-input" id="tripSeats" min="1" max="8" value="3">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Цена за пассажира (руб.)</label>
+        <input type="number" class="form-input" id="tripPrice" min="0" placeholder="Например: 300">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Ваше имя</label>
+        <input type="text" class="form-input" id="driverName" placeholder="Например: Иван">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Номер телефона</label>
+        <input type="tel" class="form-input" id="driverPhone" placeholder="+7 (___) ___-__-__">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Комментарий (необязательно)</label>
+        <textarea class="form-input" id="tripComment" rows="3" placeholder="Дополнительная информация"></textarea>
+      </div>
+      
+      <button class="btn success" onclick="addTrip()">✓ Разместить поездку</button>
+    </div>
+  </div>
 </div>
 
-<!-- Выбор машины -->
-<div class="screen car-select-bg hidden" id="carSelectScreen">
-  <div class="car-select-title">ВЫБЕРИТЕ МАШИНУ</div>
-  <div class="cars-container" id="carsContainer"></div>
-  <button class="btn" onclick="startRace()">🏁 НАЧАТЬ ГОНКУ</button>
-  <button class="btn secondary" onclick="backToMenu()">← НАЗАД</button>
-</div>
-
-<!-- HUD -->
-<div class="hud hidden" id="hud">
-  <div class="hud-box">
-    <div class="hud-label">ТРАССА</div>
-    <div class="hud-value" id="trackNum">1/50</div>
+<!-- Модальное окно деталей -->
+<div class="modal hidden" id="tripModal">
+  <div class="modal-content">
+    <div class="modal-title">Детали поездки</div>
+    <div id="modalContent"></div>
+    <button class="btn" onclick="closeModal()">Закрыть</button>
   </div>
-  <div class="hud-box">
-    <div class="hud-label">КРУГ</div>
-    <div class="hud-value" id="lapNum">1/3</div>
-  </div>
-  <div class="hud-box">
-    <div class="hud-label">СКОРОСТЬ</div>
-    <div class="hud-value" id="speedVal">0 км/ч</div>
-  </div>
-  <div class="hud-box nitro">
-    <div class="hud-label">NITRO</div>
-    <div class="hud-value" id="nitroVal">100%</div>
-  </div>
-</div>
-
-<!-- Управление -->
-<div class="controls hidden" id="controls">
-  <div class="ctrl-side">
-    <button class="ctrl-btn" id="btnLeft">←</button>
-    <button class="ctrl-btn" id="btnRight">→</button>
-  </div>
-  <div class="ctrl-side">
-    <button class="ctrl-btn nitro-btn" id="btnNitro">N</button>
-    <button class="ctrl-btn brake" id="btnBrake">B</button>
-    <button class="ctrl-btn gas" id="btnGas">GAS</button>
-  </div>
-</div>
-
-<!-- Результаты -->
-<div class="screen results-bg hidden" id="resultsScreen">
-  <div class="results-title">ФИНИШ!</div>
-  <div class="result-row">
-    <div class="result-label">Время:</div>
-    <div class="result-value" id="resultTime">0:00</div>
-  </div>
-  <div class="result-row">
-    <div class="result-label">Позиция:</div>
-    <div class="result-value" id="resultPos">1 место</div>
-  </div>
-  <div class="result-row">
-    <div class="result-label">Очки:</div>
-    <div class="result-value" id="resultScore">0</div>
-  </div>
-  <button class="btn" onclick="nextTrack()">СЛЕДУЮЩАЯ ТРАССА →</button>
-  <button class="btn secondary" onclick="backToMenu()">В МЕНЮ</button>
 </div>
 
 <script>
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-// Настройка canvas
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// Машины с детальной информацией
-const CARS = [
-  { 
-    name: 'Nissan Skyline GT-R', 
-    speed: 280, 
-    accel: 0.4, 
-    handling: 0.85,
-    color: '#0066ff',
-    secondaryColor: '#0044cc',
-    unlocked: true,
-    bodyShape: 'sport'
-  },
-  { 
-    name: 'Toyota Supra MK4', 
-    speed: 300, 
-    accel: 0.45, 
-    handling: 0.8,
-    color: '#ff6600',
-    secondaryColor: '#cc5200',
-    unlocked: true,
-    bodyShape: 'muscle'
-  },
-  { 
-    name: 'Mazda RX-7 FD', 
-    speed: 270, 
-    accel: 0.5, 
-    handling: 0.9,
-    color: '#ff0066',
-    secondaryColor: '#cc0052',
-    unlocked: true,
-    bodyShape: 'sport'
-  },
-  { 
-    name: 'BMW M3 E46', 
-    speed: 290, 
-    accel: 0.48, 
-    handling: 0.85,
-    color: '#00ccff',
-    secondaryColor: '#0099cc',
-    unlocked: true,
-    bodyShape: 'sedan'
-  },
-  { 
-    name: 'Audi R8 V10', 
-    speed: 320, 
-    accel: 0.52, 
-    handling: 0.82,
-    color: '#cccccc',
-    secondaryColor: '#999999',
-    unlocked: false,
-    bodyShape: 'supercar'
-  },
-  { 
-    name: 'Lamborghini Aventador', 
-    speed: 350, 
-    accel: 0.55, 
-    handling: 0.78,
-    color: '#ffcc00',
-    secondaryColor: '#cc9900',
-    unlocked: false,
-    bodyShape: 'supercar'
-  },
-  { 
-    name: 'Ferrari 458 Italia', 
-    speed: 340, 
-    accel: 0.58, 
-    handling: 0.83,
-    color: '#ff0000',
-    secondaryColor: '#cc0000',
-    unlocked: false,
-    bodyShape: 'supercar'
-  },
-  { 
-    name: 'Porsche 911 GT3', 
-    speed: 310, 
-    accel: 0.6, 
-    handling: 0.88,
-    color: '#00ff00',
-    secondaryColor: '#00cc00',
-    unlocked: false,
-    bodyShape: 'sport'
-  }
-];
-
-let selectedCar = 0;
-let currentTrack = 1;
-let totalScore = 0;
-
-// Игровые переменные
-let player = {
-  x: 0, y: 0,
-  speed: 0,
-  angle: 0,
-  velocity: { x: 0, y: 0 },
-  nitro: 100,
-  drifting: false
+// Маршруты
+const ROUTES = {
+  'to-tuimazy': { from: 'Карамалы-Губеево', to: 'Туймазы', distance: '45 км' },
+  'from-tuimazy': { from: 'Туймазы', to: 'Карамалы-Губеево', distance: '45 км' },
+  'to-belebey': { from: 'Карамалы-Губеево', to: 'Белебей', distance: '60 км' },
+  'from-belebey': { from: 'Белебей', to: 'Карамалы-Губеево', distance: '60 км' },
+  'to-oktyabrsky': { from: 'Карамалы-Губеево', to: 'Октябрьский', distance: '80 км' },
+  'from-oktyabrsky': { from: 'Октябрьский', to: 'Карамалы-Губеево', distance: '80 км' },
+  'to-ufa': { from: 'Карамалы-Губеево', to: 'Уфа', distance: '180 км' },
+  'from-ufa': { from: 'Уфа', to: 'Карамалы-Губеево', distance: '180 км' },
+  'to-kazan': { from: 'Карамалы-Губеево', to: 'Казань', distance: '350 км' },
+  'from-kazan': { from: 'Казань', to: 'Карамалы-Губеево', distance: '350 км' },
+  'to-chukady': { from: 'Карамалы-Губеево', to: 'Чукады-Тамак', distance: '15 км' },
+  'from-chukady': { from: 'Чукады-Тамак', to: 'Карамалы-Губеево', distance: '15 км' },
+  'to-tukaevo': { from: 'Карамалы-Губеево', to: 'Тукаево', distance: '12 км' },
+  'from-tukaevo': { from: 'Тукаево', to: 'Карамалы-Губеево', distance: '12 км' },
+  'to-alekseevka': { from: 'Карамалы-Губеево', to: 'Алексеевка', distance: '18 км' },
+  'from-alekseevka': { from: 'Алексеевка', to: 'Карамалы-Губеево', distance: '18 км' },
+  'to-metevtamak': { from: 'Карамалы-Губеево', to: 'Метевтамак', distance: '20 км' },
+  'from-metevtamak': { from: 'Метевтамак', to: 'Карамалы-Губеево', distance: '20 км' }
 };
 
-let track = [];
-let opponents = [];
-let gameTime = 0;
-let lap = 1;
-let isRacing = false;
-let keys = {};
-let camera = { x: 0, y: 0 };
-let particles = [];
+// Хранилище поездок
+let trips = JSON.parse(localStorage.getItem('trips') || '[]');
 
-// Рисование реалистичной машины
-function drawRealisticCar(x, y, angle, car, isPlayer = false) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(angle);
+// Демо-данные при первом запуске
+if (trips.length === 0) {
+  const today = new Date().toISOString().split('T')[0];
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
   
-  const length = 50;
-  const width = 24;
-  
-  // Тень
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-  ctx.fillRect(-length/2 + 3, -width/2 + 3, length, width);
-  
-  // Основной корпус
-  const gradient = ctx.createLinearGradient(-length/2, 0, length/2, 0);
-  gradient.addColorStop(0, car.color);
-  gradient.addColorStop(0.5, car.secondaryColor);
-  gradient.addColorStop(1, car.color);
-  ctx.fillStyle = gradient;
-  
-  // Форма кузова в зависимости от типа
-  if (car.bodyShape === 'supercar') {
-    // Суперкар - низкий и широкий
-    ctx.beginPath();
-    ctx.moveTo(-length/2, -width/2);
-    ctx.lineTo(length/2 - 5, -width/2);
-    ctx.quadraticCurveTo(length/2, -width/2, length/2, -width/2 + 5);
-    ctx.lineTo(length/2, width/2 - 5);
-    ctx.quadraticCurveTo(length/2, width/2, length/2 - 5, width/2);
-    ctx.lineTo(-length/2, width/2);
-    ctx.quadraticCurveTo(-length/2, width/2, -length/2, width/2 - 5);
-    ctx.lineTo(-length/2, -width/2 + 5);
-    ctx.quadraticCurveTo(-length/2, -width/2, -length/2 + 5, -width/2);
-    ctx.closePath();
-    ctx.fill();
-  } else if (car.bodyShape === 'muscle') {
-    // Маслкар - мощный и широкий
-    ctx.fillRect(-length/2, -width/2, length, width);
-  } else {
-    // Спортивный/седан
-    ctx.beginPath();
-    ctx.moveTo(-length/2 + 5, -width/2);
-    ctx.lineTo(length/2 - 10, -width/2);
-    ctx.quadraticCurveTo(length/2, -width/2, length/2, -width/2 + 8);
-    ctx.lineTo(length/2, width/2 - 8);
-    ctx.quadraticCurveTo(length/2, width/2, length/2 - 10, width/2);
-    ctx.lineTo(-length/2 + 5, width/2);
-    ctx.quadraticCurveTo(-length/2, width/2, -length/2, width/2 - 8);
-    ctx.lineTo(-length/2, -width/2 + 8);
-    ctx.quadraticCurveTo(-length/2, -width/2, -length/2 + 5, -width/2);
-    ctx.closePath();
-    ctx.fill();
-  }
-  
-  // Кабина (стекло)
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(-10, -width/2 + 4, 20, width - 8);
-  
-  // Фары
-  ctx.fillStyle = '#ffff00';
-  ctx.fillRect(length/2 - 8, -width/2 + 3, 6, 4);
-  ctx.fillRect(length/2 - 8, width/2 - 7, 6, 4);
-  
-  // Задние фонари
-  ctx.fillStyle = '#ff0000';
-  ctx.fillRect(-length/2 + 2, -width/2 + 3, 6, 4);
-  ctx.fillRect(-length/2 + 2, width/2 - 7, 6, 4);
-  
-  // Колёса
-  ctx.fillStyle = '#111';
-  ctx.fillRect(-length/2 + 5, -width/2 - 2, 12, 4);
-  ctx.fillRect(-length/2 + 5, width/2 - 2, 12, 4);
-  ctx.fillRect(length/2 - 17, -width/2 - 2, 12, 4);
-  ctx.fillRect(length/2 - 17, width/2 - 2, 12, 4);
-  
-  // Эффект нитро
-  if (isPlayer && player.nitro < 100 && keys['nitro']) {
-    ctx.fillStyle = 'rgba(0, 200, 255, 0.8)';
-    ctx.beginPath();
-    ctx.moveTo(-length/2, -5);
-    ctx.lineTo(-length/2 - 15 - Math.random() * 10, 0);
-    ctx.lineTo(-length/2, 5);
-    ctx.closePath();
-    ctx.fill();
-  }
-  
-  ctx.restore();
-}
-
-// Генерация трассы
-function generateTrack(trackNum) {
-  track = [];
-  const isNight = trackNum % 2 === 0;
-  const difficulty = Math.min(10, Math.floor(trackNum / 5) + 1);
-  
-  const points = 300;
-  for (let i = 0; i < points; i++) {
-    const t = (i / points) * Math.PI * 2;
-    const radius = 1000 + Math.sin(t * 3) * 300 + Math.cos(t * 5) * 150;
-    const x = Math.cos(t) * radius;
-    const y = Math.sin(t) * radius;
-    track.push({ 
-      x, y, 
-      width: Math.max(80, 150 - difficulty * 7),
-      angle: Math.atan2(
-        track[(i + 1) % points]?.y - y || 0,
-        track[(i + 1) % points]?.x - x || 0
-      )
-    });
-  }
-  
-  // Соперники
-  opponents = [];
-  const numOpponents = 3 + Math.floor(difficulty / 2);
-  for (let i = 0; i < numOpponents; i++) {
-    opponents.push({
-      x: track[0].x + (Math.random() - 0.5) * 200,
-      y: track[0].y + (Math.random() - 0.5) * 200,
-      speed: 0,
-      maxSpeed: 15 + Math.random() * 5 + difficulty,
-      trackPos: (i + 1) * (points / numOpponents),
-      color: `hsl(${Math.random() * 360}, 70%, 50%)`,
-      car: CARS[Math.floor(Math.random() * CARS.length)]
-    });
-  }
-  
-  return { isNight, difficulty };
-}
-
-// Инициализация игры
-function initGame() {
-  const trackData = generateTrack(currentTrack);
-  
-  player.x = track[0].x;
-  player.y = track[0].y;
-  player.speed = 0;
-  player.angle = track[0].angle;
-  player.velocity = { x: 0, y: 0 };
-  player.nitro = 100;
-  player.drifting = false;
-  
-  gameTime = 0;
-  lap = 1;
-  isRacing = true;
-  particles = [];
-  
-  camera.x = player.x;
-  camera.y = player.y;
-  
-  document.getElementById('hud').classList.remove('hidden');
-  document.getElementById('controls').classList.remove('hidden');
-  document.getElementById('trackNum').textContent = `${currentTrack}/50`;
-  
-  gameLoop();
-}
-
-// Игровой цикл
-function gameLoop() {
-  if (!isRacing) return;
-  
-  update();
-  render();
-  requestAnimationFrame(gameLoop);
-}
-
-// Обновление физики
-function update() {
-  gameTime += 1/60;
-  
-  const car = CARS[selectedCar];
-  const maxSpeed = car.speed / 10;
-  const accel = car.accel;
-  const handling = car.handling;
-  
-  // Управление поворотом
-  if (keys['ArrowLeft'] || keys['left']) {
-    player.angle -= 0.04 * handling * (player.speed > 0 ? 1 : 0.3);
-  }
-  if (keys['ArrowRight'] || keys['right']) {
-    player.angle += 0.04 * handling * (player.speed > 0 ? 1 : 0.3);
-  }
-  
-  // Педаль газа
-  if (keys['gas'] || keys['ArrowUp']) {
-    player.speed += accel;
-    
-    // Частицы выхлопа
-    if (Math.random() < 0.3) {
-      particles.push({
-        x: player.x - Math.cos(player.angle) * 25,
-        y: player.y - Math.sin(player.angle) * 25,
-        vx: -Math.cos(player.angle) * 2 + (Math.random() - 0.5),
-        vy: -Math.sin(player.angle) * 2 + (Math.random() - 0.5),
-        life: 20,
-        color: 'rgba(100, 100, 100, 0.5)'
-      });
+  trips = [
+    {
+      id: 1,
+      route: 'to-ufa',
+      date: today,
+      time: '08:00',
+      seats: 3,
+      price: 500,
+      driverName: 'Ахмет',
+      driverPhone: '+7 (917) 123-45-67',
+      comment: 'Еду утром, заберу по пути',
+      createdAt: Date.now()
+    },
+    {
+      id: 2,
+      route: 'from-ufa',
+      date: today,
+      time: '18:00',
+      seats: 2,
+      price: 500,
+      driverName: 'Рамиль',
+      driverPhone: '+7 (927) 234-56-78',
+      comment: 'Возвращаюсь вечером',
+      createdAt: Date.now() - 1000
+    },
+    {
+      id: 3,
+      route: 'to-kazan',
+      date: tomorrow,
+      time: '07:00',
+      seats: 4,
+      price: 800,
+      driverName: 'Ильдар',
+      driverPhone: '+7 (906) 345-67-89',
+      comment: 'Еду в Казань, есть места',
+      createdAt: Date.now() - 2000
     }
-  } else if (keys['brake'] || keys['ArrowDown']) {
-    player.speed -= accel * 2;
-    player.drifting = player.speed > 5;
-    
-    // Частицы дыма при дрифте
-    if (player.drifting && Math.random() < 0.5) {
-      particles.push({
-        x: player.x + (Math.random() - 0.5) * 20,
-        y: player.y + (Math.random() - 0.5) * 20,
-        vx: (Math.random() - 0.5) * 2,
-        vy: (Math.random() - 0.5) * 2,
-        life: 30,
-        color: 'rgba(200, 200, 200, 0.7)'
-      });
-    }
+  ];
+  saveTrips();
+}
+
+function saveTrips() {
+  localStorage.setItem('trips', JSON.stringify(trips));
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  if (tab === 'trips') {
+    document.querySelectorAll('.nav-tab')[0].classList.add('active');
+    document.getElementById('tripsContent').classList.remove('hidden');
+    document.getElementById('addContent').classList.add('hidden');
+    renderTrips();
   } else {
-    player.speed *= 0.97;
-    player.drifting = false;
-  }
-  
-  // Нитро
-  if (keys['nitro']) {
-    if (player.nitro > 0) {
-      player.speed += accel * 4;
-      player.nitro -= 0.8;
-      
-      // Частицы нитро
-      for (let i = 0; i < 3; i++) {
-        particles.push({
-          x: player.x - Math.cos(player.angle) * 25 + (Math.random() - 0.5) * 10,
-          y: player.y - Math.sin(player.angle) * 25 + (Math.random() - 0.5) * 10,
-          vx: -Math.cos(player.angle) * 5 + (Math.random() - 0.5) * 3,
-          vy: -Math.sin(player.angle) * 5 + (Math.random() - 0.5) * 3,
-          life: 25,
-          color: `rgba(0, ${150 + Math.random() * 100}, 255, 0.8)`
-        });
-      }
-    }
-  } else {
-    player.nitro = Math.min(100, player.nitro + 0.15);
-  }
-  
-  // Ограничение скорости
-  const speedLimit = maxSpeed * (player.nitro > 0 && keys['nitro'] ? 1.6 : 1);
-  player.speed = Math.max(0, Math.min(player.speed, speedLimit));
-  
-  // Физика движения с инерцией
-  player.velocity.x = Math.cos(player.angle) * player.speed;
-  player.velocity.y = Math.sin(player.angle) * player.speed;
-  
-  player.x += player.velocity.x;
-  player.y += player.velocity.y;
-  
-  // Обновление камеры
-  camera.x += (player.x - camera.x) * 0.1;
-  camera.y += (player.y - camera.y) * 0.1;
-  
-  // Обновление соперников
-  opponents.forEach(opp => {
-    opp.trackPos += opp.maxSpeed / 100;
-    if (opp.trackPos >= track.length) {
-      opp.trackPos = 0;
-    }
-    const trackPoint = track[Math.floor(opp.trackPos)];
-    const targetX = trackPoint.x;
-    const targetY = trackPoint.y;
-    
-    const dx = targetX - opp.x;
-    const dy = targetY - opp.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    
-    if (dist > 0) {
-      opp.x += (dx / dist) * opp.maxSpeed;
-      opp.y += (dy / dist) * opp.maxSpeed;
-    }
-  });
-  
-  // Проверка круга
-  const distToStart = Math.hypot(player.x - track[0].x, player.y - track[0].y);
-  if (distToStart < 150 && player.speed > 10 && lap === 1) {
-    lap = 2;
-  } else if (distToStart < 150 && player.speed > 10 && lap === 2) {
-    lap = 3;
-  } else if (distToStart < 150 && player.speed > 10 && lap === 3) {
-    finishRace();
-  }
-  
-  // Обновление частиц
-  particles = particles.filter(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    p.life--;
-    return p.life > 0;
-  });
-  
-  // Обновление HUD
-  document.getElementById('speedVal').textContent = `${Math.floor(player.speed * 10)} км/ч`;
-  document.getElementById('lapNum').textContent = `${Math.min(lap, 3)}/3`;
-  document.getElementById('nitroVal').textContent = `${Math.floor(player.nitro)}%`;
-}
-
-// Рендеринг
-function render() {
-  const trackData = generateTrack(currentTrack);
-  
-  // Фон
-  const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  if (trackData.isNight) {
-    bgGradient.addColorStop(0, '#0a0a1a');
-    bgGradient.addColorStop(1, '#1a0033');
-  } else {
-    bgGradient.addColorStop(0, '#87CEEB');
-    bgGradient.addColorStop(1, '#4a90e2');
-  }
-  ctx.fillStyle = bgGradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  ctx.save();
-  ctx.translate(canvas.width/2 - camera.x, canvas.height/2 - camera.y);
-  
-  // Рисуем трассу
-  ctx.strokeStyle = trackData.isNight ? '#2a2a3e' : '#555';
-  ctx.lineWidth = 150;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.beginPath();
-  track.forEach((point, i) => {
-    if (i === 0) ctx.moveTo(point.x, point.y);
-    else ctx.lineTo(point.x, point.y);
-  });
-  ctx.closePath();
-  ctx.stroke();
-  
-  // Разметка
-  ctx.strokeStyle = trackData.isNight ? '#444' : '#fff';
-  ctx.lineWidth = 4;
-  ctx.setLineDash([30, 30]);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  
-  // Обочины
-  ctx.strokeStyle = trackData.isNight ? '#ff0000' : '#ff6600';
-  ctx.lineWidth = 8;
-  ctx.beginPath();
-  track.forEach((point, i) => {
-    const offset = 75;
-    const x = point.x + Math.cos(point.angle + Math.PI/2) * offset;
-    const y = point.y + Math.sin(point.angle + Math.PI/2) * offset;
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  });
-  ctx.closePath();
-  ctx.stroke();
-  
-  // Частицы
-  particles.forEach(p => {
-    ctx.fillStyle = p.color;
-    ctx.globalAlpha = p.life / 30;
-    ctx.fillRect(p.x - 3, p.y - 3, 6, 6);
-  });
-  ctx.globalAlpha = 1;
-  
-  // Соперники
-  opponents.forEach(opp => {
-    drawRealisticCar(opp.x, opp.y, Math.atan2(opp.velocity?.y || 0, opp.velocity?.x || 0), opp.car);
-  });
-  
-  // Игрок
-  drawRealisticCar(player.x, player.y, player.angle, CARS[selectedCar], true);
-  
-  ctx.restore();
-}
-
-// Завершение гонки
-function finishRace() {
-  isRacing = false;
-  document.getElementById('hud').classList.add('hidden');
-  document.getElementById('controls').classList.add('hidden');
-  document.getElementById('resultsScreen').classList.remove('hidden');
-  
-  const minutes = Math.floor(gameTime / 60);
-  const seconds = Math.floor(gameTime % 60);
-  document.getElementById('resultTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  document.getElementById('resultPos').textContent = '1 место';
-  const raceScore = Math.floor(1000 - gameTime * 10);
-  document.getElementById('resultScore').textContent = raceScore;
-  totalScore += raceScore;
-}
-
-function nextTrack() {
-  if (currentTrack < 50) {
-    currentTrack++;
-    document.getElementById('resultsScreen').classList.add('hidden');
-    initGame();
-  } else {
-    alert(`Поздравляем! Вы прошли все 50 трасс!\nОбщий счёт: ${totalScore}`);
-    backToMenu();
+    document.querySelectorAll('.nav-tab')[1].classList.add('active');
+    document.getElementById('tripsContent').classList.add('hidden');
+    document.getElementById('addContent').classList.remove('hidden');
   }
 }
 
-// Управление
-function showCarSelect() {
-  document.getElementById('menuScreen').classList.add('hidden');
-  document.getElementById('carSelectScreen').classList.remove('hidden');
-  renderCars();
-}
-
-function renderCars() {
-  const container = document.getElementById('carsContainer');
-  container.innerHTML = '';
-  CARS.forEach((car, i) => {
-    const card = document.createElement('div');
-    card.className = `car-card ${i === selectedCar ? 'selected' : ''} ${!car.unlocked ? 'locked' : ''}`;
-    card.innerHTML = `
-      <div class="car-preview">
-        <canvas width="100" height="80" id="carPreview${i}"></canvas>
+function renderTrips() {
+  const filter = document.getElementById('filterRoute').value;
+  const container = document.getElementById('tripsList');
+  
+  let filteredTrips = trips;
+  if (filter !== 'all') {
+    filteredTrips = trips.filter(t => t.route === filter);
+  }
+  
+  // Сортировка по дате и времени
+  filteredTrips.sort((a, b) => {
+    const dateA = new Date(a.date + 'T' + a.time);
+    const dateB = new Date(b.date + 'T' + b.time);
+    return dateA - dateB;
+  });
+  
+  if (filteredTrips.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🚗</div>
+        <div class="empty-text">Нет доступных поездок</div>
+        <div style="color: #999; font-size: 14px;">Попробуйте изменить фильтр или добавьте свою поездку</div>
       </div>
-      <div class="car-name">${car.name}</div>
-      <div class="car-stats">
-        <div class="stat">
-          <div class="stat-label">СКОРОСТЬ</div>
-          <div class="stat-value">${car.speed}</div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = filteredTrips.map(trip => {
+    const route = ROUTES[trip.route];
+    const tripDate = new Date(trip.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    let dateBadge = '';
+    if (tripDate.getTime() === today.getTime()) {
+      dateBadge = '<span class="badge today">Сегодня</span>';
+    } else if (tripDate.getTime() === tomorrow.getTime()) {
+      dateBadge = '<span class="badge tomorrow">Завтра</span>';
+    }
+    
+    return `
+      <div class="trip-card" onclick="showTripDetails(${trip.id})">
+        <div class="trip-header">
+          <div class="trip-route">${route.from} → ${route.to}</div>
+          <div class="trip-price">${trip.price} ₽</div>
         </div>
-        <div class="stat">
-          <div class="stat-label">РАЗГОН</div>
-          <div class="stat-value">${(car.accel * 100).toFixed(0)}%</div>
+        <div class="trip-info">
+          <div class="trip-info-row">
+            <span class="trip-info-icon">📅</span>
+            <span>${dateBadge} ${formatDate(trip.date)} в ${trip.time}</span>
+          </div>
+          <div class="trip-info-row">
+            <span class="trip-info-icon">📍</span>
+            <span>Расстояние: ${route.distance}</span>
+          </div>
+          <div class="trip-info-row">
+            <span class="trip-info-icon">💺</span>
+            <span><span class="badge seats">${trip.seats} мест</span></span>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-label">УПРАВЛ</div>
-          <div class="stat-value">${(car.handling * 100).toFixed(0)}%</div>
+        <div class="trip-driver">
+          <div class="driver-avatar">${trip.driverName.charAt(0)}</div>
+          <div class="driver-info">
+            <div class="driver-name">${trip.driverName}</div>
+            <div class="driver-phone">📞 ${trip.driverPhone}</div>
+          </div>
         </div>
       </div>
     `;
-    card.onclick = () => {
-      if (car.unlocked) {
-        selectedCar = i;
-        renderCars();
-      }
-    };
-    container.appendChild(card);
+  }).join('');
+}
+
+function filterTrips() {
+  renderTrips();
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+  return `${date.getDate()} ${months[date.getMonth()]}`;
+}
+
+function addTrip() {
+  const route = document.getElementById('tripRoute').value;
+  const date = document.getElementById('tripDate').value;
+  const time = document.getElementById('tripTime').value;
+  const seats = parseInt(document.getElementById('tripSeats').value);
+  const price = parseInt(document.getElementById('tripPrice').value);
+  const driverName = document.getElementById('driverName').value.trim();
+  const driverPhone = document.getElementById('driverPhone').value.trim();
+  const comment = document.getElementById('tripComment').value.trim();
+  
+  if (!date || !time || !driverName || !driverPhone) {
+    alert('Пожалуйста, заполните все обязательные поля');
+    return;
+  }
+  
+  if (!price || price < 0) {
+    alert('Укажите цену за поездку');
+    return;
+  }
+  
+  const newTrip = {
+    id: Date.now(),
+    route,
+    date,
+    time,
+    seats,
+    price,
+    driverName,
+    driverPhone,
+    comment,
+    createdAt: Date.now()
+  };
+  
+  trips.push(newTrip);
+  saveTrips();
+  
+  // Очистка формы
+  document.getElementById('tripDate').value = '';
+  document.getElementById('tripTime').value = '';
+  document.getElementById('tripSeats').value = '3';
+  document.getElementById('tripPrice').value = '';
+  document.getElementById('driverName').value = '';
+  document.getElementById('driverPhone').value = '';
+  document.getElementById('tripComment').value = '';
+  
+  alert('✓ Поездка успешно размещена!');
+  switchTab('trips');
+}
+
+function showTripDetails(id) {
+  const trip = trips.find(t => t.id === id);
+  if (!trip) return;
+  
+  const route = ROUTES[trip.route];
+  const modal = document.getElementById('tripModal');
+  const content = document.getElementById('modalContent');
+  
+  content.innerHTML = `
+    <div style="margin-bottom: 20px;">
+      <div style="font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px;">
+        ${route.from} → ${route.to}
+      </div>
+      <div style="color: #666; font-size: 14px;">
+        📅 ${formatDate(trip.date)} в ${trip.time}<br>
+        📍 Расстояние: ${route.distance}<br>
+        💺 Свободных мест: ${trip.seats}<br>
+        💰 Цена: ${trip.price} руб.
+      </div>
+    </div>
     
-    // Рисуем превью машины
-    setTimeout(() => {
-      const previewCanvas = document.getElementById(`carPreview${i}`);
-      if (previewCanvas) {
-        const pctx = previewCanvas.getContext('2d');
-        pctx.translate(50, 40);
-        const tempPlayer = { ...player, nitro: 100 };
-        const origPlayer = player;
-        player = tempPlayer;
-        keys = {};
-        drawRealisticCar.call({ save: () => {}, restore: () => {}, translate: (x, y) => pctx.translate(x, y), rotate: (a) => pctx.rotate(a), fillStyle: '', fillRect: (x, y, w, h) => pctx.fillRect(x, y, w, h), beginPath: () => pctx.beginPath(), moveTo: (x, y) => pctx.moveTo(x, y), lineTo: (x, y) => pctx.lineTo(x, y), quadraticCurveTo: (x1, y1, x2, y2) => pctx.quadraticCurveTo(x1, y1, x2, y2), closePath: () => pctx.closePath(), fill: () => pctx.fill(), createLinearGradient: (x1, y1, x2, y2) => pctx.createLinearGradient(x1, y1, x2, y2) }, 0, 0, 0, car);
-        player = origPlayer;
-      }
-    }, 100);
-  });
+    <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+      <div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Водитель:</div>
+      <div style="font-size: 18px; font-weight: bold; color: #333;">${trip.driverName}</div>
+      <div style="color: #667eea; font-size: 16px; margin-top: 5px;">📞 ${trip.driverPhone}</div>
+    </div>
+    
+    ${trip.comment ? `
+      <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        <div style="font-weight: bold; color: #666; margin-bottom: 5px;">Комментарий:</div>
+        <div style="color: #333;">${trip.comment}</div>
+      </div>
+    ` : ''}
+    
+    <a href="tel:${trip.driverPhone}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px;">
+      📞 Позвонить водителю
+    </a>
+  `;
+  
+  modal.classList.remove('hidden');
 }
 
-function startRace() {
-  document.getElementById('carSelectScreen').classList.add('hidden');
-  initGame();
+function closeModal() {
+  document.getElementById('tripModal').classList.add('hidden');
 }
 
-function showTracks() {
-  const isNight = currentTrack % 2 === 0;
-  const difficulty = Math.min(10, Math.floor(currentTrack / 5) + 1);
-  alert(`Трасса ${currentTrack}/50\nСложность: ${difficulty}/10\n${isNight ? '🌙 НОЧНАЯ ГОНКА' : '☀️ ДНЕВНАЯ ГОНКА'}\n\nОбщий счёт: ${totalScore}`);
-}
+// Установка минимальной даты (сегодня)
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('tripDate').min = today;
 
-function backToMenu() {
-  document.getElementById('menuScreen').classList.remove('hidden');
-  document.getElementById('carSelectScreen').classList.add('hidden');
-  document.getElementById('resultsScreen').classList.add('hidden');
-  document.getElementById('hud').classList.add('hidden');
-  document.getElementById('controls').classList.add('hidden');
-  isRacing = false;
-}
-
-// Обработчики кнопок
-const btnGas = document.getElementById('btnGas');
-const btnBrake = document.getElementById('btnBrake');
-const btnNitro = document.getElementById('btnNitro');
-const btnLeft = document.getElementById('btnLeft');
-const btnRight = document.getElementById('btnRight');
-
-btnGas.addEventListener('touchstart', (e) => { e.preventDefault(); keys['gas'] = true; });
-btnGas.addEventListener('touchend', () => keys['gas'] = false);
-btnBrake.addEventListener('touchstart', (e) => { e.preventDefault(); keys['brake'] = true; });
-btnBrake.addEventListener('touchend', () => keys['brake'] = false);
-btnNitro.addEventListener('touchstart', (e) => { e.preventDefault(); keys['nitro'] = true; });
-btnNitro.addEventListener('touchend', () => keys['nitro'] = false);
-btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys['left'] = true; });
-btnLeft.addEventListener('touchend', () => keys['left'] = false);
-btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); keys['right'] = true; });
-btnRight.addEventListener('touchend', () => keys['right'] = false);
-
-// Клавиатура
-document.addEventListener('keydown', (e) => {
-  keys[e.key] = true;
-  if (e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault();
-});
-document.addEventListener('keyup', (e) => keys[e.key] = false);
-
-document.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+// Инициализация
+renderTrips();
 </script>
 
 </body>
