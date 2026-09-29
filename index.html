@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Калькулятор</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 20px;
+  }
+  .phone {
+    width: 360px;
+    height: 720px;
+    background: #000;
+    border-radius: 45px;
+    padding: 12px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 2px #333;
+    position: relative;
+  }
+  .screen {
+    width: 100%; height: 100%;
+    background: #1C1C1E;
+    border-radius: 36px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 25px; background: #000;
+    border-radius: 0 0 18px 18px; z-index: 10;
+  }
+  .status-bar {
+    height: 40px; padding: 12px 24px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    color: white; font-size: 14px; font-weight: 600; flex-shrink: 0;
+  }
+  .display {
+    flex: 1; padding: 20px 24px;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; align-items: flex-end;
+  }
+  .expression { color: #8e8e93; font-size: 26px; min-height: 32px; text-align: right; width: 100%; word-break: break-all; }
+  .result { color: white; font-size: 60px; font-weight: 300; margin-top: 10px; text-align: right; width: 100%; word-break: break-all; transition: font-size 0.2s; }
+  .result.small { font-size: 44px; }
+  .buttons {
+    padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; flex-shrink: 0;
+  }
+  .btn {
+    height: 68px; border: none; border-radius: 34px; font-size: 28px; font-weight: 400;
+    color: white; cursor: pointer; transition: all 0.1s; font-family: inherit;
+  }
+  .btn:active { transform: scale(0.92); filter: brightness(1.3); }
+  .btn.num { background: #333333; }
+  .btn.func { background: #a5a5a5; color: #000; }
+  .btn.op { background: #ff9f0a; }
+  .btn.op.active { background: white; color: #ff9f0a; }
+  .btn.zero { grid-column: span 2; text-align: left; padding-left: 26px; }
+  .hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); color: white; font-size: 14px; opacity: 0.8; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="screen">
+    <div class="notch"></div>
+    <div class="status-bar"><span id="time">9:41</span><span>🔋 100%</span></div>
+    <div class="display">
+      <div class="expression" id="expression">&nbsp;</div>
+      <div class="result" id="result">0</div>
+    </div>
+    <div class="buttons">
+      <button class="btn func" data-val="C">AC</button>
+      <button class="btn func" data-val="±">±</button>
+      <button class="btn func" data-val="%">%</button>
+      <button class="btn op" data-val="÷">÷</button>
+      <button class="btn num" data-val="7">7</button>
+      <button class="btn num" data-val="8">8</button>
+      <button class="btn num" data-val="9">9</button>
+      <button class="btn op" data-val="×">×</button>
+      <button class="btn num" data-val="4">4</button>
+      <button class="btn num" data-val="5">5</button>
+      <button class="btn num" data-val="6">6</button>
+      <button class="btn op" data-val="−">−</button>
+      <button class="btn num" data-val="1">1</button>
+      <button class="btn num" data-val="2">2</button>
+      <button class="btn num" data-val="3">3</button>
+      <button class="btn op" data-val="+">+</button>
+      <button class="btn num zero" data-val="0">0</button>
+      <button class="btn num" data-val=".">.</button>
+      <button class="btn op" data-val="=">=</button>
+    </div>
+  </div>
+  <div class="hint">✨ Работает как настоящее приложение</div>
+</div>
+<script>
+  function updateTime() {
+    const d = new Date();
+    document.getElementById('time').textContent = `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}`;
+  }
+  updateTime(); setInterval(updateTime, 30000);
+
+  let current = '0', previous = null, operator = null, justCalculated = false;
+  const exprEl = document.getElementById('expression');
+  const resEl = document.getElementById('result');
+
+  function updateDisplay() {
+    resEl.textContent = current;
+    resEl.classList.remove('small');
+    if (current.length > 9) resEl.classList.add('small');
+    exprEl.textContent = (previous !== null && operator) ? `${previous} ${operator}` : '\u00A0';
+  }
+
+  function calculate(a, op, b) {
+    a = parseFloat(a); b = parseFloat(b);
+    if (op === '+') return a + b;
+    if (op === '−') return a - b;
+    if (op === '×') return a * b;
+    if (op === '÷') return b === 0 ? 'Ошибка' : a / b;
+  }
+
+  function formatNum(n) {
+    const num = parseFloat(n);
+    if (isNaN(num)) return n;
+    return Number.isInteger(num) ? num.toString() : parseFloat(num.toPrecision(10)).toString();
+  }
+
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.val;
+      document.querySelectorAll('.btn.op').forEach(b => b.classList.remove('active'));
+
+      if (val >= '0' && val <= '9') {
+        if (current === '0' || justCalculated) { current = val; justCalculated = false; }
+        else if (current.length < 15) current += val;
+      } else if (val === '.') {
+        if (justCalculated) { current = '0.'; justCalculated = false; }
+        else if (!current.includes('.')) current += '.';
+      } else if (val === 'C') {
+        current = '0'; previous = null; operator = null;
+      } else if (val === '±') {
+        if (current !== '0') current = current.startsWith('-') ? current.slice(1) : '-' + current;
+      } else if (val === '%') {
+        current = formatNum(parseFloat(current) / 100);
+      } else if (['+','−','×','÷'].includes(val)) {
+        if (operator && !justCalculated && previous !== null) {
+          const res = calculate(previous, operator, current);
+          if (res === 'Ошибка') { current = 'Ошибка'; previous = null; operator = null; updateDisplay(); return; }
+          previous = res; current = formatNum(res);
+        } else { previous = parseFloat(current); }
+        operator = val; justCalculated = true;
+        btn.classList.add('active');
+      } else if (val === '=') {
+        if (operator && previous !== null) {
+          const res = calculate(previous, operator, current);
+          exprEl.textContent = `${previous} ${operator} ${current} =`;
+          current = res === 'Ошибка' ? 'Ошибка' : formatNum(res);
+          previous = null; operator = null; justCalculated = true;
+        }
+      }
+      updateDisplay();
+    });
+  });
+</script>
+</body>
+</html>
