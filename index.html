@@ -3,171 +3,424 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Калькулятор</title>
+<title>Супер Строительный Калькулятор</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
   body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #121212;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    align-items: flex-start;
     padding: 20px;
   }
-  .phone {
-    width: 360px;
-    height: 720px;
-    background: #000;
-    border-radius: 45px;
-    padding: 12px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 2px #333;
-    position: relative;
-  }
-  .screen {
-    width: 100%; height: 100%;
-    background: #1C1C1E;
-    border-radius: 36px;
+  .app-container {
+    width: 100%;
+    max-width: 450px;
+    background: #1E1E1E;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  
+  /* Вкладки */
+  .tabs {
+    display: flex;
+    background: #2C2C2E;
+  }
+  .tab {
+    flex: 1;
+    padding: 16px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #8E8E93;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    color: #FF9F0A;
+    border-bottom-color: #FF9F0A;
+    background: #1E1E1E;
+  }
+
+  /* Экран */
+  .display {
+    padding: 24px;
+    text-align: right;
+    min-height: 120px;
     display: flex;
     flex-direction: column;
-    position: relative;
+    justify-content: flex-end;
   }
-  .notch {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 120px; height: 25px; background: #000;
-    border-radius: 0 0 18px 18px; z-index: 10;
+  .expression {
+    color: #8E8E93;
+    font-size: 22px;
+    min-height: 28px;
+    word-break: break-all;
   }
-  .status-bar {
-    height: 40px; padding: 12px 24px 0;
-    display: flex; justify-content: space-between; align-items: center;
-    color: white; font-size: 14px; font-weight: 600; flex-shrink: 0;
+  .result {
+    color: #FFFFFF;
+    font-size: 48px;
+    font-weight: 300;
+    word-break: break-all;
+    margin-top: 8px;
   }
-  .display {
-    flex: 1; padding: 20px 24px;
-    display: flex; flex-direction: column;
-    justify-content: flex-end; align-items: flex-end;
-  }
-  .expression { color: #8e8e93; font-size: 26px; min-height: 32px; text-align: right; width: 100%; word-break: break-all; }
-  .result { color: white; font-size: 60px; font-weight: 300; margin-top: 10px; text-align: right; width: 100%; word-break: break-all; transition: font-size 0.2s; }
-  .result.small { font-size: 44px; }
-  .buttons {
-    padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; flex-shrink: 0;
+  .result.small { font-size: 36px; }
+
+  /* Кнопки */
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 12px 16px 24px;
   }
   .btn {
-    height: 68px; border: none; border-radius: 34px; font-size: 28px; font-weight: 400;
-    color: white; cursor: pointer; transition: all 0.1s; font-family: inherit;
+    height: 64px;
+    border: none;
+    border-radius: 16px;
+    font-size: 24px;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s, filter 0.1s;
+    background: #333333;
   }
-  .btn:active { transform: scale(0.92); filter: brightness(1.3); }
-  .btn.num { background: #333333; }
-  .btn.func { background: #a5a5a5; color: #000; }
-  .btn.op { background: #ff9f0a; }
-  .btn.op.active { background: white; color: #ff9f0a; }
-  .btn.zero { grid-column: span 2; text-align: left; padding-left: 26px; }
-  .hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); color: white; font-size: 14px; opacity: 0.8; white-space: nowrap; }
+  .btn:active { transform: scale(0.94); filter: brightness(1.2); }
+  .btn.func { background: #A5A5A5; color: #000; }
+  .btn.op { background: #FF9F0A; color: #fff; font-size: 28px; }
+  .btn.eng { background: #2C2C2E; color: #FF9F0A; font-size: 20px; }
+  .btn.zero { grid-column: span 2; text-align: left; padding-left: 24px; }
+
+  /* Строительный режим */
+  .construction-mode {
+    display: none;
+    padding: 20px;
+  }
+  .construction-mode.active { display: block; }
+  
+  .calc-selector {
+    width: 100%;
+    padding: 14px;
+    background: #2C2C2E;
+    border: 1px solid #3A3A3C;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
+  }
+  
+  .input-group {
+    margin-bottom: 16px;
+  }
+  .input-group label {
+    display: block;
+    color: #8E8E93;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .input-group input {
+    width: 100%;
+    padding: 14px;
+    background: #2C2C2E;
+    border: 1px solid #3A3A3C;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    outline: none;
+  }
+  .input-group input:focus { border-color: #FF9F0A; }
+  
+  .calc-btn {
+    width: 100%;
+    padding: 16px;
+    background: #FF9F0A;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .calc-btn:active { transform: scale(0.98); filter: brightness(1.1); }
+  
+  .result-box {
+    margin-top: 24px;
+    padding: 20px;
+    background: #2C2C2E;
+    border-radius: 14px;
+    text-align: center;
+    display: none;
+  }
+  .result-box.show { display: block; }
+  .result-box .value { font-size: 32px; font-weight: bold; color: #FF9F0A; }
+  .result-box .desc { color: #8E8E93; font-size: 14px; margin-top: 4px; }
+
+  .hidden { display: none; }
 </style>
 </head>
 <body>
-<div class="phone">
-  <div class="screen">
-    <div class="notch"></div>
-    <div class="status-bar"><span id="time">9:41</span><span>🔋 100%</span></div>
+
+<div class="app-container">
+  <!-- Вкладки -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('standard')">🧮 Инженерный</div>
+    <div class="tab" onclick="switchTab('construction')">🏗️ Строительный</div>
+  </div>
+
+  <!-- Режим 1: Инженерный калькулятор -->
+  <div id="standard-mode">
     <div class="display">
       <div class="expression" id="expression">&nbsp;</div>
       <div class="result" id="result">0</div>
     </div>
-    <div class="buttons">
-      <button class="btn func" data-val="C">AC</button>
-      <button class="btn func" data-val="±">±</button>
-      <button class="btn func" data-val="%">%</button>
-      <button class="btn op" data-val="÷">÷</button>
-      <button class="btn num" data-val="7">7</button>
-      <button class="btn num" data-val="8">8</button>
-      <button class="btn num" data-val="9">9</button>
-      <button class="btn op" data-val="×">×</button>
-      <button class="btn num" data-val="4">4</button>
-      <button class="btn num" data-val="5">5</button>
-      <button class="btn num" data-val="6">6</button>
-      <button class="btn op" data-val="−">−</button>
-      <button class="btn num" data-val="1">1</button>
-      <button class="btn num" data-val="2">2</button>
-      <button class="btn num" data-val="3">3</button>
-      <button class="btn op" data-val="+">+</button>
-      <button class="btn num zero" data-val="0">0</button>
-      <button class="btn num" data-val=".">.</button>
-      <button class="btn op" data-val="=">=</button>
+    <div class="keypad">
+      <button class="btn func" onclick="clearAll()">AC</button>
+      <button class="btn eng" onclick="append('(')">(</button>
+      <button class="btn eng" onclick="append(')')">)</button>
+      <button class="btn op" onclick="appendOp('÷')">÷</button>
+
+      <button class="btn eng" onclick="appendFunc('√')">√</button>
+      <button class="btn num" onclick="append('7')">7</button>
+      <button class="btn num" onclick="append('8')">8</button>
+      <button class="btn num" onclick="append('9')">9</button>
+      <button class="btn op" onclick="appendOp('×')">×</button>
+
+      <button class="btn eng" onclick="appendFunc('x²')">x²</button>
+      <button class="btn num" onclick="append('4')">4</button>
+      <button class="btn num" onclick="append('5')">5</button>
+      <button class="btn num" onclick="append('6')">6</button>
+      <button class="btn op" onclick="appendOp('−')">−</button>
+
+      <button class="btn eng" onclick="append('π')">π</button>
+      <button class="btn num" onclick="append('1')">1</button>
+      <button class="btn num" onclick="append('2')">2</button>
+      <button class="btn num" onclick="append('3')">3</button>
+      <button class="btn op" onclick="appendOp('+')">+</button>
+
+      <button class="btn func" onclick="backspace()">⌫</button>
+      <button class="btn num zero" onclick="append('0')">0</button>
+      <button class="btn num" onclick="append('.')">.</button>
+      <button class="btn op" onclick="calculate()">=</button>
     </div>
   </div>
-  <div class="hint">✨ Работает как настоящее приложение</div>
-</div>
-<script>
-  function updateTime() {
-    const d = new Date();
-    document.getElementById('time').textContent = `${d.getHours()}:${d.getMinutes().toString().padStart(2,'0')}`;
-  }
-  updateTime(); setInterval(updateTime, 30000);
 
-  let current = '0', previous = null, operator = null, justCalculated = false;
+  <!-- Режим 2: Строительный калькулятор -->
+  <div id="construction-mode" class="construction-mode">
+    <select class="calc-selector" id="calcType" onchange="updateInputs()">
+      <option value="area">📐 Площадь (м²)</option>
+      <option value="volume">📦 Объем (м³)</option>
+      <option value="blocks">🧱 Кладка (блоки/кирпич)</option>
+    </select>
+
+    <!-- Площадь -->
+    <div id="inputs-area" class="input-section">
+      <div class="input-group">
+        <label>Длина (м)</label>
+        <input type="number" id="area-l" step="0.01" placeholder="Например: 5.5">
+      </div>
+      <div class="input-group">
+        <label>Ширина (м)</label>
+        <input type="number" id="area-w" step="0.01" placeholder="Например: 3.2">
+      </div>
+    </div>
+
+    <!-- Объем -->
+    <div id="inputs-volume" class="input-section hidden">
+      <div class="input-group">
+        <label>Длина (м)</label>
+        <input type="number" id="vol-l" step="0.01" placeholder="Например: 5.5">
+      </div>
+      <div class="input-group">
+        <label>Ширина (м)</label>
+        <input type="number" id="vol-w" step="0.01" placeholder="Например: 3.2">
+      </div>
+      <div class="input-group">
+        <label>Высота / Глубина (м)</label>
+        <input type="number" id="vol-h" step="0.01" placeholder="Например: 0.2">
+      </div>
+    </div>
+
+    <!-- Кладка -->
+    <div id="inputs-blocks" class="input-section hidden">
+      <div class="input-group">
+        <label>Длина стены (м)</label>
+        <input type="number" id="block-l" step="0.01" placeholder="Например: 6.0">
+      </div>
+      <div class="input-group">
+        <label>Высота стены (м)</label>
+        <input type="number" id="block-h" step="0.01" placeholder="Например: 2.8">
+      </div>
+      <div class="input-group">
+        <label>Длина блока/кирпича (м)</label>
+        <input type="number" id="b-l" step="0.01" value="0.4" placeholder="Например: 0.4">
+      </div>
+      <div class="input-group">
+        <label>Высота блока/кирпича (м)</label>
+        <input type="number" id="b-h" step="0.01" value="0.2" placeholder="Например: 0.2">
+      </div>
+      <div style="color: #8E8E93; font-size: 12px; margin-top: -10px; margin-bottom: 10px;">
+        * Включен автоматический запас 5% на бой и подрезку
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculateConstruction()">Рассчитать</button>
+
+    <div class="result-box" id="const-result">
+      <div class="value" id="const-val">0</div>
+      <div class="desc" id="const-desc">Результат</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── Переключение вкладок ─────────────────────────────
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    if (tab === 'standard') {
+      document.querySelectorAll('.tab')[0].classList.add('active');
+      document.getElementById('standard-mode').style.display = 'block';
+      document.getElementById('construction-mode').classList.remove('active');
+    } else {
+      document.querySelectorAll('.tab')[1].classList.add('active');
+      document.getElementById('standard-mode').style.display = 'none';
+      document.getElementById('construction-mode').classList.add('active');
+    }
+  }
+
+  // ─── Инженерный калькулятор ───────────────────────────
+  let current = '0';
   const exprEl = document.getElementById('expression');
   const resEl = document.getElementById('result');
+
+  function append(val) {
+    if (current === '0' || current === 'Ошибка') current = '';
+    current += val;
+    updateDisplay();
+  }
+
+  function appendOp(op) {
+    if (current === 'Ошибка') current = '0';
+    const lastChar = current.slice(-1);
+    if (['+', '−', '×', '÷'].includes(lastChar)) {
+      current = current.slice(0, -1) + op;
+    } else {
+      current += op;
+    }
+    updateDisplay();
+  }
+
+  function appendFunc(func) {
+    if (current === '0' || current === 'Ошибка') current = '';
+    if (func === '√') current += '√(';
+    else if (func === 'x²') current += '^2';
+    updateDisplay();
+  }
+
+  function clearAll() {
+    current = '0';
+    exprEl.innerHTML = '&nbsp;';
+    updateDisplay();
+  }
+
+  function backspace() {
+    if (current === 'Ошибка') { clearAll(); return; }
+    current = current.slice(0, -1);
+    if (current === '') current = '0';
+    updateDisplay();
+  }
 
   function updateDisplay() {
     resEl.textContent = current;
     resEl.classList.remove('small');
-    if (current.length > 9) resEl.classList.add('small');
-    exprEl.textContent = (previous !== null && operator) ? `${previous} ${operator}` : '\u00A0';
+    if (current.length > 10) resEl.classList.add('small');
   }
 
-  function calculate(a, op, b) {
-    a = parseFloat(a); b = parseFloat(b);
-    if (op === '+') return a + b;
-    if (op === '−') return a - b;
-    if (op === '×') return a * b;
-    if (op === '÷') return b === 0 ? 'Ошибка' : a / b;
-  }
-
-  function formatNum(n) {
-    const num = parseFloat(n);
-    if (isNaN(num)) return n;
-    return Number.isInteger(num) ? num.toString() : parseFloat(num.toPrecision(10)).toString();
-  }
-
-  document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const val = btn.dataset.val;
-      document.querySelectorAll('.btn.op').forEach(b => b.classList.remove('active'));
-
-      if (val >= '0' && val <= '9') {
-        if (current === '0' || justCalculated) { current = val; justCalculated = false; }
-        else if (current.length < 15) current += val;
-      } else if (val === '.') {
-        if (justCalculated) { current = '0.'; justCalculated = false; }
-        else if (!current.includes('.')) current += '.';
-      } else if (val === 'C') {
-        current = '0'; previous = null; operator = null;
-      } else if (val === '±') {
-        if (current !== '0') current = current.startsWith('-') ? current.slice(1) : '-' + current;
-      } else if (val === '%') {
-        current = formatNum(parseFloat(current) / 100);
-      } else if (['+','−','×','÷'].includes(val)) {
-        if (operator && !justCalculated && previous !== null) {
-          const res = calculate(previous, operator, current);
-          if (res === 'Ошибка') { current = 'Ошибка'; previous = null; operator = null; updateDisplay(); return; }
-          previous = res; current = formatNum(res);
-        } else { previous = parseFloat(current); }
-        operator = val; justCalculated = true;
-        btn.classList.add('active');
-      } else if (val === '=') {
-        if (operator && previous !== null) {
-          const res = calculate(previous, operator, current);
-          exprEl.textContent = `${previous} ${operator} ${current} =`;
-          current = res === 'Ошибка' ? 'Ошибка' : formatNum(res);
-          previous = null; operator = null; justCalculated = true;
-        }
+  function calculate() {
+    try {
+      let expr = current
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/−/g, '-')
+        .replace(/π/g, 'Math.PI')
+        .replace(/√\(/g, 'Math.sqrt(')
+        .replace(/\^2/g, '**2');
+      
+      // Безопасное вычисление
+      let result = Function('"use strict"; return (' + expr + ')')();
+      
+      if (!isFinite(result) || isNaN(result)) {
+        current = 'Ошибка';
+      } else {
+        exprEl.textContent = current + ' =';
+        // Округление до 8 знаков, убираем лишние нули
+        current = parseFloat(result.toPrecision(10)).toString();
       }
-      updateDisplay();
-    });
-  });
+    } catch (e) {
+      current = 'Ошибка';
+    }
+    updateDisplay();
+  }
+
+  // ─── Строительный калькулятор ─────────────────────────
+  function updateInputs() {
+    const type = document.getElementById('calcType').value;
+    document.querySelectorAll('.input-section').forEach(el => el.classList.add('hidden'));
+    document.getElementById('inputs-' + type).classList.remove('hidden');
+    document.getElementById('const-result').classList.remove('show');
+  }
+
+  function calculateConstruction() {
+    const type = document.getElementById('calcType').value;
+    let result = 0;
+    let desc = '';
+
+    try {
+      if (type === 'area') {
+        const l = parseFloat(document.getElementById('area-l').value) || 0;
+        const w = parseFloat(document.getElementById('area-w').value) || 0;
+        result = l * w;
+        desc = `Площадь: ${l} м × ${w} м`;
+        document.getElementById('const-val').textContent = result.toFixed(2) + ' м²';
+      } 
+      else if (type === 'volume') {
+        const l = parseFloat(document.getElementById('vol-l').value) || 0;
+        const w = parseFloat(document.getElementById('vol-w').value) || 0;
+        const h = parseFloat(document.getElementById('vol-h').value) || 0;
+        result = l * w * h;
+        desc = `Объем: ${l} м × ${w} м × ${h} м`;
+        document.getElementById('const-val').textContent = result.toFixed(3) + ' м³';
+      } 
+      else if (type === 'blocks') {
+        const wl = parseFloat(document.getElementById('block-l').value) || 0;
+        const wh = parseFloat(document.getElementById('block-h').value) || 0;
+        const bl = parseFloat(document.getElementById('b-l').value) || 0.4;
+        const bh = parseFloat(document.getElementById('b-h').value) || 0.2;
+        
+        if (bl === 0 || bh === 0) throw new Error("Размер блока не может быть 0");
+        
+        const wallArea = wl * wh;
+        const blockArea = bl * bh;
+        const exactCount = wallArea / blockArea;
+        result = Math.ceil(exactCount * 1.05); // +5% на бой
+        
+        desc = `Стена: ${wl}×${wh}м. Блок: ${bl}×${bh}м. (включая 5% запаса)`;
+        document.getElementById('const-val').textContent = result + ' шт.';
+      }
+
+      document.getElementById('const-desc').textContent = desc;
+      document.getElementById('const-result').classList.add('show');
+    } catch (e) {
+      document.getElementById('const-val').textContent = 'Ошибка';
+      document.getElementById('const-desc').textContent = 'Проверьте введенные данные';
+      document.getElementById('const-result').classList.add('show');
+    }
+  }
 </script>
 </body>
 </html>
