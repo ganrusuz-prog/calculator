@@ -16,7 +16,6 @@
     overflow: hidden;
   }
   
-  /* Шапка */
   .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -24,17 +23,9 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     z-index: 10;
   }
-  .header-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  .header-subtitle {
-    font-size: 14px;
-    opacity: 0.9;
-  }
+  .header-title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+  .header-subtitle { font-size: 14px; opacity: 0.9; }
   
-  /* Навигация */
   .nav-tabs {
     display: flex;
     background: white;
@@ -57,7 +48,6 @@
     background: #f8f9ff;
   }
   
-  /* Контент */
   .content {
     flex: 1;
     overflow-y: auto;
@@ -66,7 +56,6 @@
   }
   .content.hidden { display: none; }
   
-  /* Кнопки */
   .btn {
     width: 100%;
     padding: 16px;
@@ -83,11 +72,11 @@
   .btn:active { transform: scale(0.98); }
   .btn.secondary { background: linear-gradient(135deg, #f093fb, #f5576c); }
   .btn.success { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+  .btn.danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+  .btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
   
-  /* Формы */
-  .form-group {
-    margin-bottom: 15px;
-  }
+  .form-group { margin-bottom: 15px; }
   .form-label {
     display: block;
     color: #666;
@@ -109,7 +98,6 @@
     border-color: #667eea;
   }
   
-  /* Карточки поездок */
   .trip-card {
     background: white;
     border-radius: 15px;
@@ -117,6 +105,7 @@
     margin-bottom: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     transition: all 0.3s;
+    animation: slideIn 0.3s ease;
   }
   .trip-card:active { transform: scale(0.98); }
   
@@ -126,11 +115,7 @@
     align-items: center;
     margin-bottom: 15px;
   }
-  .trip-route {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-  }
+  .trip-route { font-size: 18px; font-weight: bold; color: #333; }
   .trip-price {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
@@ -153,11 +138,7 @@
     color: #666;
     font-size: 14px;
   }
-  .trip-info-icon {
-    font-size: 18px;
-    width: 24px;
-    text-align: center;
-  }
+  .trip-info-icon { font-size: 18px; width: 24px; text-align: center; }
   
   .trip-driver {
     display: flex;
@@ -178,19 +159,9 @@
     font-size: 20px;
     font-weight: bold;
   }
-  .driver-info {
-    flex: 1;
-  }
-  .driver-name {
-    font-weight: bold;
-    color: #333;
-    font-size: 16px;
-  }
-  .driver-phone {
-    color: #667eea;
-    font-size: 14px;
-    margin-top: 2px;
-  }
+  .driver-info { flex: 1; }
+  .driver-name { font-weight: bold; color: #333; font-size: 16px; }
+  .driver-phone { color: #667eea; font-size: 14px; margin-top: 2px; }
   
   .trip-actions {
     display: flex;
@@ -207,16 +178,32 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .trip-btn.call {
-    background: #4facfe;
-    color: white;
-  }
-  .trip-btn.details {
-    background: #f0f0f0;
-    color: #333;
-  }
+  .trip-btn.call { background: #4facfe; color: white; }
+  .trip-btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+  .trip-btn.delete { background: #ff416c; color: white; }
+  .trip-btn:active { transform: scale(0.95); }
+  .trip-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   
-  /* Фильтры */
+  .seats-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #f0f8ff;
+    border-radius: 8px;
+  }
+  .seats-indicator.full { background: #fff0f0; }
+  .seats-dots { display: flex; gap: 4px; }
+  .seat-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #43e97b;
+  }
+  .seat-dot.taken { background: #ff416c; }
+  .seats-text { font-size: 12px; color: #666; font-weight: bold; }
+  
   .filter-section {
     background: white;
     border-radius: 15px;
@@ -224,14 +211,8 @@
     margin-bottom: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
-  .filter-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-  }
+  .filter-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px; }
   
-  /* Модальное окно */
   .modal {
     position: fixed;
     inset: 0;
@@ -260,23 +241,36 @@
     text-align: center;
   }
   
-  /* Пустое состояние */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #999;
+  .passenger-list {
+    margin-top: 15px;
   }
-  .empty-icon {
-    font-size: 80px;
-    margin-bottom: 20px;
-    opacity: 0.5;
+  .passenger-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f8f9ff;
+    border-radius: 10px;
+    margin-bottom: 8px;
   }
-  .empty-text {
-    font-size: 18px;
-    margin-bottom: 10px;
+  .passenger-info { flex: 1; }
+  .passenger-name { font-weight: bold; color: #333; font-size: 14px; }
+  .passenger-phone { color: #667eea; font-size: 12px; margin-top: 2px; }
+  .passenger-cancel {
+    background: #ff416c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
   }
   
-  /* Бейджи */
+  .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+  .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
+  .empty-text { font-size: 18px; margin-bottom: 10px; }
+  
   .badge {
     display: inline-block;
     padding: 4px 10px;
@@ -288,31 +282,50 @@
   .badge.today { background: #4facfe; color: white; }
   .badge.tomorrow { background: #f093fb; color: white; }
   .badge.seats { background: #43e97b; color: white; }
+  .badge.full { background: #ff416c; color: white; }
   
-  /* Анимации */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 200;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+  .toast.hidden { display: none; }
+  .toast.success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
+  .toast.error { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+  
   @keyframes slideIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  .trip-card { animation: slideIn 0.3s ease; }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
 </style>
 </head>
 <body>
 
 <div id="app">
-  <!-- Шапка -->
   <div class="header">
     <div class="header-title">🚗 Карамалы-Губеево</div>
     <div class="header-subtitle">Попутные поездки</div>
   </div>
   
-  <!-- Навигация -->
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('trips')">🔍 Найти поездку</div>
-    <div class="nav-tab" onclick="switchTab('add')">➕ Добавить</div>
+    <div class="nav-tab active" onclick="switchTab('trips')"> Найти поездку</div>
+    <div class="nav-tab" onclick="switchTab('add')"> Добавить</div>
   </div>
   
-  <!-- Список поездок -->
   <div class="content" id="tripsContent">
     <div class="filter-section">
       <div class="filter-title">Фильтр по направлению</div>
@@ -342,7 +355,6 @@
     <div id="tripsList"></div>
   </div>
   
-  <!-- Форма добавления -->
   <div class="content hidden" id="addContent">
     <div class="filter-section">
       <div class="filter-title">Разместить поездку</div>
@@ -382,7 +394,7 @@
       </div>
       
       <div class="form-group">
-        <label class="form-label">Количество свободных мест</label>
+        <label class="form-label">Количество мест в авто</label>
         <input type="number" class="form-input" id="tripSeats" min="1" max="8" value="3">
       </div>
       
@@ -420,8 +432,60 @@
   </div>
 </div>
 
+<!-- Модальное окно бронирования -->
+<div class="modal hidden" id="bookingModal">
+  <div class="modal-content">
+    <div class="modal-title"> Бронирование места</div>
+    <div id="bookingInfo" style="margin-bottom: 20px; color: #666; text-align: center;"></div>
+    
+    <div class="form-group">
+      <label class="form-label">Ваше имя</label>
+      <input type="text" class="form-input" id="passengerName" placeholder="Введите ваше имя">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Номер телефона</label>
+      <input type="tel" class="form-input" id="passengerPhone" placeholder="+7 (___) ___-__-__">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Количество мест</label>
+      <select class="form-select" id="bookingSeats"></select>
+    </div>
+    
+    <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <span style="color: #666;">Цена за место:</span>
+        <span style="font-weight: bold;" id="pricePerSeat">0 ₽</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: #666;">Итого к оплате:</span>
+        <span style="font-weight: bold; color: #667eea; font-size: 18px;" id="totalPrice">0 ₽</span>
+      </div>
+    </div>
+    
+    <button class="btn booking" onclick="confirmBooking()">✓ Забронировать</button>
+    <button class="btn secondary" onclick="closeBookingModal()">Отмена</button>
+  </div>
+</div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal hidden" id="deleteModal">
+  <div class="modal-content">
+    <div class="modal-title">️ Удалить поездку?</div>
+    <div style="text-align: center; color: #666; margin-bottom: 20px;">
+      Это действие нельзя отменить.
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="btn secondary" onclick="closeDeleteModal()" style="flex: 1;">Отмена</button>
+      <button class="btn danger" onclick="confirmDelete()" style="flex: 1;">🗑️ Удалить</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
 <script>
-// Маршруты
 const ROUTES = {
   'to-tuimazy': { from: 'Карамалы-Губеево', to: 'Туймазы', distance: '45 км' },
   'from-tuimazy': { from: 'Туймазы', to: 'Карамалы-Губеево', distance: '45 км' },
@@ -443,10 +507,10 @@ const ROUTES = {
   'from-metevtamak': { from: 'Метевтамак', to: 'Карамалы-Губеево', distance: '20 км' }
 };
 
-// Хранилище поездок
 let trips = JSON.parse(localStorage.getItem('trips') || '[]');
+let tripToDelete = null;
+let tripToBook = null;
 
-// Демо-данные при первом запуске
 if (trips.length === 0) {
   const today = new Date().toISOString().split('T')[0];
   const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
@@ -457,11 +521,12 @@ if (trips.length === 0) {
       route: 'to-ufa',
       date: today,
       time: '08:00',
-      seats: 3,
+      totalSeats: 3,
       price: 500,
       driverName: 'Ахмет',
       driverPhone: '+7 (917) 123-45-67',
       comment: 'Еду утром, заберу по пути',
+      passengers: [],
       createdAt: Date.now()
     },
     {
@@ -469,11 +534,12 @@ if (trips.length === 0) {
       route: 'from-ufa',
       date: today,
       time: '18:00',
-      seats: 2,
+      totalSeats: 2,
       price: 500,
       driverName: 'Рамиль',
       driverPhone: '+7 (927) 234-56-78',
       comment: 'Возвращаюсь вечером',
+      passengers: [],
       createdAt: Date.now() - 1000
     },
     {
@@ -481,11 +547,12 @@ if (trips.length === 0) {
       route: 'to-kazan',
       date: tomorrow,
       time: '07:00',
-      seats: 4,
+      totalSeats: 4,
       price: 800,
       driverName: 'Ильдар',
       driverPhone: '+7 (906) 345-67-89',
       comment: 'Еду в Казань, есть места',
+      passengers: [],
       createdAt: Date.now() - 2000
     }
   ];
@@ -494,6 +561,20 @@ if (trips.length === 0) {
 
 function saveTrips() {
   localStorage.setItem('trips', JSON.stringify(trips));
+}
+
+function getAvailableSeats(trip) {
+  const booked = trip.passengers.reduce((sum, p) => sum + p.seats, 0);
+  return trip.totalSeats - booked;
+}
+
+function showToast(message, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'toast ' + type;
+  setTimeout(() => {
+    toast.classList.add('hidden');
+  }, 3000);
 }
 
 function switchTab(tab) {
@@ -519,7 +600,6 @@ function renderTrips() {
     filteredTrips = trips.filter(t => t.route === filter);
   }
   
-  // Сортировка по дате и времени
   filteredTrips.sort((a, b) => {
     const dateA = new Date(a.date + 'T' + a.time);
     const dateB = new Date(b.date + 'T' + b.time);
@@ -552,32 +632,51 @@ function renderTrips() {
       dateBadge = '<span class="badge tomorrow">Завтра</span>';
     }
     
+    const availableSeats = getAvailableSeats(trip);
+    const isFull = availableSeats === 0;
+    
+    const seatsDots = Array.from({length: trip.totalSeats}, (_, i) => 
+      `<div class="seat-dot ${i >= availableSeats ? 'taken' : ''}"></div>`
+    ).join('');
+    
     return `
-      <div class="trip-card" onclick="showTripDetails(${trip.id})">
+      <div class="trip-card">
         <div class="trip-header">
           <div class="trip-route">${route.from} → ${route.to}</div>
           <div class="trip-price">${trip.price} ₽</div>
         </div>
         <div class="trip-info">
           <div class="trip-info-row">
-            <span class="trip-info-icon">📅</span>
+            <span class="trip-info-icon"></span>
             <span>${dateBadge} ${formatDate(trip.date)} в ${trip.time}</span>
           </div>
           <div class="trip-info-row">
             <span class="trip-info-icon">📍</span>
             <span>Расстояние: ${route.distance}</span>
           </div>
-          <div class="trip-info-row">
-            <span class="trip-info-icon">💺</span>
-            <span><span class="badge seats">${trip.seats} мест</span></span>
+        </div>
+        
+        <div class="seats-indicator ${isFull ? 'full' : ''}">
+          <div class="seats-dots">${seatsDots}</div>
+          <div class="seats-text">
+            ${isFull ? '❌ Мест нет' : `✅ Свободно: ${availableSeats} из ${trip.totalSeats}`}
           </div>
         </div>
+        
         <div class="trip-driver">
           <div class="driver-avatar">${trip.driverName.charAt(0)}</div>
           <div class="driver-info">
             <div class="driver-name">${trip.driverName}</div>
             <div class="driver-phone">📞 ${trip.driverPhone}</div>
           </div>
+        </div>
+        
+        <div class="trip-actions">
+          <button class="trip-btn call" onclick="callDriver('${trip.driverPhone}')">📞 Позвонить</button>
+          <button class="trip-btn booking" onclick="openBooking(${trip.id})" ${isFull ? 'disabled' : ''}>
+            ${isFull ? 'Мест нет' : '🎫 Забронировать'}
+          </button>
+          <button class="trip-btn delete" onclick="requestDelete(${trip.id})">🗑️</button>
         </div>
       </div>
     `;
@@ -594,6 +693,107 @@ function formatDate(dateStr) {
   return `${date.getDate()} ${months[date.getMonth()]}`;
 }
 
+function callDriver(phone) {
+  window.location.href = `tel:${phone}`;
+}
+
+function openBooking(id) {
+  tripToBook = trips.find(t => t.id === id);
+  if (!tripToBook) return;
+  
+  const availableSeats = getAvailableSeats(tripToBook);
+  if (availableSeats === 0) {
+    showToast(' Свободных мест нет', 'error');
+    return;
+  }
+  
+  const route = ROUTES[tripToBook.route];
+  document.getElementById('bookingInfo').innerHTML = `
+    <strong>${route.from} → ${route.to}</strong><br>
+    ${formatDate(tripToBook.date)} в ${tripToBook.time}<br>
+    Водитель: ${tripToBook.driverName}
+  `;
+  
+  const seatsSelect = document.getElementById('bookingSeats');
+  seatsSelect.innerHTML = '';
+  for (let i = 1; i <= availableSeats; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = `${i} ${i === 1 ? 'место' : i < 5 ? 'места' : 'мест'}`;
+    seatsSelect.appendChild(option);
+  }
+  
+  document.getElementById('pricePerSeat').textContent = `${tripToBook.price} ₽`;
+  updateTotalPrice();
+  
+  seatsSelect.onchange = updateTotalPrice;
+  
+  document.getElementById('bookingModal').classList.remove('hidden');
+}
+
+function updateTotalPrice() {
+  const seats = parseInt(document.getElementById('bookingSeats').value) || 1;
+  const total = seats * tripToBook.price;
+  document.getElementById('totalPrice').textContent = `${total} ₽`;
+}
+
+function closeBookingModal() {
+  tripToBook = null;
+  document.getElementById('bookingModal').classList.add('hidden');
+  document.getElementById('passengerName').value = '';
+  document.getElementById('passengerPhone').value = '';
+}
+
+function confirmBooking() {
+  const name = document.getElementById('passengerName').value.trim();
+  const phone = document.getElementById('passengerPhone').value.trim();
+  const seats = parseInt(document.getElementById('bookingSeats').value);
+  
+  if (!name || !phone) {
+    showToast('❌ Заполните имя и телефон', 'error');
+    return;
+  }
+  
+  const availableSeats = getAvailableSeats(tripToBook);
+  if (seats > availableSeats) {
+    showToast('❌ Недостаточно мест', 'error');
+    return;
+  }
+  
+  tripToBook.passengers.push({
+    id: Date.now(),
+    name,
+    phone,
+    seats,
+    bookedAt: Date.now()
+  });
+  
+  saveTrips();
+  closeBookingModal();
+  renderTrips();
+  showToast(`✅ Забронировано ${seats} ${seats === 1 ? 'место' : seats < 5 ? 'места' : 'мест'}!`, 'success');
+}
+
+function requestDelete(id) {
+  tripToDelete = id;
+  document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+function closeDeleteModal() {
+  tripToDelete = null;
+  document.getElementById('deleteModal').classList.add('hidden');
+}
+
+function confirmDelete() {
+  if (tripToDelete !== null) {
+    trips = trips.filter(t => t.id !== tripToDelete);
+    saveTrips();
+    showToast('✓ Поездка удалена', 'success');
+    renderTrips();
+    closeDeleteModal();
+  }
+}
+
 function addTrip() {
   const route = document.getElementById('tripRoute').value;
   const date = document.getElementById('tripDate').value;
@@ -605,12 +805,12 @@ function addTrip() {
   const comment = document.getElementById('tripComment').value.trim();
   
   if (!date || !time || !driverName || !driverPhone) {
-    alert('Пожалуйста, заполните все обязательные поля');
+    showToast('❌ Заполните все обязательные поля', 'error');
     return;
   }
   
   if (!price || price < 0) {
-    alert('Укажите цену за поездку');
+    showToast('❌ Укажите цену за поездку', 'error');
     return;
   }
   
@@ -619,18 +819,18 @@ function addTrip() {
     route,
     date,
     time,
-    seats,
+    totalSeats: seats,
     price,
     driverName,
     driverPhone,
     comment,
+    passengers: [],
     createdAt: Date.now()
   };
   
   trips.push(newTrip);
   saveTrips();
   
-  // Очистка формы
   document.getElementById('tripDate').value = '';
   document.getElementById('tripTime').value = '';
   document.getElementById('tripSeats').value = '3';
@@ -639,7 +839,7 @@ function addTrip() {
   document.getElementById('driverPhone').value = '';
   document.getElementById('tripComment').value = '';
   
-  alert('✓ Поездка успешно размещена!');
+  showToast('✓ Поездка успешно размещена!', 'success');
   switchTab('trips');
 }
 
@@ -648,8 +848,26 @@ function showTripDetails(id) {
   if (!trip) return;
   
   const route = ROUTES[trip.route];
+  const availableSeats = getAvailableSeats(trip);
   const modal = document.getElementById('tripModal');
   const content = document.getElementById('modalContent');
+  
+  const passengersHtml = trip.passengers.length > 0 ? `
+    <div style="margin-top: 20px;">
+      <div style="font-weight: bold; color: #333; margin-bottom: 10px;">Забронировали (${trip.passengers.length}):</div>
+      <div class="passenger-list">
+        ${trip.passengers.map(p => `
+          <div class="passenger-item">
+            <div class="passenger-info">
+              <div class="passenger-name">${p.name}</div>
+              <div class="passenger-phone">📞 ${p.phone} • ${p.seats} ${p.seats === 1 ? 'место' : p.seats < 5 ? 'места' : 'мест'}</div>
+            </div>
+            <button class="passenger-cancel" onclick="cancelBooking(${trip.id}, ${p.id})">Отмена</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  ` : '<div style="color: #999; text-align: center; margin-top: 20px;">Пока никто не забронировал</div>';
   
   content.innerHTML = `
     <div style="margin-bottom: 20px;">
@@ -658,8 +876,8 @@ function showTripDetails(id) {
       </div>
       <div style="color: #666; font-size: 14px;">
         📅 ${formatDate(trip.date)} в ${trip.time}<br>
-        📍 Расстояние: ${route.distance}<br>
-        💺 Свободных мест: ${trip.seats}<br>
+         Расстояние: ${route.distance}<br>
+        💺 Мест: ${availableSeats} из ${trip.totalSeats}<br>
         💰 Цена: ${trip.price} руб.
       </div>
     </div>
@@ -677,9 +895,19 @@ function showTripDetails(id) {
       </div>
     ` : ''}
     
-    <a href="tel:${trip.driverPhone}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px;">
+    ${passengersHtml}
+    
+    <a href="tel:${trip.driverPhone}" style="display: block; text-align: center; padding: 16px; background: #4facfe; color: white; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 15px;">
       📞 Позвонить водителю
     </a>
+    ${availableSeats > 0 ? `
+      <button class="btn booking" onclick="closeModal(); openBooking(${trip.id})">
+         Забронировать место
+      </button>
+    ` : ''}
+    <button class="btn danger" onclick="closeModal(); requestDelete(${trip.id})">
+      🗑️ Удалить поездку
+    </button>
   `;
   
   modal.classList.remove('hidden');
@@ -689,11 +917,20 @@ function closeModal() {
   document.getElementById('tripModal').classList.add('hidden');
 }
 
-// Установка минимальной даты (сегодня)
+function cancelBooking(tripId, passengerId) {
+  const trip = trips.find(t => t.id === tripId);
+  if (!trip) return;
+  
+  trip.passengers = trip.passengers.filter(p => p.id !== passengerId);
+  saveTrips();
+  showTripDetails(tripId);
+  renderTrips();
+  showToast('✓ Бронирование отменено', 'success');
+}
+
 const today = new Date().toISOString().split('T')[0];
 document.getElementById('tripDate').min = today;
 
-// Инициализация
 renderTrips();
 </script>
 
