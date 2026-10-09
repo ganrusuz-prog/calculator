@@ -3,1151 +3,614 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Карамалы-Губеево Попутки</title>
+<meta name="theme-color" content="#1a1a1a">
+<title>ШиныОктябрьский — Б/У и новые шины</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-#app { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 10; display: flex; justify-content: space-between; align-items: center; }
-.header-title { font-size: 20px; font-weight: bold; }
-.header-subtitle { font-size: 12px; opacity: 0.9; }
-.header-right { display: flex; gap: 10px; align-items: center; }
-.user-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-.user-btn:active { background: rgba(255,255,255,0.3); }
-.nav-tabs { display: flex; background: white; border-bottom: 1px solid #e0e0e0; }
-.nav-tab { flex: 1; padding: 14px; text-align: center; font-size: 14px; font-weight: 600; color: #666; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s; }
-.nav-tab.active { color: #667eea; border-bottom-color: #667eea; background: #f8f9ff; }
-.content { flex: 1; overflow-y: auto; padding: 20px; background: #f5f5f5; }
-.content.hidden, .hidden { display: none !important; }
-.btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; margin-bottom: 10px; }
-.btn:active { transform: scale(0.98); }
-.btn.secondary { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.btn.success { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-.btn.danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-.btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
-.btn.approve { background: linear-gradient(135deg, #21a038, #1a7a2e); }
-.btn.reject { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-.btn.reset { background: linear-gradient(135deg, #999, #666); font-size: 12px; padding: 10px; }
-.form-group { margin-bottom: 15px; }
-.form-label { display: block; color: #666; font-size: 14px; margin-bottom: 6px; font-weight: 600; }
-.form-input, .form-select, textarea.form-input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; background: white; font-family: inherit; user-select: text; -webkit-user-select: text; }
-.form-input:focus, .form-select:focus, textarea.form-input:focus { outline: none; border-color: #667eea; }
-.trip-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); cursor: pointer; }
-.trip-card:active { transform: scale(0.98); }
-.trip-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.trip-route { font-size: 18px; font-weight: bold; color: #333; }
-.trip-price { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 16px; font-weight: bold; }
-.trip-info { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-.trip-info-row { display: flex; align-items: center; gap: 10px; color: #666; font-size: 14px; }
-.trip-info-icon { font-size: 18px; width: 24px; text-align: center; }
-.trip-driver { display: flex; align-items: center; gap: 12px; padding-top: 15px; border-top: 1px solid #f0f0f0; }
-.driver-avatar { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold; }
-.driver-info { flex: 1; }
-.driver-name { font-weight: bold; color: #333; font-size: 16px; }
-.trip-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-.trip-btn { flex: 1; min-width: 80px; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; }
-.trip-btn.call { background: #4facfe; color: white; }
-.trip-btn.booking { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
-.trip-btn.delete { background: #ff416c; color: white; }
-.trip-btn.edit { background: #feca57; color: #333; }
-.trip-btn.cancel { background: #f093fb; color: white; }
-.trip-btn:active { transform: scale(0.95); }
-.seats-indicator { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; background: #f0f8ff; border-radius: 8px; }
-.seats-indicator.full { background: #fff0f0; }
-.seats-dots { display: flex; gap: 4px; }
-.seat-dot { width: 12px; height: 12px; border-radius: 50%; background: #43e97b; }
-.seat-dot.taken { background: #ff416c; }
-.seats-text { font-size: 12px; color: #666; font-weight: bold; }
-.filter-section { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.filter-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px; }
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
-.modal.hidden { display: none !important; }
-.modal-content { background: white; border-radius: 20px; padding: 30px; max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto; }
-.modal-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; text-align: center; }
-.status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin: 5px 0; }
-.status-active { background: #43e97b; color: #333; }
-.status-pending { background: #ffc107; color: #333; }
-.request-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 4px solid #ffc107; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.request-card.approved { border-left-color: #43e97b; }
-.request-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.request-name { font-weight: bold; color: #333; font-size: 16px; }
-.request-phone { color: #667eea; font-size: 14px; }
-.request-actions { display: flex; gap: 8px; margin-top: 10px; }
-.request-actions .btn { flex: 1; padding: 10px; font-size: 13px; margin-bottom: 0; }
-.empty-state { text-align: center; padding: 60px 20px; color: #999; }
-.empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
-.empty-text { font-size: 18px; margin-bottom: 10px; }
-.badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 5px; }
-.badge.today { background: #4facfe; color: white; }
-.badge.tomorrow { background: #f093fb; color: white; }
-.badge.paid { background: #21a038; color: white; }
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 15px 25px; border-radius: 10px; font-size: 14px; font-weight: bold; z-index: 200; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; max-width: 90%; }
-.toast.hidden { display: none !important; }
-.toast.success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #333; }
-.toast.error { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-.toast.warning { background: linear-gradient(135deg, #feca57, #ff9f43); color: #333; }
-.cabinet-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
-.cabinet-avatar { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; }
-.cabinet-info { flex: 1; }
-.cabinet-name { font-size: 18px; font-weight: bold; }
-.cabinet-phone { font-size: 14px; opacity: 0.9; margin-top: 3px; }
-.logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; }
-.section-title { font-size: 18px; font-weight: bold; color: #333; margin: 20px 0 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0; }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-.stat-card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.stat-value { font-size: 28px; font-weight: bold; color: #667eea; }
-.stat-label { font-size: 12px; color: #666; margin-top: 5px; }
-.stat-card.pending { background: linear-gradient(135deg, #ffc107, #ff9f43); }
-.stat-card.pending .stat-value, .stat-card.pending .stat-label { color: white; }
-.stat-card.active { background: linear-gradient(135deg, #43e97b, #38f9d7); }
-.stat-card.active .stat-value, .stat-card.active .stat-label { color: white; }
-.stat-card.drivers { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-.stat-card.drivers .stat-value, .stat-card.drivers .stat-label { color: white; }
-.stat-card.passengers { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.stat-card.passengers .stat-value, .stat-card.passengers .stat-label { color: white; }
-.phone-hidden { color: #999; font-style: italic; font-size: 12px; }
-.admin-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-.admin-nav .btn { flex: 1; min-width: 120px; padding: 12px; font-size: 13px; margin-bottom: 0; }
-.code-display { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 12px; text-align: center; margin: 15px 0; }
-.code-number { font-size: 48px; font-weight: bold; letter-spacing: 8px; margin: 10px 0; font-family: 'Courier New', monospace; }
-.code-input { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
-.code-input input { width: 50px; height: 60px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #e0e0e0; border-radius: 10px; user-select: text; }
-.code-input input:focus { outline: none; border-color: #667eea; }
-.waiting-screen { text-align: center; padding: 40px 20px; }
-.waiting-icon { font-size: 80px; margin-bottom: 20px; }
-.waiting-text { font-size: 18px; color: #666; margin-bottom: 10px; }
-.waiting-subtext { font-size: 14px; color: #999; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100vh;background:#0f0f0f;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow-x:hidden}
+body{padding-bottom:80px}
+
+/* ШАПКА */
+.header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);padding:20px;border-bottom:3px solid #ff6b00;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:40px;height:40px;background:#ff6b00;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo-text{font-size:18px;font-weight:bold;color:#fff}
+.logo-text span{color:#ff6b00}
+.header-phone{color:#ff6b00;font-size:14px;font-weight:bold;text-decoration:none}
+.header-address{font-size:12px;color:#888;display:flex;align-items:center;gap:5px}
+
+/* НАВИГАЦИЯ */
+.nav-tabs{display:flex;background:#1a1a1a;border-bottom:1px solid #333;position:sticky;top:83px;z-index:99}
+.nav-tab{flex:1;padding:14px 8px;text-align:center;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:3px solid transparent;transition:all .3s}
+.nav-tab.active{color:#ff6b00;border-bottom-color:#ff6b00;background:#252525}
+
+/* ФИЛЬТРЫ */
+.filters{background:#1a1a1a;padding:15px;border-bottom:1px solid #333}
+.filter-row{display:flex;gap:8px;margin-bottom:10px;overflow-x:auto;padding-bottom:5px}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-chip{padding:8px 16px;background:#2d2d2d;border:2px solid #333;border-radius:20px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;transition:all .2s}
+.filter-chip.active{background:#ff6b00;border-color:#ff6b00;color:#fff}
+.filter-label{font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+
+/* КАТАЛОГ */
+.catalog{padding:15px}
+.catalog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.catalog-title{font-size:20px;font-weight:bold}
+.catalog-count{color:#888;font-size:14px}
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.product-card{background:#1a1a1a;border-radius:12px;overflow:hidden;border:1px solid #333;transition:all .3s;cursor:pointer}
+.product-card:active{transform:scale(.98);border-color:#ff6b00}
+.product-image{width:100%;height:140px;background:#2d2d2d;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.product-image img{width:100%;height:100%;object-fit:cover}
+.product-image .no-image{font-size:50px;opacity:.3}
+.product-badge{position:absolute;top:8px;left:8px;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:bold}
+.badge-new{background:#4caf50;color:#fff}
+.badge-used{background:#ff9800;color:#fff}
+.badge-summer{background:#2196f3;color:#fff}
+.badge-winter{background:#00bcd4;color:#fff}
+.product-info{padding:10px}
+.product-title{font-size:13px;font-weight:bold;margin-bottom:4px;color:#fff;line-height:1.3;height:34px;overflow:hidden}
+.product-size{font-size:11px;color:#ff6b00;margin-bottom:6px;font-weight:600}
+.product-price{font-size:16px;font-weight:bold;color:#fff}
+.product-price span{font-size:12px;color:#888}
+
+/* ПУСТОЕ СОСТОЯНИЕ */
+.empty-state{text-align:center;padding:60px 20px;color:#666}
+.empty-icon{font-size:80px;margin-bottom:20px;opacity:.3}
+.empty-text{font-size:18px;margin-bottom:10px;color:#999}
+.empty-sub{font-size:14px;color:#666}
+
+/* МОДАЛКА ТОВАРА */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal.hidden{display:none!important}
+.modal-content{background:#1a1a1a;border-radius:20px;padding:20px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;border:2px solid #333}
+.modal-title{font-size:22px;font-weight:bold;margin-bottom:15px;color:#ff6b00;text-align:center}
+.modal-image{width:100%;height:250px;background:#2d2d2d;border-radius:12px;margin-bottom:15px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.modal-image img{width:100%;height:100%;object-fit:cover}
+.modal-details{margin-bottom:15px}
+.detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #333}
+.detail-label{color:#888;font-size:14px}
+.detail-value{color:#fff;font-weight:bold;font-size:14px}
+.modal-price{font-size:28px;font-weight:bold;color:#ff6b00;text-align:center;margin:15px 0}
+.modal-desc{background:#252525;padding:12px;border-radius:10px;margin-bottom:15px;color:#ccc;font-size:14px;line-height:1.5}
+.modal-actions{display:flex;gap:10px}
+.modal-actions .btn{flex:1}
+
+/* КНОПКИ */
+.btn{padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer;transition:all .2s;text-align:center}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:linear-gradient(135deg,#ff6b00,#ff8c00);color:#fff}
+.btn-secondary{background:#2d2d2d;color:#fff;border:1px solid #444}
+.btn-danger{background:#f44336;color:#fff}
+.btn-success{background:#4caf50;color:#fff}
+.btn-full{width:100%}
+
+/* АДМИН ПАНЕЛЬ */
+.admin-section{padding:15px}
+.admin-header{background:linear-gradient(135deg,#ff6b00,#ff8c00);padding:20px;border-radius:15px;margin-bottom:20px;text-align:center}
+.admin-header h2{font-size:22px;margin-bottom:5px}
+.admin-header p{font-size:13px;opacity:.9}
+.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:#1a1a1a;padding:15px;border-radius:10px;text-align:center;border:1px solid #333}
+.stat-value{font-size:24px;font-weight:bold;color:#ff6b00}
+.stat-label{font-size:11px;color:#888;margin-top:4px}
+.admin-products{margin-top:20px}
+.admin-product-item{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:12px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
+.admin-product-img{width:60px;height:60px;background:#2d2d2d;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden;flex-shrink:0}
+.admin-product-img img{width:100%;height:100%;object-fit:cover}
+.admin-product-info{flex:1;min-width:0}
+.admin-product-title{font-size:14px;font-weight:bold;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-product-meta{font-size:11px;color:#888}
+.admin-product-price{font-size:16px;font-weight:bold;color:#ff6b00}
+.admin-product-actions{display:flex;gap:6px}
+.admin-product-actions .btn{padding:8px 12px;font-size:11px}
+
+/* ФОРМА ДОБАВЛЕНИЯ */
+.form-group{margin-bottom:15px}
+.form-label{display:block;color:#888;font-size:13px;margin-bottom:6px;font-weight:600}
+.form-input,.form-select,.form-textarea{width:100%;padding:12px;background:#252525;border:2px solid #333;border-radius:10px;color:#fff;font-size:15px;font-family:inherit}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:#ff6b00}
+.form-textarea{min-height:80px;resize:vertical}
+.form-select option{background:#252525;color:#fff}
+.image-upload{border:2px dashed #444;border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .3s}
+.image-upload:active{border-color:#ff6b00;background:#252525}
+.image-upload-icon{font-size:40px;margin-bottom:8px;opacity:.5}
+.image-upload-text{font-size:13px;color:#888}
+.image-preview{width:100%;max-height:200px;object-fit:contain;border-radius:10px;margin-top:10px}
+
+/* КОНТАКТЫ */
+.contacts-section{padding:20px}
+.contact-card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:20px;margin-bottom:15px}
+.contact-item{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.contact-item:last-child{margin-bottom:0}
+.contact-icon{width:45px;height:45px;background:#ff6b00;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.contact-info{flex:1}
+.contact-label{font-size:12px;color:#888;margin-bottom:2px}
+.contact-value{font-size:15px;font-weight:bold;color:#fff}
+.contact-value a{color:#ff6b00;text-decoration:none}
+.map-placeholder{width:100%;height:200px;background:#2d2d2d;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#666;font-size:14px;margin-top:15px}
+
+/* НИЖНЯЯ НАВИГАЦИЯ */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:1px solid #333;display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.5)}
+.bottom-nav-item{flex:1;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s}
+.bottom-nav-item.active{color:#ff6b00}
+.bottom-nav-item:not(.active){color:#666}
+.bottom-nav-icon{font-size:22px;margin-bottom:3px}
+.bottom-nav-label{font-size:10px;font-weight:600}
+
+/* ТОСТ */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:14px 24px;border-radius:10px;font-size:14px;font-weight:bold;z-index:300;box-shadow:0 5px 20px rgba(0,0,0,.5);text-align:center;max-width:90%}
+.toast.hidden{display:none!important}
+.toast.success{background:#4caf50}
+.toast.error{background:#f44336}
+.toast.warning{background:#ff9800;color:#000}
+
+/* СКРЫТИЕ */
+.hidden{display:none!important}
+
+/* АНИМАЦИЯ */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.product-card{animation:fadeIn .3s ease}
 </style>
 </head>
 <body>
 
-<div id="app">
-  <div class="header">
-    <div>
-      <div class="header-title">🚗 Карамалы-Губеево</div>
-      <div class="header-subtitle">Попутные поездки</div>
+<!-- ШАПКА -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-icon">🛞</div>
+      <div class="logo-text">Шины<span>Октябрьский</span></div>
     </div>
-    <div class="header-right">
-      <button class="user-btn" id="userBtn" onclick="handleUserBtn()">
-        <span>👤</span> <span id="userBtnText">Войти</span>
-      </button>
+    <a href="tel:+79659350618" class="header-phone">📞 Позвонить</a>
+  </div>
+  <div class="header-address">📍 г. Октябрьский, ул. Кооперативная 2/7</div>
+</div>
+
+<!-- НАВИГАЦИЯ -->
+<div class="nav-tabs" id="mainNav">
+  <div class="nav-tab active" onclick="switchMainTab('catalog')">🛞 Каталог</div>
+  <div class="nav-tab" onclick="switchMainTab('contacts')">📍 Контакты</div>
+  <div class="nav-tab" onclick="switchMainTab('admin')">👤 Кабинет</div>
+</div>
+
+<!-- КАТАЛОГ -->
+<div class="content-section" id="catalogSection">
+  <div class="filters">
+    <div class="filter-label">Категория</div>
+    <div class="filter-row" id="categoryFilter">
+      <div class="filter-chip active" data-value="all" onclick="setFilter('category','all',this)">Все</div>
+      <div class="filter-chip" data-value="new" onclick="setFilter('category','new',this)">🆕 Новые</div>
+      <div class="filter-chip" data-value="used" onclick="setFilter('category','used',this)">♻️ Б/У</div>
+    </div>
+    <div class="filter-label">Сезон</div>
+    <div class="filter-row" id="seasonFilter">
+      <div class="filter-chip active" data-value="all" onclick="setFilter('season','all',this)">Все</div>
+      <div class="filter-chip" data-value="summer" onclick="setFilter('season','summer',this)">️ Лето</div>
+      <div class="filter-chip" data-value="winter" onclick="setFilter('season','winter',this)">️ Зима</div>
+    </div>
+    <div class="filter-label">Диаметр</div>
+    <div class="filter-row" id="diameterFilter">
+      <div class="filter-chip active" data-value="all" onclick="setFilter('diameter','all',this)">Все</div>
+      <div class="filter-chip" data-value="R13" onclick="setFilter('diameter','R13',this)">R13</div>
+      <div class="filter-chip" data-value="R14" onclick="setFilter('diameter','R14',this)">R14</div>
+      <div class="filter-chip" data-value="R15" onclick="setFilter('diameter','R15',this)">R15</div>
+      <div class="filter-chip" data-value="R16" onclick="setFilter('diameter','R16',this)">R16</div>
+      <div class="filter-chip" data-value="R17" onclick="setFilter('diameter','R17',this)">R17</div>
+      <div class="filter-chip" data-value="R18" onclick="setFilter('diameter','R18',this)">R18</div>
+      <div class="filter-chip" data-value="R19" onclick="setFilter('diameter','R19',this)">R19</div>
+      <div class="filter-chip" data-value="R20" onclick="setFilter('diameter','R20',this)">R20</div>
     </div>
   </div>
   
-  <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('trips')">🔍 Найти поездку</div>
-    <div class="nav-tab" onclick="handleAddClick()">➕ Добавить</div>
+  <div class="catalog">
+    <div class="catalog-header">
+      <div class="catalog-title">Шины в наличии</div>
+      <div class="catalog-count" id="productsCount">0 шт.</div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- КОНТАКТЫ -->
+<div class="content-section hidden" id="contactsSection">
+  <div class="contacts-section">
+    <h2 style="font-size:22px;margin-bottom:20px;color:#ff6b00"> Наши контакты</h2>
+    
+    <div class="contact-card">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-info">
+          <div class="contact-label">Адрес</div>
+          <div class="contact-value">г. Октябрьский, ул. Кооперативная 2/7</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-info">
+          <div class="contact-label">Телефон</div>
+          <div class="contact-value"><a href="tel:+79659350618">+7 (965) 935-06-18</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">💬</div>
+        <div class="contact-info">
+          <div class="contact-label">WhatsApp</div>
+          <div class="contact-value"><a href="https://wa.me/79659350618" target="_blank">Написать в WhatsApp</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div class="contact-info">
+          <div class="contact-label">Режим работы</div>
+          <div class="contact-value">Пн-Сб: 9:00 - 19:00</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="map-placeholder">
+      🗺️ ул. Кооперативная 2/7, Октябрьский
+    </div>
+    
+    <div style="margin-top:20px;text-align:center">
+      <a href="https://yandex.ru/maps/?text=Октябрьский+Кооперативная+2/7" target="_blank" class="btn btn-primary btn-full">🗺️ Открыть в Яндекс.Картах</a>
+    </div>
+  </div>
+</div>
+
+<!-- АДМИН ПАНЕЛЬ -->
+<div class="content-section hidden" id="adminSection">
+  <div class="admin-section" id="adminLogin">
+    <div style="text-align:center;padding:40px 20px">
+      <div style="font-size:60px;margin-bottom:20px">🔐</div>
+      <h2 style="font-size:22px;margin-bottom:10px">Вход в кабинет</h2>
+      <p style="color:#888;margin-bottom:30px;font-size:14px">Введите номер телефона администратора</p>
+      <div class="form-group">
+        <input type="tel" class="form-input" id="adminPhone" placeholder="+7 (___) ___-__-__" style="text-align:center;font-size:18px">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="adminLogin()">Войти</button>
+    </div>
   </div>
   
-  <div class="content" id="tripsContent">
-    <div class="filter-section">
-      <div class="filter-title">Фильтр по направлению</div>
-      <select class="form-select" id="filterRoute" onchange="filterTrips()"></select>
+  <div class="admin-section hidden" id="adminPanel">
+    <div class="admin-header">
+      <h2>👤 Кабинет администратора</h2>
+      <p>Управление каталогом шин</p>
     </div>
-    <div id="tripsList"></div>
+    
+    <div class="admin-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Всего</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statNew">0</div>
+        <div class="stat-label">Новых</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statUsed">0</div>
+        <div class="stat-label">Б/У</div>
+      </div>
+    </div>
+    
+    <button class="btn btn-primary btn-full" onclick="showAddForm()" style="margin-bottom:20px">➕ Добавить товар</button>
+    <button class="btn btn-secondary btn-full" onclick="adminLogout()" style="margin-bottom:20px">🚪 Выйти</button>
+    
+    <div class="admin-products" id="adminProductsList"></div>
   </div>
   
-  <div class="content hidden" id="addContent">
-    <div class="filter-section">
-      <div class="filter-title" id="addFormTitle">➕ Добавить поездку</div>
-      <div class="form-group">
-        <label class="form-label">Направление</label>
-        <select class="form-select" id="tripRoute"></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Дата поездки</label>
-        <input type="date" class="form-input" id="tripDate">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Время отправления</label>
-        <input type="time" class="form-input" id="tripTime">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Количество мест в авто</label>
-        <input type="number" class="form-input" id="tripSeats" min="1" max="8" value="3">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Цена за пассажира (руб.)</label>
-        <input type="number" class="form-input" id="tripPrice" min="0" placeholder="Например: 300">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Имя водителя</label>
-        <input type="text" class="form-input" id="driverName" placeholder="Например: Иван">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Номер телефона водителя</label>
-        <input type="tel" class="form-input phone-input" id="driverPhone" placeholder="+7 (___) ___-__-__">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Комментарий (необязательно)</label>
-        <textarea class="form-input" id="tripComment" rows="3" placeholder="Дополнительная информация"></textarea>
-      </div>
-      <button class="btn success" id="addTripBtn" onclick="handleAddTrip()">✓ Разместить поездку</button>
-      <button class="btn secondary hidden" id="cancelEditBtn" onclick="cancelEdit()">Отменить редактирование</button>
-    </div>
-  </div>
-  
-  <div class="content hidden" id="cabinetContent">
-    <div class="cabinet-header">
-      <div class="cabinet-avatar" id="cabinetAvatar">?</div>
-      <div class="cabinet-info">
-        <div class="cabinet-name" id="cabinetName">Пользователь</div>
-        <div class="cabinet-phone" id="cabinetPhone">+7</div>
-        <div id="cabinetStatus"></div>
-      </div>
-      <button class="logout-btn" onclick="logout()">Выйти</button>
-    </div>
-    <div id="adminPanel"></div>
-    <div id="cabinetTrips"></div>
-  </div>
-</div>
-
-<div class="modal hidden" id="loginModal">
-  <div class="modal-content">
-    <div class="modal-title"> Вход в личный кабинет</div>
-    <div style="color: #666; text-align: center; margin-bottom: 20px; font-size: 14px;">Введите ваш номер телефона для входа</div>
+  <!-- Форма добавления/редактирования -->
+  <div class="admin-section hidden" id="addFormSection">
+    <h2 style="font-size:20px;margin-bottom:20px;color:#ff6b00" id="formTitle"> Добавить товар</h2>
+    
     <div class="form-group">
-      <label class="form-label">Ваше имя</label>
-      <input type="text" class="form-input" id="loginName" placeholder="Как к вам обращаться">
+      <label class="form-label">Название / Модель шины</label>
+      <input type="text" class="form-input" id="prodTitle" placeholder="Например: Michelin X-Ice 205/55 R16">
     </div>
+    
     <div class="form-group">
-      <label class="form-label">Номер телефона</label>
-      <input type="tel" class="form-input phone-input" id="loginPhone" placeholder="+7 (___) ___-__-__">
+      <label class="form-label">Категория</label>
+      <select class="form-select" id="prodCategory">
+        <option value="new"> Новая</option>
+        <option value="used">♻️ Б/У</option>
+      </select>
     </div>
-    <button class="btn success" onclick="doLogin()">Войти</button>
-    <button class="btn secondary" onclick="closeLoginModal()">Отмена</button>
-  </div>
-</div>
-
-<div class="modal hidden" id="codeModal">
-  <div class="modal-content">
-    <div class="modal-title">🔐 Код авторизации</div>
-    <div style="text-align: center; color: #666; margin-bottom: 15px; font-size: 14px;">
-      На номер <strong id="codePhone"></strong> отправлен код
-    </div>
-    <div class="code-display">
-      <div style="font-size: 12px; opacity: 0.9;">Ваш код:</div>
-      <div class="code-number" id="generatedCode">----</div>
-      <div style="font-size: 11px; opacity: 0.8;">📱 В тестовом режиме код показан выше</div>
-    </div>
-    <div style="text-align: center; color: #666; font-size: 13px; margin: 10px 0;">Введите код:</div>
-    <div class="code-input">
-      <input type="tel" maxlength="1" id="code1" oninput="moveToNext(this, 'code2')">
-      <input type="tel" maxlength="1" id="code2" oninput="moveToNext(this, 'code3')">
-      <input type="tel" maxlength="1" id="code3" oninput="moveToNext(this, 'code4')">
-      <input type="tel" maxlength="1" id="code4" oninput="verifyCode()">
-    </div>
-    <div style="text-align: center; margin: 10px 0;">
-      <button class="btn" style="background: #25D366; padding: 10px; font-size: 14px;" onclick="sendCodeWhatsApp()"> Отправить через WhatsApp</button>
-    </div>
-    <div id="codeError" style="color: #ff416c; text-align: center; font-size: 13px; margin: 10px 0; display: none;">❌ Неверный код</div>
-    <button class="btn secondary" onclick="closeCodeModal()">Отмена</button>
-  </div>
-</div>
-
-<div class="modal hidden" id="waitingModal">
-  <div class="modal-content">
-    <div class="waiting-screen">
-      <div class="waiting-icon">⏳</div>
-      <div class="waiting-text">Заявка отправлена администратору</div>
-      <div class="waiting-subtext">Администратор проверит и активирует ваш доступ. Ожидайте.</div>
-    </div>
-    <button class="btn secondary" onclick="closeWaitingModal()">Понятно</button>
-  </div>
-</div>
-
-<div class="modal hidden" id="tripModal">
-  <div class="modal-content">
-    <div class="modal-title">Детали поездки</div>
-    <div id="modalContent"></div>
-    <button class="btn" onclick="closeModal()">Закрыть</button>
-  </div>
-</div>
-
-<div class="modal hidden" id="bookingModal">
-  <div class="modal-content">
-    <div class="modal-title">🎫 Бронирование</div>
-    <div id="bookingInfo" style="margin-bottom: 20px; color: #666; text-align: center;"></div>
+    
     <div class="form-group">
-      <label class="form-label">Ваше имя</label>
-      <input type="text" class="form-input" id="passengerName" placeholder="Ваше имя">
+      <label class="form-label">Сезон</label>
+      <select class="form-select" id="prodSeason">
+        <option value="summer">☀️ Лето</option>
+        <option value="winter">❄️ Зима</option>
+      </select>
     </div>
+    
     <div class="form-group">
-      <label class="form-label">Номер телефона</label>
-      <input type="tel" class="form-input phone-input" id="passengerPhone" placeholder="+7 (___) ___-__-__">
+      <label class="form-label">Диаметр</label>
+      <select class="form-select" id="prodDiameter">
+        <option value="R13">R13</option>
+        <option value="R14">R14</option>
+        <option value="R15">R15</option>
+        <option value="R16" selected>R16</option>
+        <option value="R17">R17</option>
+        <option value="R18">R18</option>
+        <option value="R19">R19</option>
+        <option value="R20">R20</option>
+      </select>
     </div>
+    
     <div class="form-group">
-      <label class="form-label">Количество мест</label>
-      <select class="form-select" id="bookingSeats"></select>
+      <label class="form-label">Размер (например: 205/55)</label>
+      <input type="text" class="form-input" id="prodSize" placeholder="205/55">
     </div>
-    <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-      <div style="display: flex; justify-content: space-between;">
-        <span style="color: #666;">Цена за место:</span>
-        <span style="font-weight: bold;" id="pricePerSeat">0 ₽</span>
+    
+    <div class="form-group">
+      <label class="form-label">Цена (руб.)</label>
+      <input type="number" class="form-input" id="prodPrice" placeholder="3500">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Описание / Состояние</label>
+      <textarea class="form-textarea" id="prodDesc" placeholder="Опишите состояние шины, остаток протектора, количество комплекта..."></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Фото шины</label>
+      <div class="image-upload" onclick="document.getElementById('prodImage').click()">
+        <div class="image-upload-icon">📷</div>
+        <div class="image-upload-text">Нажмите чтобы выбрать фото</div>
       </div>
-      <div style="display: flex; justify-content: space-between; margin-top: 8px; border-top: 2px solid #e0e0e0; padding-top: 8px;">
-        <span style="color: #666; font-weight: bold;">Итого:</span>
-        <span style="font-weight: bold; color: #667eea; font-size: 18px;" id="totalPrice">0 ₽</span>
-      </div>
+      <input type="file" id="prodImage" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+      <img id="imagePreview" class="image-preview hidden">
     </div>
-    <button class="btn booking" onclick="confirmBooking()">✓ Забронировать</button>
-    <button class="btn secondary" onclick="closeBookingModal()">Отмена</button>
-  </div>
-</div>
-
-<div class="modal hidden" id="deleteModal">
-  <div class="modal-content">
-    <div class="modal-title">️ Удалить поездку?</div>
-    <div style="text-align: center; color: #666; margin-bottom: 20px;">Это действие нельзя отменить.</div>
-    <div style="display: flex; gap: 10px;">
-      <button class="btn secondary" onclick="closeDeleteModal()" style="flex: 1;">Отмена</button>
-      <button class="btn danger" onclick="confirmDelete()" style="flex: 1;">🗑️ Удалить</button>
+    
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-secondary" onclick="cancelForm()" style="flex:1">Отмена</button>
+      <button class="btn btn-primary" onclick="saveProduct()" style="flex:2">💾 Сохранить</button>
     </div>
   </div>
 </div>
 
-<div class="modal hidden" id="requestsModal">
-  <div class="modal-content">
-    <div class="modal-title">📋 Заявки</div>
-    <div id="requestsList"></div>
-    <button class="btn secondary" onclick="closeRequestsModal()" style="margin-top: 15px;">Закрыть</button>
-  </div>
+<!-- МОДАЛКА ТОВАРА -->
+<div class="modal hidden" id="productModal">
+  <div class="modal-content" id="productModalContent"></div>
 </div>
 
-<div class="modal hidden" id="usersModal">
-  <div class="modal-content">
-    <div class="modal-title">👥 Все участники</div>
-    <div id="usersList"></div>
-    <button class="btn secondary" onclick="closeUsersModal()" style="margin-top: 15px;">Закрыть</button>
-  </div>
-</div>
-
+<!-- ТОСТ -->
 <div class="toast hidden" id="toast"></div>
 
+<!-- НИЖНЯЯ НАВИГАЦИЯ -->
+<div class="bottom-nav">
+  <div class="bottom-nav-item active" onclick="switchMainTab('catalog')">
+    <div class="bottom-nav-icon">🛞</div>
+    <div class="bottom-nav-label">Каталог</div>
+  </div>
+  <div class="bottom-nav-item" onclick="switchMainTab('contacts')">
+    <div class="bottom-nav-icon"></div>
+    <div class="bottom-nav-label">Контакты</div>
+  </div>
+  <div class="bottom-nav-item" onclick="switchMainTab('admin')">
+    <div class="bottom-nav-icon">👤</div>
+    <div class="bottom-nav-label">Кабинет</div>
+  </div>
+</div>
+
 <script>
-const ROUTES = {
-  'to-tuimazy': { from: 'Карамалы-Губеево', to: 'Туймазы', distance: '45 км' },
-  'from-tuimazy': { from: 'Туймазы', to: 'Карамалы-Губеево', distance: '45 км' },
-  'to-belebey': { from: 'Карамалы-Губеево', to: 'Белебей', distance: '60 км' },
-  'from-belebey': { from: 'Белебей', to: 'Карамалы-Губеево', distance: '60 км' },
-  'to-oktyabrsky': { from: 'Карамалы-Губеево', to: 'Октябрьский', distance: '80 км' },
-  'from-oktyabrsky': { from: 'Октябрьский', to: 'Карамалы-Губеево', distance: '80 км' },
-  'to-ufa': { from: 'Карамалы-Губеево', to: 'Уфа', distance: '180 км' },
-  'from-ufa': { from: 'Уфа', to: 'Карамалы-Губеево', distance: '180 км' },
-  'to-kazan': { from: 'Карамалы-Губеево', to: 'Казань', distance: '350 км' },
-  'from-kazan': { from: 'Казань', to: 'Карамалы-Губеево', distance: '350 км' },
-  'to-serafim': { from: 'Карамалы-Губеево', to: 'Серафимовский', distance: '25 км' },
-  'from-serafim': { from: 'Серафимовский', to: 'Карамалы-Губеево', distance: '25 км' },
-  'to-chukady': { from: 'Карамалы-Губеево', to: 'Чукады-Тамак', distance: '15 км' },
-  'from-chukady': { from: 'Чукады-Тамак', to: 'Карамалы-Губеево', distance: '15 км' },
-  'to-tukaevo': { from: 'Карамалы-Губеево', to: 'Тукаево', distance: '12 км' },
-  'from-tukaevo': { from: 'Тукаево', to: 'Карамалы-Губеево', distance: '12 км' },
-  'to-alekseevka': { from: 'Карамалы-Губеево', to: 'Алексеевка', distance: '18 км' },
-  'from-alekseevka': { from: 'Алексеевка', to: 'Карамалы-Губеево', distance: '18 км' },
-  'to-metevtamak': { from: 'Карамалы-Губеево', to: 'Метевтамак', distance: '20 км' },
-  'from-metevtamak': { from: 'Метевтамак', to: 'Карамалы-Губеево', distance: '20 км' }
-};
+const ADMIN_PHONE='+79659350618';
+let products=[];
+let isAdmin=false;
+let editingId=null;
+let currentImage=null;
+let filters={category:'all',season:'all',diameter:'all'};
 
-const ADMIN_PHONE = '+79656499498';
+function esc(s){if(s==null)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function formatPhone(v){let d=v.replace(/\D/g,'');if(d.startsWith('7'))d=d.substring(1);if(d.startsWith('8'))d=d.substring(1);if(d.length>10)d=d.substring(0,10);let f='+7';if(d.length>0)f+=' ('+d.substring(0,3);if(d.length>=3)f+=') '+d.substring(3,6);if(d.length>=6)f+='-'+d.substring(6,8);if(d.length>=8)f+='-'+d.substring(8,10);return f}
+function normalizePhone(p){let d=String(p||'').replace(/\D/g,'');if(d.startsWith('8'))d='7'+d.substring(1);if(!d.startsWith('7'))d='7'+d;return'+'+d}
 
-let trips = [];
-let users = [];
-let currentUser = null;
-let tripToDelete = null;
-let tripToBook = null;
-let editingTripId = null;
-let pendingCode = null;
-let pendingUser = null;
+function loadProducts(){try{products=JSON.parse(localStorage.getItem('tire_products')||'[]')}catch(e){products=[]}}
+function saveProducts(){localStorage.setItem('tire_products',JSON.stringify(products))}
 
-function esc(s) {
-  if (s == null) return '';
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
+function showToast(m,t){const e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'');setTimeout(()=>e.classList.add('hidden'),3000)}
 
-function formatPhone(value) {
-  let digits = value.replace(/\D/g, '');
-  if (digits.startsWith('7')) digits = digits.substring(1);
-  if (digits.startsWith('8')) digits = digits.substring(1);
-  if (digits.length > 10) digits = digits.substring(0, 10);
-  let f = '+7';
-  if (digits.length > 0) f += ' (' + digits.substring(0, 3);
-  if (digits.length >= 3) f += ') ' + digits.substring(3, 6);
-  if (digits.length >= 6) f += '-' + digits.substring(6, 8);
-  if (digits.length >= 8) f += '-' + digits.substring(8, 10);
-  return f;
-}
-
-function normalizePhone(phone) {
-  let d = String(phone || '').replace(/\D/g, '');
-  if (d.startsWith('8')) d = '7' + d.substring(1);
-  if (!d.startsWith('7')) d = '7' + d;
-  return '+' + d;
-}
-
-function isAdminByPhone(phone) {
-  return normalizePhone(phone) === normalizePhone(ADMIN_PHONE);
-}
-
-function isAdmin() {
-  if (!currentUser) return false;
-  return isAdminByPhone(currentUser.phone);
-}
-
-function getUserByPhone(phone) {
-  const norm = normalizePhone(phone);
-  return users.find(function(u) { return normalizePhone(u.phone) === norm; });
-}
-
-function isDriver(userPhone) {
-  const norm = normalizePhone(userPhone);
-  return trips.some(function(t) { return normalizePhone(t.driverPhone) === norm; });
-}
-
-function isPassenger(userPhone) {
-  const norm = normalizePhone(userPhone);
-  for (let i = 0; i < trips.length; i++) {
-    if (trips[i].passengers) {
-      for (let j = 0; j < trips[i].passengers.length; j++) {
-        if (normalizePhone(trips[i].passengers[j].phone) === norm) return true;
-      }
-    }
-  }
-  return false;
-}
-
-function pluralSeats(n) {
-  if (n === 1) return 'место';
-  if (n >= 2 && n <= 4) return 'места';
-  return 'мест';
-}
-
-function buildRouteOptionsHtml(selectedKey) {
-  let html = '<option value="all">Все направления</option>';
-  Object.keys(ROUTES).forEach(function(key) {
-    const r = ROUTES[key];
-    html += '<option value="' + key + '"' + (key === selectedKey ? ' selected' : '') + '>' + esc(r.from) + ' → ' + esc(r.to) + '</option>';
+function switchMainTab(tab){
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    t.classList.toggle('active',(tab==='catalog'&&i===0)||(tab==='contacts'&&i===1)||(tab==='admin'&&i===2));
   });
-  return html;
-}
-
-function buildRouteOptionsForForm(selectedKey) {
-  let html = '';
-  Object.keys(ROUTES).forEach(function(key) {
-    const r = ROUTES[key];
-    html += '<option value="' + key + '"' + (key === selectedKey ? ' selected' : '') + '>' + esc(r.from) + ' → ' + esc(r.to) + '</option>';
+  document.querySelectorAll('.bottom-nav-item').forEach((t,i)=>{
+    t.classList.toggle('active',(tab==='catalog'&&i===0)||(tab==='contacts'&&i===1)||(tab==='admin'&&i===2));
   });
-  return html;
+  document.getElementById('catalogSection').classList.toggle('hidden',tab!=='catalog');
+  document.getElementById('contactsSection').classList.toggle('hidden',tab!=='contacts');
+  document.getElementById('adminSection').classList.toggle('hidden',tab!=='admin');
+  if(tab==='catalog')renderProducts();
+  if(tab==='admin'&&isAdmin)renderAdminPanel();
+  window.scrollTo(0,0);
 }
 
-function requireApprovedUser() {
-  if (!currentUser) {
-    showToast('️ Войдите в личный кабинет', 'warning');
-    openLoginModal();
-    return false;
-  }
-  const user = getUserByPhone(currentUser.phone);
-  if (!user || !user.approved) {
-    showToast('⚠️ Ваша заявка ещё не одобрена', 'warning');
-    openWaitingModal();
-    return false;
-  }
-  return true;
+function setFilter(type,value,el){
+  filters[type]=value;
+  el.parentElement.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
 }
 
-function initPhoneMasks() {
-  document.querySelectorAll('.phone-input').forEach(function(input) {
-    input.addEventListener('input', function() {
-      this.value = formatPhone(this.value);
-    });
-    input.addEventListener('focus', function() {
-      if (!this.value || this.value === '+7') this.value = '+7 (';
-    });
+function renderProducts(){
+  const grid=document.getElementById('productsGrid');
+  let list=products.filter(p=>{
+    if(filters.category!=='all'&&p.category!==filters.category)return false;
+    if(filters.season!=='all'&&p.season!==filters.season)return false;
+    if(filters.diameter!=='all'&&p.diameter!==filters.diameter)return false;
+    return true;
   });
-}
-
-function loadTrips() {
-  try { trips = JSON.parse(localStorage.getItem('trips') || '[]'); } catch (e) { trips = []; }
-}
-function saveTrips() { localStorage.setItem('trips', JSON.stringify(trips)); }
-function loadUsers() {
-  try { users = JSON.parse(localStorage.getItem('users') || '[]'); } catch (e) { users = []; }
-}
-function saveUsers() { localStorage.setItem('users', JSON.stringify(users)); }
-function loadUser() {
-  try { currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null'); } catch (e) { currentUser = null; }
-  updateUserUI();
-}
-function saveUser() {
-  if (currentUser) localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  else localStorage.removeItem('currentUser');
-  updateUserUI();
-}
-
-function updateUserUI() {
-  document.getElementById('userBtnText').textContent = currentUser ? currentUser.name.split(' ')[0] : 'Войти';
-}
-
-function removeExpiredTrips() {
-  const now = new Date();
-  const before = trips.length;
-  trips = trips.filter(function(trip) {
-    return now < new Date(new Date(trip.date + 'T' + trip.time).getTime() + 60000);
-  });
-  if (trips.length !== before) saveTrips();
-}
-
-function getAvailableSeats(trip) {
-  if (!trip.passengers) trip.passengers = [];
-  const booked = trip.passengers.reduce(function(s, p) { return s + (p.seats || 1); }, 0);
-  return Math.max(0, trip.totalSeats - booked);
-}
-
-function showToast(message, type) {
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.className = 'toast ' + (type || '');
-  setTimeout(function() { toast.classList.add('hidden'); }, 3000);
-}
-
-function switchTab(tab) {
-  document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
-  if (tab === 'trips') {
-    document.querySelectorAll('.nav-tab')[0].classList.add('active');
-    document.getElementById('tripsContent').classList.remove('hidden');
-    document.getElementById('addContent').classList.add('hidden');
-    document.getElementById('cabinetContent').classList.add('hidden');
-    removeExpiredTrips();
-    renderTrips();
-  } else if (tab === 'add') {
-    if (!requireApprovedUser()) return;
-    document.querySelectorAll('.nav-tab')[1].classList.add('active');
-    document.getElementById('tripsContent').classList.add('hidden');
-    document.getElementById('addContent').classList.remove('hidden');
-    document.getElementById('cabinetContent').classList.add('hidden');
-    if (!editingTripId) {
-      clearAddForm();
-      document.getElementById('addFormTitle').textContent = '➕ Добавить поездку';
-      document.getElementById('addTripBtn').textContent = '✓ Разместить поездку';
-      document.getElementById('cancelEditBtn').classList.add('hidden');
-    }
-  }
-}
-
-function handleUserBtn() {
-  if (currentUser) showCabinet();
-  else openLoginModal();
-}
-
-function handleAddClick() {
-  if (!currentUser) {
-    showToast('⚠️ Войдите в ЛК', 'warning');
-    openLoginModal();
-    return;
-  }
-  if (!requireApprovedUser()) return;
-  switchTab('add');
-}
-
-function openLoginModal() {
-  document.getElementById('loginName').value = currentUser ? currentUser.name : '';
-  document.getElementById('loginPhone').value = currentUser ? currentUser.phone : '+7 (';
-  document.getElementById('loginModal').classList.remove('hidden');
-}
-function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
-
-function doLogin() {
-  const name = document.getElementById('loginName').value.trim();
-  const phone = document.getElementById('loginPhone').value.trim();
-  if (!name) { showToast('❌ Введите имя', 'error'); return; }
-  if (phone.length < 18) { showToast('❌ Введите полный номер', 'error'); return; }
+  list.sort((a,b)=>b.createdAt-a.createdAt);
+  document.getElementById('productsCount').textContent=list.length+' шт.';
   
-  const phoneIsAdmin = isAdminByPhone(phone);
-  currentUser = { name: name, phone: phone };
-  saveUser();
-  
-  let user = getUserByPhone(phone);
-  if (!user) {
-    user = {
-      phone: normalizePhone(phone),
-      name: name,
-      approved: phoneIsAdmin,
-      registeredAt: Date.now(),
-      authCode: null,
-      authCodeSentAt: null,
-      codeVerified: false
-    };
-    users.push(user);
-    saveUsers();
-  }
-  
-  closeLoginModal();
-  
-  if (phoneIsAdmin || user.approved) {
-    showToast('✅ Добро пожаловать, ' + name + '!', 'success');
-    showCabinet();
-  } else if (user.codeVerified) {
-    showToast('⏳ Код подтверждён. Ожидайте одобрения.', 'warning');
-    openWaitingModal();
-  } else {
-    sendAuthCode(user);
-  }
-}
-
-function sendAuthCode(user) {
-  pendingUser = user;
-  pendingCode = Math.floor(1000 + Math.random() * 9000).toString();
-  user.authCode = pendingCode;
-  user.authCodeSentAt = Date.now();
-  saveUsers();
-  
-  document.getElementById('codePhone').textContent = user.phone;
-  document.getElementById('generatedCode').textContent = pendingCode;
-  document.getElementById('code1').value = '';
-  document.getElementById('code2').value = '';
-  document.getElementById('code3').value = '';
-  document.getElementById('code4').value = '';
-  document.getElementById('codeError').style.display = 'none';
-  document.getElementById('codeModal').classList.remove('hidden');
-  setTimeout(function() { document.getElementById('code1').focus(); }, 300);
-}
-
-function moveToNext(current, nextId) {
-  let v = current.value.replace(/\D/g, '');
-  current.value = v;
-  if (v.length === 1) {
-    const next = document.getElementById(nextId);
-    if (next) next.focus();
-  }
-}
-
-function verifyCode() {
-  const code = document.getElementById('code1').value + document.getElementById('code2').value + document.getElementById('code3').value + document.getElementById('code4').value;
-  if (code.length !== 4) return;
-  
-  if (code === pendingCode) {
-    pendingUser.codeVerified = true;
-    pendingUser.verifiedAt = Date.now();
-    saveUsers();
-    closeCodeModal();
-    showToast('✅ Код подтверждён! Заявка отправлена админу.', 'success');
-    openWaitingModal();
-  } else {
-    document.getElementById('codeError').style.display = 'block';
-    setTimeout(function() {
-      document.getElementById('code1').value = '';
-      document.getElementById('code2').value = '';
-      document.getElementById('code3').value = '';
-      document.getElementById('code4').value = '';
-      document.getElementById('code1').focus();
-    }, 1500);
-  }
-}
-
-function sendCodeWhatsApp() {
-  if (!pendingUser || !pendingCode) return;
-  const digits = pendingUser.phone.replace(/\D/g, '');
-  window.open('https://wa.me/' + digits + '?text=' + encodeURIComponent('Код авторизации Карамалы-Губеево: ' + pendingCode), '_blank');
-}
-
-function closeCodeModal() {
-  document.getElementById('codeModal').classList.add('hidden');
-  pendingCode = null;
-  pendingUser = null;
-}
-function openWaitingModal() { document.getElementById('waitingModal').classList.remove('hidden'); }
-function closeWaitingModal() { document.getElementById('waitingModal').classList.add('hidden'); }
-
-function logout() {
-  currentUser = null;
-  saveUser();
-  switchTab('trips');
-  showToast('👋 Вы вышли', 'success');
-}
-
-function showCabinet() {
-  if (!currentUser) { openLoginModal(); return; }
-  const user = getUserByPhone(currentUser.phone);
-  if (!isAdmin() && (!user || !user.approved)) { openWaitingModal(); return; }
-  
-  document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
-  document.getElementById('tripsContent').classList.add('hidden');
-  document.getElementById('addContent').classList.add('hidden');
-  document.getElementById('cabinetContent').classList.remove('hidden');
-  
-  document.getElementById('cabinetAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
-  document.getElementById('cabinetName').textContent = currentUser.name;
-  document.getElementById('cabinetPhone').textContent = currentUser.phone;
-  
-  const statusEl = document.getElementById('cabinetStatus');
-  statusEl.innerHTML = isAdmin() ? '<span class="status-badge status-active">👑 Админ</span>' : '<span class="status-badge status-active">✅ Доступ активен</span>';
-  
-  document.getElementById('adminPanel').innerHTML = isAdmin() ? renderAdminPanel() : '';
-  renderCabinet();
-}
-
-function renderAdminPanel() {
-  const pending = users.filter(function(u) { return !u.approved && !isAdminByPhone(u.phone); });
-  const active = users.filter(function(u) { return u.approved && !isAdminByPhone(u.phone); });
-  const drivers = users.filter(function(u) { return u.approved && isDriver(u.phone) && !isAdminByPhone(u.phone); }).length;
-  const passengers = users.filter(function(u) { return u.approved && isPassenger(u.phone) && !isAdminByPhone(u.phone); }).length;
-  const totalBookings = trips.reduce(function(s, t) { return s + (t.passengers ? t.passengers.length : 0); }, 0);
-  
-  let h = '<div class="section-title">👑 Панель администратора</div>';
-  h += '<div class="stats-grid">';
-  h += '<div class="stat-card pending"><div class="stat-value">' + pending.length + '</div><div class="stat-label">⏳ Ожидают</div></div>';
-  h += '<div class="stat-card active"><div class="stat-value">' + active.length + '</div><div class="stat-label">✅ Активных</div></div>';
-  h += '<div class="stat-card drivers"><div class="stat-value">' + drivers + '</div><div class="stat-label">🚗 Водителей</div></div>';
-  h += '<div class="stat-card passengers"><div class="stat-value">' + passengers + '</div><div class="stat-label">🎫 Попутчиков</div></div>';
-  h += '<div class="stat-card"><div class="stat-value">' + trips.length + '</div><div class="stat-label">🚙 Поездок</div></div>';
-  h += '<div class="stat-card"><div class="stat-value">' + totalBookings + '</div><div class="stat-label">🎯 Броней</div></div>';
-  h += '</div>';
-  
-  h += '<div class="admin-nav">';
-  h += '<button class="btn" style="background: #ffc107; color: #333;" onclick="showRequests()">📋 Заявки (' + pending.length + ')</button>';
-  h += '<button class="btn success" onclick="showAllUsers()">👥 Участники (' + users.filter(function(u) { return !isAdminByPhone(u.phone); }).length + ')</button>';
-  h += '<button class="btn reset" onclick="resetAllData()">🗑️ Сбросить все данные</button>';
-  h += '</div>';
-  
-  if (pending.length > 0) {
-    h += '<div class="section-title">⏳ Новые заявки</div>';
-    pending.forEach(function(u) {
-      const codeStatus = u.codeVerified ? '<span style="color:#43e97b;font-size:12px;">✅ Код подтверждён</span>' : '<span style="color:#ff416c;font-size:12px;">❌ Код не подтверждён</span>';
-      h += '<div class="request-card"><div class="request-header"><div><div class="request-name">' + esc(u.name) + '</div><div class="request-phone">📞 ' + esc(u.phone) + '</div><div style="margin-top:5px;">' + codeStatus + '</div></div><span class="status-badge status-pending">⏳ Новая</span></div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + esc(u.phone) + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">❌ Отклонить</button></div></div>';
-    });
-  }
-  return h;
-}
-
-function showRequests() {
-  const pending = users.filter(function(u) { return !u.approved && !isAdminByPhone(u.phone); });
-  const c = document.getElementById('requestsList');
-  if (pending.length === 0) {
-    c.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Нет заявок</div></div>';
-  } else {
-    c.innerHTML = pending.map(function(u) {
-      const codeStatus = u.codeVerified ? '<span style="color:#43e97b;font-size:12px;">✅ Код подтверждён</span>' : '<span style="color:#ff416c;font-size:12px;">❌ Код не подтверждён</span>';
-      return '<div class="request-card"><div class="request-header"><div><div class="request-name">' + esc(u.name) + '</div><div class="request-phone"> ' + esc(u.phone) + '</div><div style="margin-top:5px;">' + codeStatus + '</div></div><span class="status-badge status-pending">⏳</span></div><div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + esc(u.phone) + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">❌ Отклонить</button></div></div>';
-    }).join('');
-  }
-  document.getElementById('requestsModal').classList.remove('hidden');
-}
-
-function showAllUsers() {
-  const all = users.filter(function(u) { return !isAdminByPhone(u.phone); });
-  const c = document.getElementById('usersList');
-  if (all.length === 0) {
-    c.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">Нет участников</div></div>';
-  } else {
-    c.innerHTML = all.map(function(u) {
-      let role = '<span class="badge" style="background:#999;color:white;">Новый</span>';
-      if (isDriver(u.phone) && isPassenger(u.phone)) role = '<span class="badge" style="background:#4facfe;color:white;">🚗+🎫</span>';
-      else if (isDriver(u.phone)) role = '<span class="badge" style="background:#4facfe;color:white;">🚗 Водитель</span>';
-      else if (isPassenger(u.phone)) role = '<span class="badge" style="background:#f093fb;color:white;">🎫 Попутчик</span>';
-      let status = u.approved ? '<span class="status-badge status-active">✅</span>' : (u.codeVerified ? '<span class="status-badge status-pending">⏳</span>' : '<span class="status-badge" style="background:#ff416c;color:white;">❌</span>');
-      let actions = u.approved 
-        ? '<div class="request-actions"><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">🚫 Отозвать</button></div>'
-        : '<div class="request-actions"><button class="btn approve" onclick="approveUser(\'' + esc(u.phone) + '\')">✅ Дать доступ</button><button class="btn reject" onclick="rejectUser(\'' + esc(u.phone) + '\')">❌</button></div>';
-      return '<div class="request-card ' + (u.approved ? 'approved' : '') + '"><div class="request-header"><div><div class="request-name">' + esc(u.name) + '</div><div class="request-phone">📞 ' + esc(u.phone) + '</div><div style="margin-top:5px;">' + role + ' ' + status + '</div></div></div>' + actions + '</div>';
-    }).join('');
-  }
-  document.getElementById('usersModal').classList.remove('hidden');
-}
-
-function approveUser(phone) {
-  const u = users.find(function(x) { return normalizePhone(x.phone) === normalizePhone(phone); });
-  if (!u) return;
-  u.approved = true;
-  saveUsers();
-  showRequests();
-  showAllUsers();
-  if (isAdmin()) document.getElementById('adminPanel').innerHTML = renderAdminPanel();
-  showToast('✅ Доступ дан: ' + u.name, 'success');
-}
-
-function rejectUser(phone) {
-  const u = users.find(function(x) { return normalizePhone(x.phone) === normalizePhone(phone); });
-  if (!u) return;
-  u.approved = false;
-  saveUsers();
-  showRequests();
-  showAllUsers();
-  if (isAdmin()) document.getElementById('adminPanel').innerHTML = renderAdminPanel();
-  showToast('❌ Доступ отозван: ' + u.name, 'warning');
-}
-
-function resetAllData() {
-  if (confirm('Удалить ВСЕ данные? Это действие нельзя отменить.')) {
-    localStorage.clear();
-    trips = [];
-    users = [];
-    currentUser = null;
-    location.reload();
-  }
-}
-
-function closeRequestsModal() { document.getElementById('requestsModal').classList.add('hidden'); }
-function closeUsersModal() { document.getElementById('usersModal').classList.add('hidden'); }
-
-function renderCabinet() {
-  const c = document.getElementById('cabinetTrips');
-  const np = normalizePhone(currentUser.phone);
-  const myTrips = trips.filter(function(t) { return normalizePhone(t.driverPhone) === np; });
-  const myBookings = [];
-  trips.forEach(function(trip) {
-    if (trip.passengers) trip.passengers.forEach(function(p) {
-      if (normalizePhone(p.phone) === np) myBookings.push({ trip: trip, passenger: p });
-    });
-  });
-  
-  let h = '';
-  if (myTrips.length > 0) {
-    h += '<div class="section-title"> Мои поездки</div>';
-    myTrips.forEach(function(trip) {
-      const r = ROUTES[trip.route];
-      const avail = getAvailableSeats(trip);
-      const full = avail === 0;
-      h += '<div class="trip-card" onclick="showTripDetails(' + trip.id + ')"><div class="trip-header"><div class="trip-route">' + esc(r.from) + ' → ' + esc(r.to) + '</div><div class="trip-price">' + trip.price + ' ₽</div></div><div class="trip-info"><div class="trip-info-row"><span class="trip-info-icon"></span><span>' + formatDate(trip.date) + ' в ' + esc(trip.time) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">💺</span><span>' + (full ? '❌ Мест нет' : '✅ ' + avail + ' из ' + trip.totalSeats) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">👥</span><span>' + (trip.passengers ? trip.passengers.length : 0) + ' забронировали</span></div></div><div class="trip-actions"><button class="trip-btn edit" onclick="event.stopPropagation();editTrip(' + trip.id + ')">✏️ Редактировать</button><button class="trip-btn delete" onclick="event.stopPropagation();requestDelete(' + trip.id + ')">🗑️ Удалить</button></div></div>';
-    });
-  }
-  if (myBookings.length > 0) {
-    h += '<div class="section-title">🎫 Мои бронирования</div>';
-    myBookings.forEach(function(b) {
-      const r = ROUTES[b.trip.route];
-      const price = b.passenger.seats * b.trip.price;
-      h += '<div class="trip-card" onclick="showTripDetails(' + b.trip.id + ')"><div class="trip-header"><div class="trip-route">' + esc(r.from) + ' → ' + esc(r.to) + '</div><span class="badge paid">Забронировано</span></div><div class="trip-info"><div class="trip-info-row"><span class="trip-info-icon">📅</span><span>' + formatDate(b.trip.date) + ' в ' + esc(b.trip.time) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">💺</span><span>' + b.passenger.seats + ' ' + pluralSeats(b.passenger.seats) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">👤</span><span>Водитель: ' + esc(b.trip.driverName) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">📞</span><span style="color:#667eea;font-weight:bold;">' + esc(b.trip.driverPhone) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">💰</span><span>К оплате: ' + price + ' ₽</span></div></div><div class="trip-actions"><button class="trip-btn call" onclick="event.stopPropagation();callDriver(\'' + esc(b.trip.driverPhone) + '\')">📞 Позвонить</button><button class="trip-btn cancel" onclick="event.stopPropagation();cancelBooking(' + b.trip.id + ',' + b.passenger.id + ')">Отменить</button></div></div>';
-    });
-  }
-  if (myTrips.length === 0 && myBookings.length === 0) {
-    h = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Нет поездок и бронирований</div></div>';
-  }
-  c.innerHTML = h;
-}
-
-function renderTrips() {
-  const filter = document.getElementById('filterRoute').value;
-  const c = document.getElementById('tripsList');
-  let list = trips.slice();
-  if (filter !== 'all') list = list.filter(function(t) { return t.route === filter; });
-  list.sort(function(a, b) { return new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time); });
-  
-  if (list.length === 0) {
-    c.innerHTML = '<div class="empty-state"><div class="empty-icon">🚗</div><div class="empty-text">Нет поездок</div><div style="color:#999;font-size:14px;">Добавьте первую поездку!</div></div>';
-    return;
-  }
-  c.innerHTML = list.map(renderTripCard).join('');
-}
-
-function renderTripCard(trip) {
-  const r = ROUTES[trip.route];
-  if (!r) return '';
-  const td = new Date(trip.date);
-  const today = new Date(); today.setHours(0,0,0,0);
-  const tom = new Date(today); tom.setDate(tom.getDate() + 1);
-  let badge = '';
-  if (td.getTime() === today.getTime()) badge = '<span class="badge today">Сегодня</span>';
-  else if (td.getTime() === tom.getTime()) badge = '<span class="badge tomorrow">Завтра</span>';
-  const avail = getAvailableSeats(trip);
-  const full = avail === 0;
-  const dots = Array.from({length: trip.totalSeats}, function(_, i) { return '<div class="seat-dot ' + (i >= avail ? 'taken' : '') + '"></div>'; }).join('');
-  
-  return '<div class="trip-card" onclick="showTripDetails(' + trip.id + ')"><div class="trip-header"><div class="trip-route">' + esc(r.from) + ' → ' + esc(r.to) + '</div><div class="trip-price">' + trip.price + ' ₽</div></div><div class="trip-info"><div class="trip-info-row"><span class="trip-info-icon">📅</span><span>' + badge + ' ' + formatDate(trip.date) + ' в ' + esc(trip.time) + '</span></div><div class="trip-info-row"><span class="trip-info-icon">📍</span><span>' + esc(r.distance) + '</span></div></div><div class="seats-indicator ' + (full ? 'full' : '') + '"><div class="seats-dots">' + dots + '</div><div class="seats-text">' + (full ? '❌ Мест нет' : '✅ ' + avail + ' из ' + trip.totalSeats) + '</div></div><div class="trip-driver"><div class="driver-avatar">' + esc(trip.driverName.charAt(0)) + '</div><div class="driver-info"><div class="driver-name">' + esc(trip.driverName) + '</div><div class="phone-hidden">🔒 Номер скрыт до брони</div></div></div><div class="trip-actions"><button class="trip-btn booking" onclick="event.stopPropagation();openBooking(' + trip.id + ')"' + (full ? ' disabled' : '') + '>' + (full ? '❌ Мест нет' : '🎫 Забронировать') + '</button></div></div>';
-}
-
-function filterTrips() { renderTrips(); }
-
-function formatDate(ds) {
-  const d = new Date(ds);
-  return d.getDate() + ' ' + ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'][d.getMonth()];
-}
-
-function callDriver(phone) { window.location.href = 'tel:+' + phone.replace(/\D/g, ''); }
-
-function handleAddTrip() {
-  if (!currentUser) { openLoginModal(); return; }
-  if (editingTripId) updateTrip();
-  else addNewTrip();
-}
-
-function addNewTrip() {
-  const route = document.getElementById('tripRoute').value;
-  const date = document.getElementById('tripDate').value;
-  const time = document.getElementById('tripTime').value;
-  const seats = parseInt(document.getElementById('tripSeats').value);
-  const price = parseInt(document.getElementById('tripPrice').value);
-  const dName = document.getElementById('driverName').value.trim();
-  const dPhone = document.getElementById('driverPhone').value.trim();
-  const comment = document.getElementById('tripComment').value.trim();
-  
-  if (!route) { showToast('❌ Выберите направление', 'error'); return; }
-  if (!date) { showToast('❌ Выберите дату', 'error'); return; }
-  if (!time) { showToast('❌ Укажите время', 'error'); return; }
-  if (!seats || seats < 1 || seats > 8) { showToast('❌ Мест: 1-8', 'error'); return; }
-  if (isNaN(price) || price < 0) { showToast('❌ Укажите цену', 'error'); return; }
-  if (!dName) { showToast('❌ Введите имя', 'error'); return; }
-  if (dPhone.length < 18) { showToast('❌ Введите телефон', 'error'); return; }
-  
-  const tripDT = new Date(date + 'T' + time);
-  if (tripDT.getTime() < Date.now() + 5 * 60 * 1000) {
-    showToast(' Минимум через 5 минут', 'error');
+  if(list.length===0){
+    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🛞</div><div class="empty-text">Нет шин</div><div class="empty-sub">Попробуйте изменить фильтры</div></div>';
     return;
   }
   
-  trips.push({ id: Date.now(), route: route, date: date, time: time, totalSeats: seats, price: price, driverName: dName, driverPhone: dPhone, comment: comment, passengers: [], createdAt: Date.now() });
-  saveTrips();
-  clearAddForm();
-  showToast('✓ Поездка добавлена!', 'success');
-  switchTab('trips');
+  grid.innerHTML=list.map(p=>{
+    const catBadge=p.category==='new'?'<div class="product-badge badge-new">Новая</div>':'<div class="product-badge badge-used">Б/У</div>';
+    const seaBadge=p.season==='summer'?'<div class="product-badge badge-summer" style="left:auto;right:8px">Лето</div>':'<div class="product-badge badge-winter" style="left:auto;right:8px">Зима</div>';
+    const img=p.image?'<img src="'+p.image+'" alt="">':'<div class="no-image"></div>';
+    return'<div class="product-card" onclick="showProduct('+p.id+')"><div class="product-image">'+catBadge+seaBadge+img+'</div><div class="product-info"><div class="product-title">'+esc(p.title)+'</div><div class="product-size">'+esc(p.size)+' '+esc(p.diameter)+'</div><div class="product-price">'+p.price.toLocaleString('ru-RU')+' ₽ <span>за шт.</span></div></div></div>';
+  }).join('');
 }
 
-function editTrip(id) {
-  const trip = trips.find(function(t) { return t.id === id; });
-  if (!trip) return;
-  if (!isAdmin() && normalizePhone(currentUser.phone) !== normalizePhone(trip.driverPhone)) {
-    showToast('❌ Только владелец', 'error'); return;
-  }
-  editingTripId = id;
-  document.getElementById('addFormTitle').textContent = '✏️ Редактировать';
-  document.getElementById('addTripBtn').textContent = '💾 Сохранить';
-  document.getElementById('cancelEditBtn').classList.remove('hidden');
-  document.getElementById('tripRoute').innerHTML = buildRouteOptionsForForm(trip.route);
-  document.getElementById('tripDate').value = trip.date;
-  document.getElementById('tripTime').value = trip.time;
-  document.getElementById('tripSeats').value = trip.totalSeats;
-  document.getElementById('tripPrice').value = trip.price;
-  document.getElementById('driverName').value = trip.driverName;
-  document.getElementById('driverPhone').value = trip.driverPhone;
-  document.getElementById('tripComment').value = trip.comment || '';
-  switchTab('add');
-}
-
-function updateTrip() {
-  const trip = trips.find(function(t) { return t.id === editingTripId; });
-  if (!trip) return;
-  const route = document.getElementById('tripRoute').value;
-  const date = document.getElementById('tripDate').value;
-  const time = document.getElementById('tripTime').value;
-  const seats = parseInt(document.getElementById('tripSeats').value);
-  const price = parseInt(document.getElementById('tripPrice').value);
-  const dName = document.getElementById('driverName').value.trim();
-  const dPhone = document.getElementById('driverPhone').value.trim();
-  const comment = document.getElementById('tripComment').value.trim();
+function showProduct(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  const c=document.getElementById('productModalContent');
+  const catText=p.category==='new'?' Новая':'♻️ Б/У';
+  const seaText=p.season==='summer'?'☀️ Лето':'❄️ Зима';
+  const img=p.image?'<img src="'+p.image+'" alt="">':'<div style="font-size:80px;opacity:.3">🛞</div>';
   
-  if (!route || !date || !time) { showToast('❌ Заполните поля', 'error'); return; }
-  if (!seats || seats < 1 || seats > 8) { showToast('❌ Мест: 1-8', 'error'); return; }
-  if (isNaN(price) || price < 0) { showToast('❌ Цена', 'error'); return; }
-  if (!dName) { showToast('❌ Имя', 'error'); return; }
-  if (dPhone.length < 18) { showToast(' Телефон', 'error'); return; }
+  c.innerHTML='<div class="modal-title">Шина</div><div class="modal-image">'+img+'</div><div class="modal-details"><div class="detail-row"><span class="detail-label">Название</span><span class="detail-value">'+esc(p.title)+'</span></div><div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">'+catText+'</span></div><div class="detail-row"><span class="detail-label">Сезон</span><span class="detail-value">'+seaText+'</span></div><div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">'+esc(p.size)+' '+esc(p.diameter)+'</span></div></div><div class="modal-price">'+p.price.toLocaleString('ru-RU')+' ₽</div>'+(p.desc?'<div class="modal-desc">'+esc(p.desc)+'</div>':'')+'<div class="modal-actions"><a href="tel:+79659350618" class="btn btn-primary" style="flex:1;text-decoration:none"> Позвонить</a><a href="https://wa.me/79659350618?text=Здравствуйте! Интересует шина: '+encodeURIComponent(p.title)+' '+esc(p.size)+' '+esc(p.diameter)+' за '+p.price+'₽" target="_blank" class="btn btn-success" style="flex:1;text-decoration:none">💬 WhatsApp</a></div><button class="btn btn-secondary btn-full" onclick="closeProductModal()" style="margin-top:10px">Закрыть</button>';
+  document.getElementById('productModal').classList.remove('hidden');
+}
+
+function closeProductModal(){document.getElementById('productModal').classList.add('hidden')}
+
+function adminLogin(){
+  const phone=document.getElementById('adminPhone').value.trim();
+  if(normalizePhone(phone)!==normalizePhone(ADMIN_PHONE)){showToast('❌ Неверный номер','error');return}
+  isAdmin=true;
+  document.getElementById('adminLogin').classList.add('hidden');
+  document.getElementById('adminPanel').classList.remove('hidden');
+  renderAdminPanel();
+  showToast('✅ Добро пожаловать!','success');
+}
+
+function adminLogout(){
+  isAdmin=false;
+  document.getElementById('adminLogin').classList.remove('hidden');
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.getElementById('adminPhone').value='';
+}
+
+function renderAdminPanel(){
+  document.getElementById('statTotal').textContent=products.length;
+  document.getElementById('statNew').textContent=products.filter(p=>p.category==='new').length;
+  document.getElementById('statUsed').textContent=products.filter(p=>p.category==='used').length;
   
-  const tripDT = new Date(date + 'T' + time);
-  if (tripDT.getTime() < Date.now() + 5 * 60 * 1000) { showToast('❌ Время в прошлом', 'error'); return; }
-  
-  const booked = trip.passengers.reduce(function(s, p) { return s + (p.seats || 1); }, 0);
-  if (seats < booked) { showToast('❌ Нельзя меньше ' + booked, 'error'); return; }
-  
-  trip.route = route; trip.date = date; trip.time = time;
-  trip.totalSeats = seats; trip.price = price;
-  trip.driverName = dName; trip.driverPhone = dPhone; trip.comment = comment;
-  saveTrips();
-  cancelEdit();
-  showToast('✓ Обновлено!', 'success');
-  showCabinet();
-}
-
-function cancelEdit() {
-  editingTripId = null;
-  document.getElementById('addFormTitle').textContent = '➕ Добавить поездку';
-  document.getElementById('addTripBtn').textContent = '✓ Разместить поездку';
-  document.getElementById('cancelEditBtn').classList.add('hidden');
-  clearAddForm();
-}
-
-function clearAddForm() {
-  document.getElementById('tripRoute').innerHTML = buildRouteOptionsForForm('to-ufa');
-  document.getElementById('tripDate').value = '';
-  document.getElementById('tripTime').value = '';
-  document.getElementById('tripSeats').value = '3';
-  document.getElementById('tripPrice').value = '';
-  document.getElementById('driverName').value = '';
-  document.getElementById('driverPhone').value = '';
-  document.getElementById('tripComment').value = '';
-}
-
-function openBooking(id) {
-  if (!currentUser) { openLoginModal(); return; }
-  if (!requireApprovedUser()) return;
-  
-  tripToBook = trips.find(function(t) { return t.id === id; });
-  if (!tripToBook) { showToast(' Не найдена', 'error'); return; }
-  if (normalizePhone(tripToBook.driverPhone) === normalizePhone(currentUser.phone)) {
-    showToast('❌ Нельзя бронировать свою', 'error'); return;
-  }
-  const avail = getAvailableSeats(tripToBook);
-  if (avail === 0) { showToast('❌ Мест нет', 'error'); return; }
-  
-  const r = ROUTES[tripToBook.route];
-  document.getElementById('bookingInfo').innerHTML = '<strong>' + esc(r.from) + ' → ' + esc(r.to) + '</strong><br>' + formatDate(tripToBook.date) + ' в ' + esc(tripToBook.time) + '<br>Водитель: ' + esc(tripToBook.driverName);
-  
-  const sel = document.getElementById('bookingSeats');
-  sel.innerHTML = '';
-  for (let i = 1; i <= avail; i++) {
-    const o = document.createElement('option');
-    o.value = i; o.textContent = i + ' ' + pluralSeats(i);
-    sel.appendChild(o);
-  }
-  document.getElementById('pricePerSeat').textContent = tripToBook.price + ' ₽';
-  updateTotalPrice();
-  sel.onchange = updateTotalPrice;
-  document.getElementById('passengerName').value = currentUser.name;
-  document.getElementById('passengerPhone').value = currentUser.phone;
-  document.getElementById('bookingModal').classList.remove('hidden');
-}
-
-function updateTotalPrice() {
-  if (!tripToBook) return;
-  document.getElementById('totalPrice').textContent = (parseInt(document.getElementById('bookingSeats').value) || 1) * tripToBook.price + ' ₽';
-}
-
-function closeBookingModal() {
-  tripToBook = null;
-  document.getElementById('bookingModal').classList.add('hidden');
-  document.getElementById('passengerName').value = '';
-  document.getElementById('passengerPhone').value = '';
-}
-
-function confirmBooking() {
-  const name = document.getElementById('passengerName').value.trim();
-  const phone = document.getElementById('passengerPhone').value.trim();
-  const seats = parseInt(document.getElementById('bookingSeats').value);
-  if (!name) { showToast('❌ Имя', 'error'); return; }
-  if (phone.length < 18) { showToast('❌ Телефон', 'error'); return; }
-  if (!tripToBook) { showToast('❌ Ошибка', 'error'); return; }
-  if (seats > getAvailableSeats(tripToBook)) { showToast(' Мало мест', 'error'); return; }
-  
-  if (!tripToBook.passengers) tripToBook.passengers = [];
-  tripToBook.passengers.push({ id: Date.now(), name: name, phone: phone, seats: seats, bookedAt: Date.now() });
-  saveTrips();
-  closeBookingModal();
-  renderTrips();
-  showToast('✅ Забронировано! Номер в ЛК', 'success');
-}
-
-function requestDelete(id) {
-  const trip = trips.find(function(t) { return t.id === id; });
-  if (!trip) return;
-  if (!currentUser) { openLoginModal(); return; }
-  if (!isAdmin() && normalizePhone(currentUser.phone) !== normalizePhone(trip.driverPhone)) {
-    showToast('❌ Только владелец', 'error'); return;
-  }
-  tripToDelete = id;
-  document.getElementById('deleteModal').classList.remove('hidden');
-}
-function closeDeleteModal() { tripToDelete = null; document.getElementById('deleteModal').classList.add('hidden'); }
-
-function confirmDelete() {
-  if (tripToDelete !== null) {
-    trips = trips.filter(function(t) { return t.id !== tripToDelete; });
-    saveTrips();
-    showToast('✓ Удалено', 'success');
-    closeDeleteModal();
-    if (!document.getElementById('cabinetContent').classList.contains('hidden')) renderCabinet();
-    else renderTrips();
-  }
-}
-
-function cancelBooking(tripId, passengerId) {
-  if (!currentUser) { openLoginModal(); return; }
-  const trip = trips.find(function(t) { return t.id === tripId; });
-  if (!trip) return;
-  const p = trip.passengers.find(function(x) { return x.id === passengerId; });
-  if (!p) return;
-  if (normalizePhone(p.phone) !== normalizePhone(currentUser.phone)) { showToast('❌ Только свою', 'error'); return; }
-  trip.passengers = trip.passengers.filter(function(x) { return x.id !== passengerId; });
-  saveTrips();
-  if (!document.getElementById('cabinetContent').classList.contains('hidden')) renderCabinet();
-  else { showTripDetails(tripId); renderTrips(); }
-  showToast('✓ Отменено', 'success');
-}
-
-function showTripDetails(id) {
-  const trip = trips.find(function(t) { return t.id === id; });
-  if (!trip) return;
-  const r = ROUTES[trip.route];
-  if (!r) return;
-  const avail = getAvailableSeats(trip);
-  const c = document.getElementById('modalContent');
-  const hasBooked = currentUser && hasBookedThisTrip(currentUser.phone, trip.id);
-  const isDrv = currentUser && normalizePhone(currentUser.phone) === normalizePhone(trip.driverPhone);
-  const showPhone = hasBooked || isDrv || isAdmin();
-  
-  let pH = '<div style="color:#999;text-align:center;margin-top:20px;">Никто не забронировал</div>';
-  if (trip.passengers && trip.passengers.length > 0) {
-    pH = '<div style="margin-top:20px;"><div style="font-weight:bold;color:#333;margin-bottom:10px;">Забронировали (' + trip.passengers.length + '):</div><div class="passenger-list">' + trip.passengers.map(function(p) { return '<div class="passenger-item"><div class="passenger-info"><div class="passenger-name">' + esc(p.name) + '</div><div class="passenger-phone">📞 ' + esc(p.phone) + ' • ' + p.seats + ' ' + pluralSeats(p.seats) + '</div></div></div>'; }).join('') + '</div></div>';
+  const list=document.getElementById('adminProductsList');
+  if(products.length===0){
+    list.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div><div class="empty-text">Нет товаров</div><div class="empty-sub">Нажмите "Добавить товар"</div></div>';
+    return;
   }
   
-  const phoneDisp = showPhone ? '<div style="color:#667eea;font-size:16px;margin-top:5px;">📞 ' + esc(trip.driverPhone) + '</div>' : '<div class="phone-hidden" style="margin-top:5px;">🔒 После брони</div>';
-  
-  let h = '<div style="margin-bottom:20px;"><div style="font-size:20px;font-weight:bold;color:#333;margin-bottom:10px;">' + esc(r.from) + ' → ' + esc(r.to) + '</div><div style="color:#666;font-size:14px;"> ' + formatDate(trip.date) + ' в ' + esc(trip.time) + '<br> ' + esc(r.distance) + '<br> ' + avail + ' из ' + trip.totalSeats + '<br>💰 ' + trip.price + ' руб.</div></div>';
-  h += '<div style="background:#f8f9ff;padding:15px;border-radius:10px;margin-bottom:20px;"><div style="font-weight:bold;color:#667eea;margin-bottom:10px;">Водитель:</div><div style="font-size:18px;font-weight:bold;color:#333;">' + esc(trip.driverName) + '</div>' + phoneDisp + '</div>';
-  if (trip.comment) h += '<div style="background:#f0f0f0;padding:15px;border-radius:10px;margin-bottom:20px;"><div style="font-weight:bold;color:#666;margin-bottom:5px;">Комментарий:</div><div style="color:#333;">' + esc(trip.comment) + '</div></div>';
-  h += pH;
-  
-  if (showPhone) h += '<a href="tel:' + trip.driverPhone.replace(/\D/g, '') + '" style="display:block;text-align:center;padding:16px;background:#4facfe;color:white;text-decoration:none;border-radius:12px;font-weight:bold;font-size:16px;margin-top:15px;">📞 Позвонить</a>';
-  if (avail > 0) h += '<button class="btn booking" onclick="closeModal();openBooking(' + trip.id + ')"> Забронировать</button>';
-  else h += '<div style="text-align:center;padding:16px;background:#fff0f0;border-radius:12px;font-weight:bold;color:#ff416c;margin-top:15px;">❌ Мест нет</div>';
-  
-  c.innerHTML = h;
-  document.getElementById('tripModal').classList.remove('hidden');
+  list.innerHTML=products.sort((a,b)=>b.createdAt-a.createdAt).map(p=>{
+    const catText=p.category==='new'?'🆕 Новая':'♻️ Б/У';
+    const seaText=p.season==='summer'?'☀️':'❄️';
+    const img=p.image?'<img src="'+p.image+'" alt="">':'🛞';
+    return'<div class="admin-product-item"><div class="admin-product-img">'+img+'</div><div class="admin-product-info"><div class="admin-product-title">'+esc(p.title)+'</div><div class="admin-product-meta">'+catText+' '+seaText+' '+esc(p.size)+' '+esc(p.diameter)+'</div></div><div class="admin-product-price">'+p.price.toLocaleString('ru-RU')+'₽</div><div class="admin-product-actions"><button class="btn btn-secondary" onclick="editProduct('+p.id+')">✏️</button><button class="btn btn-danger" onclick="deleteProduct('+p.id+')">🗑️</button></div></div>';
+  }).join('');
 }
 
-function hasBookedThisTrip(phone, tripId) {
-  const norm = normalizePhone(phone);
-  const trip = trips.find(function(t) { return t.id === tripId; });
-  if (!trip || !trip.passengers) return false;
-  return trip.passengers.some(function(p) { return normalizePhone(p.phone) === norm; });
+function showAddForm(){
+  editingId=null;
+  currentImage=null;
+  document.getElementById('formTitle').textContent='➕ Добавить товар';
+  document.getElementById('prodTitle').value='';
+  document.getElementById('prodCategory').value='new';
+  document.getElementById('prodSeason').value='summer';
+  document.getElementById('prodDiameter').value='R16';
+  document.getElementById('prodSize').value='';
+  document.getElementById('prodPrice').value='';
+  document.getElementById('prodDesc').value='';
+  document.getElementById('imagePreview').classList.add('hidden');
+  document.getElementById('imagePreview').src='';
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.getElementById('addFormSection').classList.remove('hidden');
 }
 
-function closeModal() { document.getElementById('tripModal').classList.add('hidden'); }
-
-function populateSelects() {
-  document.getElementById('filterRoute').innerHTML = buildRouteOptionsHtml('all');
-  document.getElementById('tripRoute').innerHTML = buildRouteOptionsForForm('to-ufa');
+function editProduct(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  editingId=id;
+  currentImage=p.image||null;
+  document.getElementById('formTitle').textContent='✏️ Редактировать товар';
+  document.getElementById('prodTitle').value=p.title;
+  document.getElementById('prodCategory').value=p.category;
+  document.getElementById('prodSeason').value=p.season;
+  document.getElementById('prodDiameter').value=p.diameter;
+  document.getElementById('prodSize').value=p.size;
+  document.getElementById('prodPrice').value=p.price;
+  document.getElementById('prodDesc').value=p.desc||'';
+  if(p.image){document.getElementById('imagePreview').src=p.image;document.getElementById('imagePreview').classList.remove('hidden')}
+  else{document.getElementById('imagePreview').classList.add('hidden')}
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.getElementById('addFormSection').classList.remove('hidden');
 }
 
-// ИНИЦИАЛИЗАЦИЯ
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('Загрузка приложения...');
-  loadTrips();
-  loadUsers();
-  loadUser();
-  initPhoneMasks();
-  populateSelects();
-  
-  const today = new Date().toISOString().split('T')[0];
-  const dateInput = document.getElementById('tripDate');
-  if (dateInput) dateInput.min = today;
-  
-  removeExpiredTrips();
-  renderTrips();
-  console.log('Загружено поездок:', trips.length, 'пользователей:', users.length);
-});
+function cancelForm(){
+  editingId=null;
+  currentImage=null;
+  document.getElementById('addFormSection').classList.add('hidden');
+  document.getElementById('adminPanel').classList.remove('hidden');
+}
 
-// Закрытие модалок по клику на фон
-document.getElementById('loginModal').addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
-document.getElementById('codeModal').addEventListener('click', function(e) { if (e.target === this) closeCodeModal(); });
-document.getElementById('tripModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-document.getElementById('bookingModal').addEventListener('click', function(e) { if (e.target === this) closeBookingModal(); });
-document.getElementById('waitingModal').addEventListener('click', function(e) { if (e.target === this) closeWaitingModal(); });
-document.getElementById('deleteModal').addEventListener('click', function(e) { if (e.target === this) closeDeleteModal(); });
-document.getElementById('requestsModal').addEventListener('click', function(e) { if (e.target === this) closeRequestsModal(); });
-document.getElementById('usersModal').addEventListener('click', function(e) { if (e.target === this) closeUsersModal(); });
+function handleImageUpload(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  if(file.size>2*1024*1024){showToast('❌ Фото слишком большое (макс. 2МБ)','error');return}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    currentImage=ev.target.result;
+    document.getElementById('imagePreview').src=currentImage;
+    document.getElementById('imagePreview').classList.remove('hidden');
+  };
+  reader.readAsDataURL(file);
+}
 
-// Escape закрывает модалки
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    closeLoginModal(); closeCodeModal(); closeModal();
-    closeBookingModal(); closeWaitingModal();
-    closeDeleteModal(); closeRequestsModal(); closeUsersModal();
+function saveProduct(){
+  const title=document.getElementById('prodTitle').value.trim();
+  const category=document.getElementById('prodCategory').value;
+  const season=document.getElementById('prodSeason').value;
+  const diameter=document.getElementById('prodDiameter').value;
+  const size=document.getElementById('prodSize').value.trim();
+  const price=parseInt(document.getElementById('prodPrice').value);
+  const desc=document.getElementById('prodDesc').value.trim();
+  
+  if(!title){showToast('❌ Введите название','error');return}
+  if(!size){showToast('❌ Введите размер','error');return}
+  if(!price||price<0){showToast('❌ Введите цену','error');return}
+  
+  if(editingId){
+    const p=products.find(x=>x.id===editingId);
+    if(p){p.title=title;p.category=category;p.season=season;p.diameter=diameter;p.size=size;p.price=price;p.desc=desc;if(currentImage!==null)p.image=currentImage;p.updatedAt=Date.now()}
+    showToast('✓ Товар обновлён!','success');
+  }else{
+    products.push({id:Date.now(),title,category,season,diameter,size,price,desc,image:currentImage,createdAt:Date.now()});
+    showToast('✓ Товар добавлен!','success');
   }
+  
+  saveProducts();
+  editingId=null;
+  currentImage=null;
+  document.getElementById('addFormSection').classList.add('hidden');
+  document.getElementById('adminPanel').classList.remove('hidden');
+  renderAdminPanel();
+}
+
+function deleteProduct(id){
+  if(!confirm('Удалить этот товар?'))return;
+  products=products.filter(p=>p.id!==id);
+  saveProducts();
+  renderAdminPanel();
+  showToast('✓ Товар удалён','success');
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded',function(){
+  loadProducts();
+  renderProducts();
+  
+  document.getElementById('adminPhone').addEventListener('input',function(){this.value=formatPhone(this.value)});
+  document.getElementById('adminPhone').addEventListener('focus',function(){if(!this.value||this.value==='+7')this.value='+7 ('});
+  
+  document.getElementById('productModal').addEventListener('click',function(e){if(e.target===this)closeProductModal()});
 });
 </script>
 
